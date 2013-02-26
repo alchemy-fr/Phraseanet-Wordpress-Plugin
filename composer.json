@@ -1,0 +1,15 @@
+{
+    "name": "phraseanet/wordpress-plugin",
+    "type": "plugin",
+    "description": "A wordpress plugin for Phraseanet",
+    "license": "MIT",
+    "require": {
+        "php"                      : ">=5.3.3",
+        "phraseanet/php-sdk"       : "dev-master@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Alchemy": "src"
+        }
+    }
+}
