@@ -1,0 +1,729 @@
+/**
+ * General
+ */
+
+html, body {
+    margin:0 !important;
+    padding:0 !important;
+    font-family:sans-serif !important;
+}
+#plugin-not-set {
+	padding:1em;
+	font-size:14px;
+}
+.list-loading {
+    background-image:url(../images/loader.gif);
+    background-position:50% 20%;
+    background-repeat:no-repeat;
+}
+.wppsn-error {
+    padding:1em;
+    line-height:1.5em;
+    color:red;
+}
+.wppsn-note {
+	padding:0 16px;
+	color:#999;
+}
+.wppsn-media-preview-video-player .fp-embed {
+	display:none;
+}
+
+
+/**
+ * Main Sidebar (menu + Credits)
+ */
+
+#wppsn-sidebar {
+    position:absolute;
+    top:0;
+    bottom:0;
+    width:155px;
+    background-color:#fff;
+    z-index:10;
+}
+#wppsn-menu {
+    padding-top:16px;
+}
+#wppsn-menu a:link,
+#wppsn-menu a:visited {
+    display:block;
+    padding:4px 20px;
+    font-size:14px;
+    line-height:18px;
+    text-decoration:none;
+    color:#21759b;
+}
+#wppsn-menu a:hover {
+    background-color:#f4f4f4;
+}
+#wppsn-menu a.current-menu {
+    color:#000;
+    font-weight:bold;
+}
+#wppsn-credits {
+    position:absolute;
+    right:0;
+    bottom:0;
+    left:0;
+    height:150px;
+    background-color:#ddd;
+}
+
+
+/**
+ * Main content
+ */
+
+#wppsn-main {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:155px;
+    width:auto;
+    height:auto;
+    min-width:665px;
+    overflow:auto;
+    z-index:11;
+    box-shadow:0px 0px 7px #000;
+}
+#wppsn-main h1 {
+    margin:0;
+    padding:0 16px;
+    font-size:22px;
+    font-weight:200;
+    line-height:45px;
+    color:#000;
+}
+
+/* Main Pans */
+
+#wppsn-pan-single-media {
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    z-index:15;
+}
+#wppsn-pan-img-gallery {
+	position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+	z-index:15;
+}
+#wppsn-pan-video-playlist {
+	position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+	z-index:15;
+}
+
+/* Media Lists Headers */
+
+#wppsn-single-media-header,
+#wppsn-img-gallery-header {
+    position:absolute;
+    top:0;
+    right:275px;
+    left:0;
+    height:47px;
+    background-color:#ddd;
+    z-index:20;
+}
+#wppsn-single-media-list-medias-wrapper,
+#wppsn-img-gallery-list-medias-wrapper {
+    position:absolute;
+    top:47px;
+    right:275px;
+    bottom:0;
+    left:0;
+    overflow:hidden;
+    z-index:20;
+}
+#wppsn-single-media-list-medias-header,
+#wppsn-img-gallery-list-medias-header {
+	position:absolute;
+	top:0;
+	right:0;
+	left:0;
+	padding:0 16px;
+	height:80px;
+}
+#wppsn-single-media-list-medias-header label,
+#wppsn-img-gallery-list-medias-header label {
+	padding-right:10px;
+	line-height:30px;
+}
+#wppsn-single-media-list-medias-header label span,
+#wppsn-img-gallery-list-medias-header label span {
+	cursor:pointer;
+}
+#wppsn-single-media-list-medias-header p,
+#wppsn-img-gallery-list-medias-header p {
+	margin:5px 0 0;
+}
+#wppsn-single-media-search,
+#wppsn-img-gallery-search {
+	width:47%;
+}
+#wppsn-single-media-counter,
+#wppsn-img-gallery-counter {
+    float:left;
+    padding-top:10px;
+    font-size:14px;
+}
+#wppsn-single-media-record-type {
+    float:right;
+}
+
+/* Media Lists */
+
+#wppsn-single-media-list-medias,
+#wppsn-img-gallery-list-medias {
+    position:absolute;
+    top:80px;
+    right:0;
+    bottom:0;
+    left:0;
+    overflow:hidden;
+    margin:0;
+    padding:0 8px;
+    background-color:#fff;
+}
+#wppsn-single-media-list-medias .media-list,
+#wppsn-img-gallery-list-medias .media-list {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:45px;
+	left:0;
+	overflow:auto;
+	margin:0;
+	padding:10px 0;
+	list-style:none;
+}
+#wppsn-single-media-list-medias .media-list li,
+#wppsn-img-gallery-list-medias .media-list li {
+	float:left;
+	width:50%;
+	height:230px;
+	max-width:220px;
+}
+#wppsn-single-media-list-medias .media-item {
+	cursor:pointer;
+}
+#wppsn-single-media-list-medias .media-item,
+#wppsn-img-gallery-list-medias .media-item {
+	padding:10px;
+}
+#wppsn-single-media-list-medias .media-item:hover,
+#wppsn-img-gallery-list-medias .media-item:hover {
+	background-color:#f1f1f1;
+}
+#wppsn-single-media-list-medias .media-thumb,
+#wppsn-img-gallery-list-medias .media-thumb {
+	height:133px;
+	text-align:center;
+}
+#wppsn-single-media-list-medias .media-thumb img,
+#wppsn-img-gallery-list-medias .media-thumb img {
+	max-width:100%;
+	height:auto;
+	max-height:133px;
+}
+#wppsn-single-media-list-medias .media-title,
+#wppsn-img-gallery-list-medias .media-title {
+	margin:0;
+	padding:5px 0;
+	height:36px;
+	overflow:hidden;
+	font-size:12px;
+	line-height:18px;
+}
+#wppsn-single-media-list-medias .media-buttons,
+#wppsn-img-gallery-list-medias .media-buttons {
+	margin:0;
+	padding:0;
+	line-height:25px;
+	text-align:right;
+}
+#wppsn-img-gallery-list-medias .media-details-button {
+	margin-right:5px;
+}
+#wppsn-img-gallery-list-medias .media-unselect-button {
+	background-color: #e5ba2b;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7c40e), to(#e5ba2b));
+	background-image: -webkit-linear-gradient(top, #f7c40e, #e5ba2b);
+	background-image:    -moz-linear-gradient(top, #f7c40e, #e5ba2b);
+	background-image:     -ms-linear-gradient(top, #f7c40e, #e5ba2b);
+	background-image:      -o-linear-gradient(top, #f7c40e, #e5ba2b);
+	background-image:   linear-gradient(to bottom, #f7c40e, #e5ba2b);
+	border-color: #e5ba2b;
+	border-bottom-color: #e5ba2b;
+}
+
+#wppsn-single-media-list-pagination,
+#wppsn-img-gallery-list-pagination {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:45px;
+	overflow:hidden;
+	background-color:#f1f1f1;
+}
+#wppsn-single-media-list-pagination p,
+#wppsn-img-gallery-list-pagination p {
+	margin:10px 0 0;
+	padding:0;
+	text-align:center;
+}
+#wppsn-single-media-list-pagination a,
+#wppsn-img-gallery-list-pagination a {
+	margin:0 2px;
+	padding:3px 6px;
+	font-size:12px;
+	line-height:30px;
+	font-weight:bold;
+	text-decoration:none;
+	background-color:#fff;
+	color:#21759b;
+	border:1px solid #e3e3e3;
+	border-radius:3px;
+}
+#wppsn-single-media-list-pagination a:hover,
+#wppsn-single-media-list-pagination a.current,
+#wppsn-img-gallery-list-pagination a:hover,
+#wppsn-img-gallery-list-pagination a.current {
+	background:#333;
+	color:#fff;
+	border-color:#000;
+}
+#wppsn-single-media-list-pagination a.current,
+#wppsn-img-gallery-list-pagination a.current {
+	font-size:14px;
+}
+
+/* Baskets */
+
+#wppsn-single-media-list-baskets-wrapper,
+#wppsn-img-gallery-list-baskets-wrapper {
+    position:absolute;
+    top:47px;
+    right:275px;
+    bottom:0;
+    left:0;
+    overflow:hidden;
+    margin:0;
+    padding:0 8px;
+    z-index:20;
+}
+#wppsn-single-media-list-baskets,
+#wppsn-img-gallery-list-baskets {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    overflow:auto;
+    margin:0;
+    padding:0 8px;
+}
+
+/* Single Media Insert Sidebar */
+
+#wppsn-single-media-insert-wrapper {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    width:275px;
+    overflow:auto;
+    background-color:#fff;
+    box-shadow:0px 0px 7px #000;
+    z-index:26;
+}
+.wppsn-single-media-insert-pan {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:50px;
+	left:0;
+	overflow:auto;
+	padding:10px 16px;
+}
+#wppsn-single-media-insert-image-buttons,
+#wppsn-single-media-insert-video-buttons {
+	padding-bottom:16px;
+}
+.wppsn-single-media-insert-pan h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-single-media-insert-image-thumb,
+#wppsn-single-media-insert-video-thumb {
+	padding-bottom:16px;
+}
+#wppsn-single-media-insert-image-thumb img,
+#wppsn-single-media-insert-video-thumb img {
+	max-width:100%;
+	height:auto;
+}
+.wppsn-single-media-insert-pan label {
+	display:block;
+	padding-bottom:5px;
+}
+.wppsn-single-media-insert-pan .input-text {
+	width:100%;
+}
+.wppsn-single-media-insert-pan .input-radio {
+	padding:5px 0 5px 10px;
+}
+.input-radio span {
+	cursor:pointer;
+}
+#wppsn-single-media-insert-buttons {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:35px;
+	margin:0;
+	padding:15px 0 0;
+	text-align:center;
+}
+
+/* Img Gallery Selected images list */
+
+#wppsn-img-gallery-selected-list-wrapper {
+	position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    width:275px;
+    overflow:auto;
+    background-color:#fff;
+    box-shadow:0px 0px 7px #000;
+    z-index:26;
+}
+#wppsn-img-gallery-selected-list-wrapper h2 {
+	margin:0;
+	padding:10px 16px 0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-img-gallery-selected-list-wrapper .wppsn-note {
+	margin:0;
+	font-size:12px;
+	line-height:18px;
+}
+#wppsn-img-gallery-selection-delete-all {
+	margin:10px 0 0 0;
+	padding:0 8px;
+	font-size:12px;
+	line-height:18px;
+	text-align:right;
+	border-bottom:1px solid #dfdfdf;
+	box-shadow:0 4px 5px -3px #ddd;
+}
+#wppsn-img-gallery-selection-delete-all a {
+	text-decoration:none;
+	color:red;
+}
+#wppsn-img-gallery-selection-delete-all a:hover {
+	text-decoration:underline;
+	color:#000;
+}
+#wppsn-img-gallery-selected-list {
+	position:absolute;
+	top:89px;
+	right:0;
+	bottom:50px;
+	left:0;
+	padding:0 8px 0 16px;
+	overflow:auto;
+}
+#wppsn-img-gallery-no-selection {
+	margin:0;
+	padding:16px 0;
+}
+#wppsn-img-gallery-selected-list ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#wppsn-img-gallery-selected-list li {
+	position:relative;
+	padding:10px 0;
+	border-bottom:1px solid #ddd;
+}
+#wppsn-img-gallery-selected-list li:last-child {
+	border-bottom:none;
+}
+#wppsn-img-gallery-selected-list .selected-img-thumb {
+	float:left;
+	width:75px;
+}
+#wppsn-img-gallery-selected-list .selected-img-thumb img {
+	display:block;
+	max-width:100%;
+	height:auto;
+}
+#wppsn-img-gallery-selected-list .selected-img-title {
+	float:left;
+	margin:0;
+	padding:0 0 0 8px;
+	height:36px;
+	width:150px;
+	overflow:hidden;
+	font-size:12px;
+	line-height:18px;
+	font-weight:bold;
+}
+#wppsn-img-gallery-selected-list .selected-img-buttons {
+	position:absolute;
+	bottom:8px;
+	right:0;
+	margin:0;
+	padding:0;
+	font-size:11px;
+	text-align:right;
+}
+#wppsn-img-gallery-selected-list .selected-img-details {
+	padding-right:5px;
+	color:#21759b;
+	text-decoration:none;
+}
+#wppsn-img-gallery-selected-list .selected-img-delete {
+	color:red;
+	text-decoration:none;
+}
+#wppsn-img-gallery-selected-list .selected-img-details:hover,
+#wppsn-img-gallery-selected-list .selected-img-delete:hover {
+	color:#000;
+	text-decoration:underline;
+}
+#wppsn-img-gallery-selected-list-buttons {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:35px;
+	margin:0;
+	padding:15px 0 0;
+	text-align:center;
+}
+
+/* Media Preview */
+
+#wppsn-single-media-preview-wrapper,
+#wppsn-img-gallery-preview-wrapper {
+	position:absolute;
+	top:0;
+	right:275px;
+	bottom:0;
+	left:0;
+	overflow:auto;
+	padding:0 16px 16px;
+	background:#fff;
+	z-index:25;
+}
+#wppsn-single-media-preview-wrapper h2,
+#wppsn-img-gallery-preview-wrapper h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-single-media-preview-wrapper h3,
+#wppsn-img-gallery-preview-wrapper h3 {
+	margin:16px 0 10px;
+	padding:0;
+	font-size:16px;
+	line-height:24px;
+	color:#666;
+}
+.wppsn-media-preview-thumb img {
+	max-width:100%;
+	height:auto;
+}
+
+/* Img Gallery Creation Step 1 */
+
+#wppsn-img-gallery-create-gallery-step1 {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow:hidden;
+	padding:0 16px;
+	background:#fff;
+	z-index:30;
+}
+#wppsn-img-gallery-create-gallery-step1 h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-img-gallery-list-media-fields {
+	position:absolute;
+	top:130px;
+	right:0;
+	bottom:50px;
+	left:0;
+	overflow:auto;
+	padding:0 16px;
+}
+#wppsn-img-gallery-list-media-fields ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#wppsn-img-gallery-list-media-fields li {
+	padding-bottom:16px;
+}
+#wppsn-img-gallery-list-media-fields .media-thumb {
+	float:left;
+	width:200px;
+}
+#wppsn-img-gallery-list-media-fields .media-fields {
+	float:left;
+	padding-left:16px;
+}
+#wppsn-img-gallery-list-media-fields .media-fields p {
+	margin:0 0 16px;
+}
+#wppsn-img-gallery-list-media-fields label {
+	display:block;
+	padding-bottom:5px;
+}
+#wppsn-img-gallery-list-media-fields .input-text {
+	width:300px;
+}
+#wppsn-img-gallery-create-step1-next-step {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:34px;
+	margin:0;
+	padding:0 16px 0;
+	text-align:right;
+}
+
+/* Img Gallery Creation Step 2 */
+
+#wppsn-img-gallery-create-gallery-step2 {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow:hidden;
+	padding:0 16px;
+	background:#fff;
+	z-index:35;
+}
+#wppsn-img-gallery-create-gallery-step2 h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#create-image-gallery-display-setting {
+	margin:25px 0 0 16px;
+	padding:0;
+	list-style:none;
+	border-top:1px solid #dfdfdf;
+}
+#create-image-gallery-display-setting li {
+	position:relative;
+	padding:16px 0;
+	border-bottom:1px solid #dfdfdf;
+}
+#create-image-gallery-display-setting img {
+	float:left;
+}
+#create-image-gallery-display-setting div {
+	margin-left:86px;
+}
+#create-image-gallery-display-setting h3 {
+	margin:0;
+	padding:0;
+	font-size:16px;
+	line-height:16px;
+	color:#000;
+}
+#create-image-gallery-display-setting .wppsn-note {
+	padding:0;
+}
+#create-image-gallery-display-setting a {
+	position:absolute;
+	right:0;
+	bottom:16px;
+}
+
+@media only screen and ( min-width:1049px ) and ( max-width:1230px ) {
+	#wppsn-single-media-list-medias .media-list li,
+	#wppsn-img-gallery-list-medias .media-list li {
+		width:33%;
+	}
+}
+
+@media only screen and ( min-width:1231px ) {
+	#wppsn-single-media-list-medias .media-list li,
+	#wppsn-img-gallery-list-medias .media-list li {
+		width:25%;
+	}
+}
+
+
+/**
+ * UTILS
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
