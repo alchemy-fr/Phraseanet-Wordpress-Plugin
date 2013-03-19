@@ -62,6 +62,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 			<div id="wppsn-single-media-list-medias-wrapper">
 
 				<div id="wppsn-single-media-list-medias-header">
+					
+					<input type="text" name="wppsn-single-media-search" id="wppsn-single-media-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
 						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" id="wppsn-single-media-search-type-0" value="0" checked="checked">
@@ -71,8 +73,6 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" id="wppsn-single-media-search-type-1" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
-
-					<input type="text" name="wppsn-single-media-search" id="wppsn-single-media-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<p class="clearfix">
 						<span id="wppsn-single-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
@@ -260,6 +260,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 				<div id="wppsn-img-gallery-list-medias-header">
 
+					<input type="text" name="wppsn-img-gallery-search" id="wppsn-img-gallery-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
+
 					<label>
 						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" id="wppsn-img-gallery-search-type-0" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
@@ -268,8 +270,6 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" id="wppsn-img-gallery-search-type-1" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
-
-					<input type="text" name="wppsn-img-gallery-search" id="wppsn-img-gallery-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<p class="clearfix">
 						<span id="wppsn-img-gallery-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
@@ -294,7 +294,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				
 				<h2><strong id="wppsn-img-gallery-selection-counter">0</strong> <?php _e( 'images selected', 'wp-phraseanet' ); ?></h2>
 
-				<p class="wppsn-note"><?php _e( '2 images minimum to create a gallery', 'wp-phraseanet' ); ?></p>
+				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
 
 				<p id="wppsn-img-gallery-selection-delete-all">
 					<a href=""><?php _e( 'delete all', 'wp-phraseanet' ); ?></a>

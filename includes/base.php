@@ -30,4 +30,4 @@ define( 'WPPSN_PLUGIN_JPLAYER_URL', WPPSN_PLUGIN_LIBS_URL . 'jplayer/' );
 define( 'WPPSN_PLUGIN_FLEXSLIDER_URL', WPPSN_PLUGIN_LIBS_URL . 'flexslider/' );
 
 /* Others */
-define( 'WPPSN_MODAL_LIST_MEDIA_PER_PAGE', 10 );
+define( 'WPPSN_MODAL_LIST_MEDIA_PER_PAGE', 24 ); // Multiple of 2, 3 and 4 (for rows of media in responsive design)

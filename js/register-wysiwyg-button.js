@@ -8,9 +8,9 @@
       // Find best modal size
       var wWidth = jQuery(window).width();
       var wHeight = jQuery(window).height();
-      var minModalWidth = 820;
-      var maxModalWidth = 1120;
-      var minModalHeight = 600;
+      var minModalWidth = 580;
+      var maxModalWidth = 1281;
+      var minModalHeight = 500;
       var maxModalHeight = 850;
       var modalW = ( wWidth < minModalWidth ) ? minModalWidth : wWidth - 40;
       var modalH = ( wHeight < minModalHeight ) ? minModalHeight : wHeight - 80;
