@@ -8,11 +8,14 @@
 .wppsn-slider {
 	margin-bottom:10px !important;
 }
-.flexslider .slides {
+.wppsn-slider .slides {
 	margin-bottom:0 !important;
 }
-.flexslider .slides > li {
+.wppsn-slider .slides > li {
 	margin:0;
+}
+.wppsn-carrousel .slides > li {
+	margin:5px;
 }
 .flex-direction-nav {
 	margin:0 !important;
