@@ -1,0 +1,32 @@
+/* Video Player */
+.wppsn-video-player-wrapper {
+	margin-bottom:1em;
+}
+
+/* Flexsliders */
+
+.wppsn-slider {
+	margin-bottom:10px !important;
+}
+.flexslider .slides {
+	margin-bottom:0 !important;
+}
+.flexslider .slides > li {
+	margin:0;
+}
+.flex-direction-nav {
+	margin:0 !important;
+	list-style:none !important;
+}
+.flex-caption {
+	margin:0.5em 0 !important;
+}
+.wppsn-carrousel img {
+	display:block;
+	cursor:pointer;
+	opacity:0.5;
+}
+.flex-active-slide img,
+.wppsn-carrousel img:hover {
+	opacity:1;
+}

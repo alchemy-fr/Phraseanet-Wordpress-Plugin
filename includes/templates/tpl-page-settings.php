@@ -10,8 +10,6 @@
     
     <h2><?php _e( 'WP Phraseanet Settings', 'wp-phraseanet' ); ?></h2>
 
-    <?php settings_errors(); ?>
-
     <form action="options.php" method="post">
 
         <?php

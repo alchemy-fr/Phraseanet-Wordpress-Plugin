@@ -14,6 +14,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Necessary included Files
  */
 require_once( plugin_dir_path( __FILE__ ) . 'includes/base.php' );
+require( plugin_dir_path( __FILE__ ) . "vendor/autoload.php" );
 
 
 /**
@@ -21,8 +22,8 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/base.php' );
  */
 function wppsn_activate() {
 
-    // Set default plugin options
-    wppsn_set_default_options();
+	// Set default plugin options
+	wppsn_set_default_options();
 
 }
 
@@ -34,16 +35,23 @@ register_activation_hook( __FILE__, 'wppsn_activate' );
  */
 function wppsn_setup() {
 
-    // Only if in ADMIN area
-    if ( is_admin() ) {
+	// Only if in ADMIN area
+	if ( is_admin() ) {
 
-        // Translations
-        load_plugin_textdomain( 'wp-phraseanet', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		// Translations
+		load_plugin_textdomain( 'wp-phraseanet', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-        // Functions
-        require_once( WPPSN_PLUGIN_INCLUDES_PATH . 'functions-admin.php' );
+		// Functions
+		require_once( WPPSN_PLUGIN_INCLUDES_PATH . 'functions-admin.php' );
 
-    }
+	}
+	// Only in FRONTEND area
+	else {
+
+		// Functions
+		require_once( WPPSN_PLUGIN_INCLUDES_PATH . 'functions-frontend.php' );
+
+	}
 
 }
 
@@ -55,10 +63,13 @@ add_action( 'plugins_loaded', 'wppsn_setup' );
  */
 function wppsn_set_default_options() {
 
-  // $default_options = array(
-  //   'option_key' => 'option_value'
-  // );
+	$default_options = array(
+		'client_base_url' 	=> '',
+		'client_id'			=> '',
+		'client_secret'		=> '',
+		'client_token'		=> ''
+	);
 
-  // add_option( 'wppsn_options', $wppsn_set_default_options );
+	add_option( 'wppsn_options', $default_options );
 
 }

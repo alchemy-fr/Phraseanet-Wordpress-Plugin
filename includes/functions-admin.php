@@ -38,10 +38,10 @@ add_action( 'admin_init', 'wppsn_admin_init' );
 function wppsn_admin_enqueue_scripts( $hook ) {
 
     // Some i18n and global vars
-    wp_localize_script( 'jquery', 'wppsnGlobalVars', array(
-        'wysiwygButtonText'                 => __( 'Insert a Phraseanet Content', 'wp-phraseanet' ),    // Text of the WYSIWYG button
-        'wysiwygButtonUrl'                  => WPPSN_PLUGIN_IMAGES_URL . 'phraseanet_button.png',       // Icon of the WYSIWYG button
-        'wysiwygButtonModalContentFileUrl'  => WPPSN_PLUGIN_INCLUDES_URL . 'wysiwyg-modal-content.php'  // File called in the modal window
+    wp_localize_script( 'jquery', 'wppsnInfosWysiwyg', array(
+        'buttonText'                 => __( 'Insert a Phraseanet Content', 'wp-phraseanet' ),    // Text of the WYSIWYG button
+        'buttonUrl'                  => WPPSN_PLUGIN_IMAGES_URL . 'phraseanet_button.png',       // Icon of the WYSIWYG button
+        'buttonModalContentFileUrl'  => WPPSN_PLUGIN_TEMPLATES_URL . 'tpl-modal-container.php'   // File called in the modal window
     ));
 
 }
@@ -87,3 +87,9 @@ function wppsn_mce_buttons( $buttons ) {
     array_push( $buttons, '|', 'wppsn_phraseanet_button' );
     return $buttons;
 }
+
+
+/**
+ * Require Functions for the Modal
+ */
+require_once( 'functions-modal.php' );

@@ -6,20 +6,24 @@
     init : function(ed, url) {
 
       // Find best modal size
-      var wWidth = jQuery(window).width() - 40;
-      var wHeight = jQuery(window).height() - 40;
-      var defaultWidth = 700;
-      var defaultHeight = 600;
-      var W = ( defaultWidth < wWidth ) ? defaultWidth : wWidth - 40;
-      var H = ( defaultHeight < wHeight ) ? defaultHeight : wHeight - 40;
+      var wWidth = jQuery(window).width();
+      var wHeight = jQuery(window).height();
+      var minModalWidth = 820;
+      var maxModalWidth = 1120;
+      var minModalHeight = 600;
+      var maxModalHeight = 850;
+      var modalW = ( wWidth < minModalWidth ) ? minModalWidth : wWidth - 40;
+      var modalH = ( wHeight < minModalHeight ) ? minModalHeight : wHeight - 80;
+      var modalW = ( wWidth > maxModalWidth ) ? maxModalWidth : wWidth - 40;
+      var modalH = ( wHeight > maxModalHeight ) ? maxModalHeight : wHeight - 80;
 
       // Register commands
       ed.addCommand('mcewppsn', function() {
         ed.windowManager.open(
           {
-            file : wppsnGlobalVars.wysiwygButtonModalContentFileUrl, // content of the modal window (php file here)
-            width : W,
-            height : H,
+            file : wppsnInfosWysiwyg.buttonModalContentFileUrl, // content of the modal window (php file here)
+            width : modalW,
+            height : modalH,
             inline : 1
           },
           {
@@ -29,7 +33,7 @@
       });
 
       // Register buttons
-      ed.addButton('wppsn_phraseanet_button', {title : wppsnGlobalVars.wysiwygButtonText, cmd : 'mcewppsn', image: wppsnGlobalVars.wysiwygButtonUrl });
+      ed.addButton('wppsn_phraseanet_button', {title : wppsnInfosWysiwyg.buttonText, cmd : 'mcewppsn', image: wppsnInfosWysiwyg.buttonUrl });
     }
   });
 

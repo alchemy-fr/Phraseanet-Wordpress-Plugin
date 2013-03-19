@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php"                      : ">=5.3.3",
-        "phraseanet/php-sdk"       : "dev-master@dev"
+        "phraseanet/php-sdk"       : "~0.2.2"
     },
     "autoload": {
         "psr-0": {
