@@ -27,9 +27,10 @@ jQuery(document).ready(function($) {
 			$( currentSliderID ).flexslider({
 				animation: "slide",
 				controlNav: false,
-				directionNav: false,
+				directionNav: true,
 				animationLoop: false,
 				slideshow: false,
+				smoothHeight: true,
 				sync: '#' + currentCarrouselID
 			});
 
