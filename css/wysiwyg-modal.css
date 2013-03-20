@@ -594,15 +594,15 @@ html, body {
 	list-style:none;
 }
 #wppsn-img-gallery-list-media-fields li {
-	padding-bottom:16px;
+	padding-bottom:24px;
 }
 #wppsn-img-gallery-list-media-fields .media-thumb {
 	float:left;
 	width:200px;
 }
 #wppsn-img-gallery-list-media-fields .media-fields {
-	float:left;
-	padding-left:16px;
+	margin-left:216px;
+	padding-left:0;
 }
 #wppsn-img-gallery-list-media-fields .media-fields p {
 	margin:0 0 16px;
@@ -612,7 +612,8 @@ html, body {
 	padding-bottom:5px;
 }
 #wppsn-img-gallery-list-media-fields .input-text {
-	width:300px;
+	width:98%;
+	max-width:300px;
 }
 #wppsn-img-gallery-create-step1-next-step {
 	position:absolute;
