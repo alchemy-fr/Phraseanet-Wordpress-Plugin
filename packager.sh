@@ -1,4 +1,4 @@
-git clone git@github.com:alchemy-fr/Phraseanet-Wordpress-Plugin.git wp-phraseanet
+git clone git@github.com:alchemy-fr/Phraseanet-Wordpress-Plugin.git
 if [ $? -gt 0 ]; then
     echo "Error while fetching data from github"
     exit 1
@@ -10,19 +10,19 @@ if [ $? -gt 0 ]; then
     exit 1
 fi
 
-mv composer.phar wp-phraseanet
+mv composer.phar Phraseanet-Wordpress-Plugin
 if [ $? -gt 0 ]; then
     echo "Error while moving composer.phar to Worpress plugin directory"
     exit 1
 fi
 
-sh -c "cd wp-phraseanet && php composer.phar install && rm -Rf .git* && rm composer.*"
+sh -c "cd Phraseanet-Wordpress-Plugin && php composer.phar install && rm -Rf .git* && rm composer.*"
 if [ $? -gt 0 ]; then
     echo "Error while initializing dependencies"
     exit 1
 fi
 
-zip -r -m wp-phraseanet.zip wp-phraseanet
+zip -r -m Phraseanet-Wordpress-Plugin.zip Phraseanet-Wordpress-Plugin
 if [ $? -gt 0 ]; then
     echo "Error while zipping plugin"
     exit 1
