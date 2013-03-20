@@ -92,7 +92,7 @@ function wppsn_shortcode_single_video( $atts ) {
 	usleep(1);
 
 	// Add JS to the footer
-	//wp_enqueue_script( 'wppsn_flowplayer_js' );
+	wp_enqueue_script( 'wppsn_flowplayer_js' );
 
 	// Get Attributes
 	extract( shortcode_atts( array(
