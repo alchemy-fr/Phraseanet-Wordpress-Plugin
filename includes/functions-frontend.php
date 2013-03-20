@@ -97,17 +97,30 @@ function wppsn_shortcode_single_video( $atts ) {
 	// Get Attributes
 	extract( shortcode_atts( array(
 	    'title'				=> '',
-	    'h264'				=> ''
+	    'mp4'				=> '',
+	    'webm'				=> '',
+	    'ogg'				=> ''
 	  ), $atts ) );
 
 	$title = trim( $title );
-	$h264 = trim( $h264 );
+	$mp4 = trim( $mp4 );
+	$webm = trim( $webm );
+	$ogg = trim( $ogg );
 
 	$output .= '<div class="wppsn-video-player-wrapper">
 					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-player flowplayer color-light">
 						<video>
-							<source type="video/mp4" src="' . $h264 . '">
-						</video>
+							<source type="video/mp4" src="' . $mp4 . '">';
+
+	if ( $webm != '' ) {
+		$output .= '<source type="video/webm" src="' . $webm . '">';
+	}
+
+	if ( $ogg != '' ) {
+		$output .= '<source type="video/ogg" src="' . $ogg . '">';
+	}
+
+	$output .= '		</video>
 					</div>
 					<p class="wppsn-video-player-title">' . $title . '</p>
 				</div>';
