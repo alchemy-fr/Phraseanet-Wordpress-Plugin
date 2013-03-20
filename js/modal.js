@@ -456,50 +456,36 @@ WppsnModal.prototype.showSingleMediaPreviewPan = function( mediaInfos ) {
             // Is there a preview ? then build the video player with all its sources
             if ( typeof( mediaInfos.preview.nopreview ) == "undefined" ) {
 
-                // Show player container
+                // Build player HTML
+                var videoPlayer = jQuery( '<div class="wppsn-video-player"></div>' )
+                                    .append(
+                                        jQuery( '<video autoplay></video>' )
+                                            .append( '<source type="video/mp4" src="' + mediaInfos.preview.h264 + '"/>' )
+                                    );
+
+                // Append Player in DOM
                 previewPan
                     .find( '#wppsn-single-media-preview-video-player-wrapper' )
-                    .show();
+                    .empty()
+                    .append( videoPlayer );
 
-                // Hide Video Thumbnail
+                // Load Player
                 previewPan
-                    .find( '.wppsn-media-preview-thumb' )
-                    .hide();
-
-                var videoPlayer = jQuery( '#wppsn-single-media-preview-video-player' );
-
-                // Destroy and reInit the Player
-                videoPlayer.jPlayer( "destroy" );
-                 
-                videoPlayer.jPlayer({
-                    ready: function() { 
-                        jQuery( this )
-                            .jPlayer( "setMedia", {
-                                m4v: mediaInfos.preview.h264
-                            })
-                            .jPlayer( "play" );
-                    },
-                    cssSelectorAncestor: "#wppsn-single-media-preview-video-player-wrapper",
-                    swfPath: "../../libs/jplayer/Jplayer.swf",
-                    supplied: "m4v",
-                    solution: "html,flash"
-                });
+                    .find( '.wppsn-video-player' )
+                    .flowplayer({
+                        swf: "../../libs/flowplayer/flowplayer.swf"
+                    });
 
             }
             // No preview
             else {
 
-                // Hide video player container
+                // Show the no-preview image
                 previewPan
                     .find( '#wppsn-single-media-preview-video-player-wrapper' )
-                    .hide();
-
-                // Show Video thumbnail
-                previewPan
-                    .find( '.wppsn-media-preview-thumb' )
                     .empty()
-                    .append( '<img src="' + mediaInfos.preview.nopreview + '">' )
-                    .show();
+                    .append( '<img src="' + mediaInfos.preview.nopreview + '">' );
+
             }
 
             break;       

@@ -25,7 +25,7 @@ html, body {
 	padding:0 16px;
 	color:#999;
 }
-.wppsn-media-preview-video-player .fp-embed {
+#wppsn-single-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
 

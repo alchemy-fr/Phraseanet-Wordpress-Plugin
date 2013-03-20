@@ -1,6 +1,10 @@
 /* Video Player */
-.wppsn-video-player-wrapper {
-	margin-bottom:1em;
+
+.wppsn-video-player {
+	background-color:#f1f1f1;
+}
+.wppsn-video-player .fp-embed {
+	display:none !important;
 }
 
 /* Flexsliders */

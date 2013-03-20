@@ -26,7 +26,7 @@ define( 'WPPSN_PLUGIN_TEMPLATES_URL', WPPSN_PLUGIN_INCLUDES_URL . 'templates/' )
 define( 'WPPSN_PLUGIN_IMAGES_URL', WPPSN_PLUGIN_URL . 'images/' );
 define( 'WPPSN_PLUGIN_JS_URL', WPPSN_PLUGIN_URL . 'js/' );
 define( 'WPPSN_PLUGIN_LIBS_URL', WPPSN_PLUGIN_URL . 'libs/' );
-define( 'WPPSN_PLUGIN_JPLAYER_URL', WPPSN_PLUGIN_LIBS_URL . 'jplayer/' );
+define( 'WPPSN_PLUGIN_FLOWPLAYER_URL', WPPSN_PLUGIN_LIBS_URL . 'flowplayer/' );
 define( 'WPPSN_PLUGIN_FLEXSLIDER_URL', WPPSN_PLUGIN_LIBS_URL . 'flexslider/' );
 
 /* Others */
