@@ -25,7 +25,7 @@ html, body {
 	padding:0 16px;
 	color:#999;
 }
-.wppsn-media-preview-video-player .fp-embed {
+#wppsn-single-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
 
@@ -83,7 +83,7 @@ html, body {
     left:155px;
     width:auto;
     height:auto;
-    min-width:665px;
+    min-width:509px;
     overflow:auto;
     z-index:11;
     box-shadow:0px 0px 7px #000;
@@ -127,7 +127,7 @@ html, body {
 #wppsn-img-gallery-header {
     position:absolute;
     top:0;
-    right:275px;
+    right:225px;
     left:0;
     height:47px;
     background-color:#ddd;
@@ -137,7 +137,7 @@ html, body {
 #wppsn-img-gallery-list-medias-wrapper {
     position:absolute;
     top:47px;
-    right:275px;
+    right:225px;
     bottom:0;
     left:0;
     overflow:hidden;
@@ -150,7 +150,7 @@ html, body {
 	right:0;
 	left:0;
 	padding:0 16px;
-	height:80px;
+	height:105px;
 }
 #wppsn-single-media-list-medias-header label,
 #wppsn-img-gallery-list-medias-header label {
@@ -167,7 +167,8 @@ html, body {
 }
 #wppsn-single-media-search,
 #wppsn-img-gallery-search {
-	width:47%;
+	display:block;
+	width:98%;
 }
 #wppsn-single-media-counter,
 #wppsn-img-gallery-counter {
@@ -184,7 +185,7 @@ html, body {
 #wppsn-single-media-list-medias,
 #wppsn-img-gallery-list-medias {
     position:absolute;
-    top:80px;
+    top:105px;
     right:0;
     bottom:0;
     left:0;
@@ -208,7 +209,7 @@ html, body {
 #wppsn-single-media-list-medias .media-list li,
 #wppsn-img-gallery-list-medias .media-list li {
 	float:left;
-	width:50%;
+	width:100%;
 	height:230px;
 	max-width:220px;
 }
@@ -313,7 +314,7 @@ html, body {
 #wppsn-img-gallery-list-baskets-wrapper {
     position:absolute;
     top:47px;
-    right:275px;
+    right:225px;
     bottom:0;
     left:0;
     overflow:hidden;
@@ -340,7 +341,7 @@ html, body {
     top:0;
     right:0;
     bottom:0;
-    width:275px;
+    width:225px;
     overflow:auto;
     background-color:#fff;
     box-shadow:0px 0px 7px #000;
@@ -407,7 +408,7 @@ html, body {
     top:0;
     right:0;
     bottom:0;
-    width:275px;
+    width:225px;
     overflow:auto;
     background-color:#fff;
     box-shadow:0px 0px 7px #000;
@@ -479,11 +480,9 @@ html, body {
 	height:auto;
 }
 #wppsn-img-gallery-selected-list .selected-img-title {
-	float:left;
-	margin:0;
-	padding:0 0 0 8px;
+	margin:0 0 0 85px;
+	padding:0;
 	height:36px;
-	width:150px;
 	overflow:hidden;
 	font-size:12px;
 	line-height:18px;
@@ -529,7 +528,7 @@ html, body {
 #wppsn-img-gallery-preview-wrapper {
 	position:absolute;
 	top:0;
-	right:275px;
+	right:225px;
 	bottom:0;
 	left:0;
 	overflow:auto;
@@ -680,6 +679,34 @@ html, body {
 	bottom:16px;
 }
 
+
+/* Starting with 770px, enlarge the right sidebar */
+@media only screen and ( min-width:770px ) {
+	#wppsn-single-media-header,
+	#wppsn-img-gallery-header,
+	#wppsn-single-media-list-medias-wrapper,
+	#wppsn-img-gallery-list-medias-wrapper,
+	#wppsn-single-media-list-baskets-wrapper,
+	#wppsn-img-gallery-list-baskets-wrapper,
+	#wppsn-single-media-preview-wrapper,
+	#wppsn-img-gallery-preview-wrapper {
+	    right:275px;
+	}
+	#wppsn-single-media-insert-wrapper,
+	#wppsn-img-gallery-selected-list-wrapper {
+		width:275px;
+	}
+}
+
+/* List media with 2 by rows */
+@media only screen and ( min-width:700px ) and ( max-width:1048px ) {
+	#wppsn-single-media-list-medias .media-list li,
+	#wppsn-img-gallery-list-medias .media-list li {
+		width:50%;
+	}	
+}
+
+/* List media with 3 by rows */
 @media only screen and ( min-width:1049px ) and ( max-width:1230px ) {
 	#wppsn-single-media-list-medias .media-list li,
 	#wppsn-img-gallery-list-medias .media-list li {
@@ -687,6 +714,7 @@ html, body {
 	}
 }
 
+/* List media with 4 by rows */
 @media only screen and ( min-width:1231px ) {
 	#wppsn-single-media-list-medias .media-list li,
 	#wppsn-img-gallery-list-medias .media-list li {

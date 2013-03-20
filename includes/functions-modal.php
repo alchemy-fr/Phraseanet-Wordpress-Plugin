@@ -214,7 +214,7 @@ function wppsn_get_media_list_pagination_html( $total_pages, $current_page ) {
 	$pagination = '';
 
 	// Nb of pages displayed around a page number if in the middle of the list
-	$adj_pages = 2;
+	$adj_pages = 1;
 
 	// Nb min of pages to get a truncature
 	// it's calculated like this : First 2 pages + {truncature} + {adj_pages} + {current_page} + {adj_pages} + {truncature} + 2 last pages
