@@ -10,25 +10,25 @@
 function wppsn_wp_enqueue_scripts() {
 
 	// Custom CSS
-	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.2', 'all' );
+	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.3', 'all' );
 
 	// Flowplayer CSS
-	wp_enqueue_style( 'wppsn_jplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.2', 'all' );
+	wp_enqueue_style( 'wppsn_jplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.3', 'all' );
 
 	// FlexSlider CSS
-	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.2', 'all' );
+	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.3', 'all' );
 
 	// FLowplayer JS
 	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
-	wp_register_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.2', true );
+	wp_register_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.3', true );
 
 	// Flexslider JS
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array(), '1.0.2', true );
+	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array(), '1.0.3', true );
 
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'jquery', 'wppsn_flexslider_js' ), '1.0.2', true );
+	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'jquery', 'wppsn_flexslider_js' ), '1.0.3', true );
 
 }
 
