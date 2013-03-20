@@ -5,13 +5,14 @@
 
 /* Plugin Name */
 
-define( 'WPPSN_PLUGIN_NAME', 'wp-phraseanet' );
+$wppsn_plugin_dir_array = explode( '/', str_replace( WP_PLUGIN_DIR . '/', '', dirname( __FILE__ ) ) );
+define( 'WPPSN_PLUGIN_FOLDER_NAME', $wppsn_plugin_dir_array[0] );
 define( 'WPPSN_PLUGIN_MENU_NAME', 'WP Phraseanet' );
 
 
 /* PATHS */
 
-define( 'WPPSN_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . WPPSN_PLUGIN_NAME . '/' );
+define( 'WPPSN_PLUGIN_PATH', WP_PLUGIN_DIR . '/' . WPPSN_PLUGIN_FOLDER_NAME . '/' );
 define( 'WPPSN_PLUGIN_INCLUDES_PATH', WPPSN_PLUGIN_PATH . 'includes/' );
 define( 'WPPSN_PLUGIN_TEMPLATES_PATH', WPPSN_PLUGIN_INCLUDES_PATH . 'templates/' );
 define( 'WPPSN_PLUGIN_VENDOR_PATH', WPPSN_PLUGIN_PATH . 'vendor/' );
@@ -19,7 +20,7 @@ define( 'WPPSN_PLUGIN_VENDOR_PATH', WPPSN_PLUGIN_PATH . 'vendor/' );
 
 /* URLS */
 
-define( 'WPPSN_PLUGIN_URL', WP_PLUGIN_URL . '/' . WPPSN_PLUGIN_NAME . '/' );
+define( 'WPPSN_PLUGIN_URL', WP_PLUGIN_URL . '/' . WPPSN_PLUGIN_FOLDER_NAME . '/' );
 define( 'WPPSN_PLUGIN_CSS_URL', WPPSN_PLUGIN_URL . 'css/' );
 define( 'WPPSN_PLUGIN_INCLUDES_URL', WPPSN_PLUGIN_URL . 'includes/' );
 define( 'WPPSN_PLUGIN_TEMPLATES_URL', WPPSN_PLUGIN_INCLUDES_URL . 'templates/' );
