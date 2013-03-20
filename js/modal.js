@@ -207,6 +207,8 @@ WppsnModal.prototype.initSingleMediaPanEvents = function() {
     this.domPanSingleMediaPreview.find( '.media-preview-close' ).on( 'click', function(e){
         _this.domPanSingleMediaPreview.hide();
         _this.domSingleMediaPreviewPans.hide();
+        // Stop video if any
+        _this.domPanSingleMediaPreview.find( '#wppsn-single-media-preview-video-player-wrapper' ).empty();
         e.preventDefault();
     });
 
@@ -457,17 +459,28 @@ WppsnModal.prototype.showSingleMediaPreviewPan = function( mediaInfos ) {
             if ( typeof( mediaInfos.preview.nopreview ) == "undefined" ) {
 
                 // Build player HTML
-                var videoPlayer = jQuery( '<div class="wppsn-video-player"></div>' )
-                                    .append(
-                                        jQuery( '<video autoplay></video>' )
-                                            .append( '<source type="video/mp4" src="' + mediaInfos.preview.h264 + '"/>' )
-                                    );
+                var playerContainer = jQuery( '<div class="wppsn-video-player color-light"></div>' );
+                var playerVideo = jQuery( '<video autoplay></video>' );
+
+                if ( typeof( mediaInfos.preview.mp4 ) != "undefined" ) {
+                    playerVideo.append( '<source type="video/mp4" src="' + mediaInfos.preview.mp4 + '">' );
+                }
+
+                if ( typeof( mediaInfos.preview.webm ) != "undefined" ) {
+                    playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.webm + '">' );
+                }
+
+                if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
+                    playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.ogg + '">' );
+                }
+
+                playerContainer.append( playerVideo );
 
                 // Append Player in DOM
                 previewPan
                     .find( '#wppsn-single-media-preview-video-player-wrapper' )
                     .empty()
-                    .append( videoPlayer );
+                    .append( playerContainer );
 
                 // Load Player
                 previewPan
@@ -543,7 +556,15 @@ WppsnModal.prototype.insertSingleMedia = function() {
             // Title
             output += 'title="' + currentInsertPan.find( '#wppsn-single-media-insert-video-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) + '" ';
 
-            output += 'h264="' + mediaInfos.preview.h264 + '" ';
+            output += 'mp4="' + mediaInfos.preview.mp4 + '" ';
+
+            if ( typeof( mediaInfos.preview.webm ) != "undefined" ) {
+                output += 'webm="' + mediaInfos.preview.webm + '" ';
+            }
+
+            if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
+                output += 'ogg="' + mediaInfos.preview.ogg + '" ';
+            }
 
             // Close Shortcode
             output += ']';

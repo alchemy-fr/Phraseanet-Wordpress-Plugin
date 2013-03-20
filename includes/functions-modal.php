@@ -167,31 +167,64 @@ function wppsn_get_media_preview( $record ) {
 		case 'image':
 
 			if ( $subDef != null ) {
+
 				$preview_infos = array(
 					'url'		=> $subDef->getPermalink()->getUrl(),
 					'width'		=> $subDef->getWidth(),
 					'height'	=> $subDef->getHeight()
 				);
+
 			}
+			// No preview
 			else {
+
 				$preview_infos = array(
 					'url'		=> 'http://placehold.it/600x400&text=No+preview'
 				);
+
 			}
 
 			break;
 
 		case 'video':
 
-			if ( $subDef != null ) {
-				$preview_infos = array(
-					'h264'		=> $subDef->getPermalink()->getUrl()
-				);
+			// Try the SubDefs for 'screen' devices
+			try {
+				$subDefsMimeTypes = $record->getSubdefsByDevicesAndMimeTypes( array( 'screen' ), array( 'video/mp4', 'video/webm', 'video/ogg' ) );
+			} catch( NotFoundException $e ) {
+				$subDefsMimeTypes = null;
 			}
+
+			if ( $subDefsMimeTypes != null ) {
+
+				foreach( $subDefsMimeTypes as $sdm ) {
+
+					$mimeTypeArray = explode( '/', $sdm->getMimeType() );
+
+					$preview_infos[$mimeTypeArray[1]] = $sdm->getPermalink()->getUrl();
+
+				}
+
+			}
+			// Else take the standard preview SubDef
 			else {
-				$preview_infos = array(
-					'nopreview'	=> 'http://placehold.it/600x400&text=No+preview'
-				);
+
+				if ( $subDef != null ) {
+
+					$preview_infos = array(
+						'mp4'		=> $subDef->getPermalink()->getUrl()
+					);
+
+				}
+				// No preview
+				else {
+
+					$preview_infos = array(
+						'nopreview'	=> 'http://placehold.it/600x400&text=No+preview'
+					);
+
+				}
+
 			}
 
 			break;
