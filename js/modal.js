@@ -59,63 +59,86 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.domMainPans = jQuery( '.wppsn-main-pan' );
     
     this.domPanSingleMedia = jQuery( '#wppsn-pan-single-media' );
-    this.domSingleMediaTabs = this.domPanSingleMedia.find( '#wppsn-single-media-tabs' );
-    this.domSingleMediaListMediasWrapper = this.domPanSingleMedia.find( '#wppsn-single-media-list-medias-wrapper' );
-    this.domSingleMediaListMediasHeader = this.domPanSingleMedia.find( '#wppsn-single-media-list-medias-header' );
-    this.domSingleMediaSearchInput = this.domSingleMediaListMediasHeader.find( '#wppsn-single-media-search' );
+    this.domSingleMediaTabs = this.domPanSingleMedia.find( '.wppsn-main-pan-tabs' );
+    this.domSingleMediaListMediasWrapper = this.domPanSingleMedia.find( '.wppsn-media-list-wrapper' );
+    this.domSingleMediaListMediasHeader = this.domPanSingleMedia.find( '.wppsn-media-list-header' );
+    this.domSingleMediaSearchInput = this.domSingleMediaListMediasHeader.find( '.wppsn-search-field' );
     this.domSingleMediaSearchType = this.domSingleMediaListMediasHeader.find( '.wppsn-single-media-search-type' );
-    this.domSingleMediaRecordType = this.domSingleMediaListMediasHeader.find( '#wppsn-single-media-record-type' );
-    this.domSingleMediaCounter = this.domSingleMediaListMediasHeader.find( '#wppsn-single-media-counter strong' );
-    this.domSingleMediaListMedias = this.domPanSingleMedia.find( '#wppsn-single-media-list-medias' );
-    this.domSingleMediaListPagination = this.domPanSingleMedia.find( '#wppsn-single-media-list-pagination' );
+    this.domSingleMediaRecordType = this.domSingleMediaListMediasHeader.find( '.wppsn-single-media-record-type' );
+    this.domSingleMediaCounter = this.domSingleMediaListMediasHeader.find( '.wppsn-media-counter strong' );
+    this.domSingleMediaListMedias = this.domPanSingleMedia.find( '.wppsn-media-list' );
+    this.domSingleMediaListPagination = this.domPanSingleMedia.find( '.wppsn-media-list-pagination' );
     this.domPanSingleMediaInsert = this.domPanSingleMedia.find( '#wppsn-single-media-insert-wrapper' );
     this.domSingleMediaInsertPans = this.domPanSingleMediaInsert.find( '.wppsn-single-media-insert-pan' );
     this.domSingleMediaInsertButtons = this.domPanSingleMediaInsert.find( '#wppsn-single-media-insert-buttons' );
-    this.domPanSingleMediaPreview = this.domPanSingleMedia.find( '#wppsn-single-media-preview-wrapper' );
+    this.domPanSingleMediaPreview = this.domPanSingleMedia.find( '.wppsn-media-preview-wrapper' );
     this.domSingleMediaPreviewPans = this.domPanSingleMediaPreview.find( '.wppsn-single-media-preview-pan' );
-    this.domSingleMediaListBasketsWrapper = this.domPanSingleMedia.find( '#wppsn-single-media-list-baskets-wrapper' );
+    this.domSingleMediaBasketsWrapper = this.domPanSingleMedia.find( '.wppsn-baskets-wrapper' );
 
     this.domPanImgGallery = jQuery( '#wppsn-pan-img-gallery' );
-    this.domImgGalleryTabs = this.domPanImgGallery.find( '#wppsn-img-gallery-tabs' );
-    this.domImgGalleryListMediasWrapper = this.domPanImgGallery.find( '#wppsn-img-gallery-list-medias-wrapper' );
-    this.domImgGalleryListMediasHeader = this.domPanImgGallery.find( '#wppsn-img-gallery-list-medias-header' );
-    this.domImgGallerySearchInput = this.domImgGalleryListMediasHeader.find( '#wppsn-img-gallery-search' );
+    this.domImgGalleryTabs = this.domPanImgGallery.find( '.wppsn-main-pan-tabs' );
+    this.domImgGalleryListMediasWrapper = this.domPanImgGallery.find( '.wppsn-media-list-wrapper' );
+    this.domImgGalleryListMediasHeader = this.domPanImgGallery.find( '.wppsn-media-list-header' );
+    this.domImgGallerySearchInput = this.domImgGalleryListMediasHeader.find( '.wppsn-search-field' );
     this.domImgGallerySearchType = this.domImgGalleryListMediasHeader.find( '.wppsn-img-gallery-search-type' );
-    this.domImgGalleryCounter = this.domImgGalleryListMediasHeader.find( '#wppsn-img-gallery-counter strong' );
-    this.domImgGalleryListMedias = this.domPanImgGallery.find( '#wppsn-img-gallery-list-medias' );
-    this.domImgGalleryListPagination = this.domPanImgGallery.find( '#wppsn-img-gallery-list-pagination' );
-    this.domImgGallerySelectedListWrapper = this.domPanImgGallery.find( '#wppsn-img-gallery-selected-list-wrapper' );
-    this.domImgGallerySelectedList = this.domImgGallerySelectedListWrapper.find( '#wppsn-img-gallery-selected-list' );
-    this.domImgGallerySelectedListButtons = this.domImgGallerySelectedListWrapper.find( '#wppsn-img-gallery-selected-list-buttons' );
-    this.domPanImgGalleryPreview = this.domPanImgGallery.find( '#wppsn-img-gallery-preview-wrapper' );
-    this.domPanImgGalleryPreview = this.domPanImgGallery.find( '#wppsn-img-gallery-preview-wrapper' );
+    this.domImgGalleryCounter = this.domImgGalleryListMediasHeader.find( '.wppsn-media-counter strong' );
+    this.domImgGalleryListMedias = this.domPanImgGallery.find( '.wppsn-media-list' );
+    this.domImgGalleryListPagination = this.domPanImgGallery.find( '.wppsn-media-list-pagination' );
+    this.domImgGallerySelectedListWrapper = this.domPanImgGallery.find( '.wppsn-media-selected-list-wrapper' );
+    this.domImgGallerySelectedList = this.domImgGallerySelectedListWrapper.find( '.wppsn-selected-media-list' );
+    this.domImgGallerySelectedListButtons = this.domImgGallerySelectedListWrapper.find( '.wppsn-selected-media-list-buttons' );
+    this.domPanImgGalleryPreview = this.domPanImgGallery.find( '.wppsn-media-preview-wrapper' );
     this.domPanImgGalleryCreateStep1 = this.domPanImgGallery.find( '#wppsn-img-gallery-create-gallery-step1' );
     this.domImgGalleryCreateStep1MediaList = this.domPanImgGalleryCreateStep1.find( '#wppsn-img-gallery-list-media-fields' );
     this.domPanImgGalleryCreateStep2 = this.domPanImgGallery.find( '#wppsn-img-gallery-create-gallery-step2' );
-    this.domImgGalleryListBasketsWrapper = this.domPanImgGallery.find( '#wppsn-img-gallery-list-baskets-wrapper' );
+    this.domImgGalleryBasketsWrapper = this.domPanImgGallery.find( '.wppsn-baskets-wrapper' );
 
     this.domPanVideoPlaylist = jQuery( '#wppsn-pan-video-playlist' );
+    this.domVideoPlaylistTabs = this.domPanVideoPlaylist.find( '.wppsn-main-pan-tabs' );
+    this.domVideoPlaylistListMediasWrapper = this.domPanVideoPlaylist.find( '.wppsn-media-list-wrapper' );
+    this.domVideoPlaylistListMediasHeader = this.domPanVideoPlaylist.find( '.wppsn-media-list-header' );
+    this.domVideoPlaylistSearchInput = this.domVideoPlaylistListMediasHeader.find( '.wppsn-search-field' );
+    this.domVideoPlaylistSearchType = this.domVideoPlaylistListMediasHeader.find( '.wppsn-video-playlist-search-type' );
+    this.domVideoPlaylistCounter = this.domVideoPlaylistListMediasHeader.find( '.wppsn-media-counter strong' );
+    this.domVideoPlaylistListMedias = this.domPanVideoPlaylist.find( '.wppsn-media-list' );
+    this.domVideoPlaylistListPagination = this.domPanVideoPlaylist.find( '.wppsn-media-list-pagination' );
+    this.domVideoPlaylistSelectedListWrapper = this.domPanVideoPlaylist.find( '.wppsn-media-selected-list-wrapper' );
+    this.domVideoPlaylistSelectedList = this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list' );
+    this.domVideoPlaylistSelectedListButtons = this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list-buttons' );
+    this.domPanVideoPlaylistPreview = this.domPanVideoPlaylist.find( '.wppsn-media-preview-wrapper' );
+    this.domPanVideoPlaylistCreateStep1 = this.domPanVideoPlaylist.find( '#wppsn-video-playlist-create-gallery-step1' );
+    this.domVideoPlaylistCreateStep1MediaList = this.domPanVideoPlaylistCreateStep1.find( '#wppsn-video-playlist-list-media-fields' );
+    this.domVideoPlaylistBasketsWrapper = this.domPanVideoPlaylist.find( '.wppsn-baskets-wrapper' );
+
     
     // Hide what should be hidden at first load
     this.domSingleMediaTabs.hide();
-    this.domSingleMediaListBasketsWrapper.hide();
+    this.domSingleMediaBasketsWrapper.hide();
     this.domSingleMediaInsertPans.hide();
     this.domSingleMediaInsertButtons.hide();
     this.domPanSingleMediaPreview.hide();
     this.domSingleMediaPreviewPans.hide();
 
-    this.domImgGallerySelectedListButtons.hide();
     this.domPanImgGallery.hide();
     this.domImgGalleryTabs.hide();
-    this.domImgGalleryListBasketsWrapper.hide();
+    this.domImgGalleryBasketsWrapper.hide();
+    this.domImgGallerySelectedListButtons.hide();
     this.domPanImgGalleryPreview.hide();
     this.domPanImgGalleryCreateStep1.hide();
     this.domPanImgGalleryCreateStep2.hide();
+
+    this.domPanVideoPlaylist.hide();
+    this.domVideoPlaylistTabs.hide();
+    this.domVideoPlaylistBasketsWrapper.hide();
+    this.domVideoPlaylistSelectedListButtons.hide();
+    this.domPanVideoPlaylistPreview.hide();
+    this.domPanVideoPlaylistCreateStep1.hide();
 
     // Init various events (buttons, search fields...)
     this.initMainMenuEvents();
     this.initSingleMediaPanEvents();
     this.initImgGalleryPanEvents();
+    this.initVideoPlaylistPanEvents();
 
     // Load the Single Media List
     this.getSingleMediaList();
@@ -152,6 +175,10 @@ WppsnModal.prototype.initMainMenuEvents = function() {
 
                 case 'img-gallery':
                     _this.getImgGalleryMediaList();
+                    break;
+
+                case 'video-playlist':
+                    _this.getVideoPlaylistMediaList();
                     break;
 
             }
@@ -305,7 +332,7 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
 
     	// Create the HTML Media List and add it to DOM
     	var mediaList = this.singleMediaListInfos.mediaList;
-    	var mediaListElt = jQuery( '<ul class="media-list"></ul>' );
+    	var mediaListElt = jQuery( '<ul></ul>' );
 
     	for ( var i in mediaList ) {
 
@@ -619,8 +646,8 @@ WppsnModal.prototype.initImgGalleryPanEvents = function() {
     });
 
     // [click] Selected Images list delete all
-    this.domImgGallerySelectedListWrapper.find( '#wppsn-img-gallery-selection-delete-all a' ).on( 'click', function(e){
-        _this.domImgGallerySelectedList.find( '.selected-img-delete' ).each(function(){
+    this.domImgGallerySelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
+        _this.domImgGallerySelectedList.find( '.selected-delete' ).each(function(){
             jQuery( this ).trigger( 'click' );
         });
         e.preventDefault();
@@ -685,7 +712,7 @@ WppsnModal.prototype.getImgGalleryMediaList = function( pageNb ) {
         };
 
         // Disable search types radio buttons
-        this.domSingleMediaSearchType.attr( 'disabled', 'disabled' );
+        this.domImgGallerySearchType.attr( 'disabled', 'disabled' );
 
         // Request Media List Infos
         jQuery.ajax({
@@ -741,7 +768,7 @@ WppsnModal.prototype.prepareImgGalleryMediaList = function() {
 
         // Create the HTML Media List and add it to DOM
         var mediaList = this.imgGalleryMediaListInfos.mediaList;
-        var mediaListElt = jQuery( '<ul class="media-list"></ul>' );
+        var mediaListElt = jQuery( '<ul></ul>' );
 
         for ( var i in mediaList ) {
 
@@ -806,7 +833,7 @@ WppsnModal.prototype.prepareImgGalleryMediaList = function() {
     }
 
     // Re-enable search type radio buttons
-    this.domSingleMediaSearchType.removeAttr( 'disabled' );
+    this.domImgGallerySearchType.removeAttr( 'disabled' );
 
 
 };
@@ -845,24 +872,24 @@ WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
     if ( jQuery.inArray( mediaInfos.id, this.imgGallerySelectedImgIds ) == -1 ) {
 
 		
-		var imgSelectedDetailsLink = jQuery( '<a href="" class="selected-img-details">' + wppsnModali18n.linkDetails + '</a>' )
+		var imgSelectedDetailsLink = jQuery( '<a href="" class="selected-details">' + wppsnModali18n.linkDetails + '</a>' )
 										.on( 'click', function(e){
 											_this.showImgGalleryMediaPreviewPan( mediaInfos );
 											return false;
 										});
 
-		var imgSelectedDeleteLink = jQuery( '<a href="" class="selected-img-delete">' + wppsnModali18n.linkDelete + '</a>' )
+		var imgSelectedDeleteLink = jQuery( '<a href="" class="selected-delete">' + wppsnModali18n.linkDelete + '</a>' )
 										.on( 'click', function(e){
 											_this.deleteFromImgGallerySelection( mediaInfos );
 											return false;
 										});
 
-		var imgSelected = jQuery( '<li class="selected-img-' + mediaInfos.id + ' clearfix"></li>' )
+		var imgSelected = jQuery( '<li class="selected-' + mediaInfos.id + ' clearfix"></li>' )
 							.data( 'mediaInfos', mediaInfos )
-							.append( '<div class="selected-img-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
-							.append( '<p class="selected-img-title">' + mediaInfos.title + '</p>' )
+							.append( '<div class="selected-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+							.append( '<p class="selected-title">' + mediaInfos.title + '</p>' )
 							.append(
-								jQuery( '<p class="selected-img-buttons"></p>' )
+								jQuery( '<p class="selected-buttons"></p>' )
 									.append( imgSelectedDetailsLink )
 									.append( imgSelectedDeleteLink )
 							);
@@ -878,11 +905,11 @@ WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
 
         // Nb of images in the selection
         var nbImagesSelected = this.imgGallerySelectedImgIds.length;
-        this.domImgGallerySelectedListWrapper.find( '#wppsn-img-gallery-selection-counter' ).text( nbImagesSelected );
+        this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
 
 		// First image to add ? then hide the "no selection" message
 		if ( nbImagesSelected == 1 ) {
-			this.domImgGallerySelectedList.find( '#wppsn-img-gallery-no-selection' ).hide();
+			this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).hide();
 		}
 
         // Show the Create gallery button when at least 2 images are selected
@@ -903,7 +930,7 @@ WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
 
 	// Remove image from the list and from the array of Img Ids
     var removeID = mediaInfos.id; 
-	this.domImgGallerySelectedList.find( '.selected-img-' + removeID ).remove();
+	this.domImgGallerySelectedList.find( '.selected-' + removeID ).remove();
     this.imgGallerySelectedImgIds = jQuery.grep( this.imgGallerySelectedImgIds, function( v ){
         return v != removeID;
     });
@@ -915,7 +942,7 @@ WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
 
     // Nb of images left in the selection
     var nbImagesSelected = this.imgGallerySelectedImgIds.length;
-    this.domImgGallerySelectedListWrapper.find( '#wppsn-img-gallery-selection-counter' ).text( nbImagesSelected );
+    this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
 
     // If less than 2 images in the selection, hide the Create gallery button
     if ( nbImagesSelected < 2 ) {
@@ -924,7 +951,7 @@ WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
 
 	// If no more images in the selection, display the msg
 	if ( nbImagesSelected == 0 ) {
-		this.domImgGallerySelectedList.find( '#wppsn-img-gallery-no-selection' ).show();
+		this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).show();
 	}
 
 }
@@ -1044,6 +1071,109 @@ WppsnModal.prototype.insertImgGallery = function( displayStyle ) {
 
     // Insert Shortcode into TinyMCE
     wppsnDialog.insert( wppsnDialog.local_ed, output );
+
+}
+
+
+/**
+ * Init the Video Playlist Pan events (buttons, search field...)
+ */
+WppsnModal.prototype.initVideoPlaylistPanEvents = function() {
+
+    var _this = this;
+
+    // [press ENTER] Search Field 
+    this.domVideoPlaylistSearchInput.keypress(function(e) {
+        var keycode = ( e.keyCode ? e.keyCode : e.which );
+        if ( keycode == '13' ) {
+            _this.getVideoPlaylistMediaList();
+        }
+    });
+
+    // [click] Search Type Radio Buttons : Documents OR Coverages
+    this.domVideoPlaylistSearchType.on( 'change', function(e){
+        _this.getVideoPlaylistMediaList();
+        e.preventDefault();
+    });
+
+    // [click] List Pagination 
+    this.domVideoPlaylistListPagination.on( 'click', 'a', function(e){
+        _this.getVideoPlaylistMediaList( jQuery(this).text() );
+        e.preventDefault();
+    });
+
+    // [click] Preview Pan Close button
+    this.domPanVideoPlaylistPreview.find( '.media-preview-close' ).on( 'click', function(e){
+        _this.domPanVideoPlaylistPreview.hide();
+        e.preventDefault();
+    });
+
+    // [click] Selected Videos list delete all
+    this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
+        _this.domVideoPlaylistSelectedList.find( '.selected-delete' ).each(function(){
+            jQuery( this ).trigger( 'click' );
+        });
+        e.preventDefault();
+    })
+
+}
+
+
+/**
+ * Get the Video Playlist Media List regarding current filters
+ * @param {int} pageNb Page number of pagination
+ */
+WppsnModal.prototype.getVideoPlaylistMediaList = function( pageNb ) {
+
+    // If not already loading
+    if ( !this.domVideoPlaylistListMedias.hasClass( 'list-loading' ) ) {
+
+        // Loading animation
+        this.domVideoPlaylistListMedias.empty().addClass( 'list-loading' );
+
+        // Hide Pans : preview and create playlist step 1
+        this.domPanVideoPlaylistPreview.hide();
+        this.domPanVideoPlaylistCreateStep1.hide();
+
+        // Get current Filters (search query, search type and page of pagination)
+        var mediaFilters = {
+            searchQuery: this.domVideoPlaylistSearchInput.val() || '',
+            searchType: jQuery( '.wppsn-video-playlist-search-type:checked' ).val() || 0,
+            recordType: 'video',
+            pageNb: ( typeof( pageNb ) == "undefined" ) ? 1 : pageNb
+        };
+
+        // Disable search types radio buttons
+        this.domVideoPlaylistSearchType.attr( 'disabled', 'disabled' );
+
+        // Request Media List Infos
+        jQuery.ajax({
+            url: wppsnGlobals.ajaxUrl,
+            data: { action: 'wppsn-get-media-list', params: mediaFilters },
+            context: this,
+            success: function( resp ) {
+
+                // Save response
+                this.VideoPlaylistMediaListInfos = resp;
+
+                // Prepare the list
+                this.prepareVideoPlaylistMediaList();
+
+            },
+            dataType: 'json'
+        });
+
+    }
+
+};
+
+
+/**
+ * Prepare the Video Playlist Media List
+ */
+WppsnModal.prototype.prepareVideoPlaylistMediaList = function() {
+
+
 
 }
 
