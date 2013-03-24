@@ -25,6 +25,9 @@ html, body {
 	padding:0 16px;
 	color:#999;
 }
+.wppsn-no-results {
+	padding:16px;
+}
 #wppsn-single-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
@@ -151,7 +154,7 @@ html, body {
     padding-top:10px;
     font-size:14px;
 }
-.wppsn-single-media-record-type {
+.wppsn-record-type {
     float:right;
 }
 
@@ -185,7 +188,7 @@ html, body {
 	height:230px;
 	max-width:220px;
 }
-#wppsn-pan-single-media .wppsn-media-list li {
+#wppsn-pan-medias .wppsn-media-list li {
 	cursor:pointer;
 }
 .wppsn-media-list li:hover {

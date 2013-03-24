@@ -16,8 +16,6 @@ var wppsnGlobals = {
 var WppsnModal = function() {
 
 	this.bodyElt = jQuery('body');
-    this.singleMediaListInfos = ''; // Current Single Media List infos in JSON
-    this.imgGalleryMediaListInfos = ''; // Current Img Gallery Media List infos in JSON
     this.imgGallerySelectedImgIds = new Array();
 
 };
@@ -58,13 +56,13 @@ WppsnModal.prototype.prepareInitialContent = function() {
 
     this.domMainPans = jQuery( '.wppsn-main-pan' );
     
-    this.domPanSingleMedia = jQuery( '#wppsn-pan-single-media' );
+    this.domPanSingleMedia = jQuery( '#wppsn-pan-medias' );
     this.domSingleMediaTabs = this.domPanSingleMedia.find( '.wppsn-main-pan-tabs' );
     this.domSingleMediaListMediasWrapper = this.domPanSingleMedia.find( '.wppsn-media-list-wrapper' );
     this.domSingleMediaListMediasHeader = this.domPanSingleMedia.find( '.wppsn-media-list-header' );
     this.domSingleMediaSearchInput = this.domSingleMediaListMediasHeader.find( '.wppsn-search-field' );
-    this.domSingleMediaSearchType = this.domSingleMediaListMediasHeader.find( '.wppsn-single-media-search-type' );
-    this.domSingleMediaRecordType = this.domSingleMediaListMediasHeader.find( '.wppsn-single-media-record-type' );
+    this.domSingleMediaSearchType = this.domSingleMediaListMediasHeader.find( '.wppsn-search-type' );
+    this.domSingleMediaRecordType = this.domSingleMediaListMediasHeader.find( '.wppsn-record-type' );
     this.domSingleMediaCounter = this.domSingleMediaListMediasHeader.find( '.wppsn-media-counter strong' );
     this.domSingleMediaListMedias = this.domPanSingleMedia.find( '.wppsn-media-list' );
     this.domSingleMediaListPagination = this.domPanSingleMedia.find( '.wppsn-media-list-pagination' );
@@ -75,12 +73,12 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.domSingleMediaPreviewPans = this.domPanSingleMediaPreview.find( '.wppsn-single-media-preview-pan' );
     this.domSingleMediaBasketsWrapper = this.domPanSingleMedia.find( '.wppsn-baskets-wrapper' );
 
-    this.domPanImgGallery = jQuery( '#wppsn-pan-img-gallery' );
+    this.domPanImgGallery = jQuery( '#wppsn-pan-images' );
     this.domImgGalleryTabs = this.domPanImgGallery.find( '.wppsn-main-pan-tabs' );
     this.domImgGalleryListMediasWrapper = this.domPanImgGallery.find( '.wppsn-media-list-wrapper' );
     this.domImgGalleryListMediasHeader = this.domPanImgGallery.find( '.wppsn-media-list-header' );
     this.domImgGallerySearchInput = this.domImgGalleryListMediasHeader.find( '.wppsn-search-field' );
-    this.domImgGallerySearchType = this.domImgGalleryListMediasHeader.find( '.wppsn-img-gallery-search-type' );
+    this.domImgGallerySearchType = this.domImgGalleryListMediasHeader.find( '.wppsn-search-type' );
     this.domImgGalleryCounter = this.domImgGalleryListMediasHeader.find( '.wppsn-media-counter strong' );
     this.domImgGalleryListMedias = this.domPanImgGallery.find( '.wppsn-media-list' );
     this.domImgGalleryListPagination = this.domPanImgGallery.find( '.wppsn-media-list-pagination' );
@@ -93,12 +91,12 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.domPanImgGalleryCreateStep2 = this.domPanImgGallery.find( '#wppsn-img-gallery-create-gallery-step2' );
     this.domImgGalleryBasketsWrapper = this.domPanImgGallery.find( '.wppsn-baskets-wrapper' );
 
-    this.domPanVideoPlaylist = jQuery( '#wppsn-pan-video-playlist' );
+    this.domPanVideoPlaylist = jQuery( '#wppsn-pan-videos' );
     this.domVideoPlaylistTabs = this.domPanVideoPlaylist.find( '.wppsn-main-pan-tabs' );
     this.domVideoPlaylistListMediasWrapper = this.domPanVideoPlaylist.find( '.wppsn-media-list-wrapper' );
     this.domVideoPlaylistListMediasHeader = this.domPanVideoPlaylist.find( '.wppsn-media-list-header' );
     this.domVideoPlaylistSearchInput = this.domVideoPlaylistListMediasHeader.find( '.wppsn-search-field' );
-    this.domVideoPlaylistSearchType = this.domVideoPlaylistListMediasHeader.find( '.wppsn-video-playlist-search-type' );
+    this.domVideoPlaylistSearchType = this.domVideoPlaylistListMediasHeader.find( '.wppsn-search-type' );
     this.domVideoPlaylistCounter = this.domVideoPlaylistListMediasHeader.find( '.wppsn-media-counter strong' );
     this.domVideoPlaylistListMedias = this.domPanVideoPlaylist.find( '.wppsn-media-list' );
     this.domVideoPlaylistListPagination = this.domPanVideoPlaylist.find( '.wppsn-media-list-pagination' );
@@ -141,7 +139,7 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.initVideoPlaylistPanEvents();
 
     // Load the Single Media List
-    this.getSingleMediaList();
+    this.getMediaList();
 
 };
 
@@ -156,8 +154,7 @@ WppsnModal.prototype.initMainMenuEvents = function() {
 	// [click] Main Menu Links
     this.domMenu.on( 'click', 'a', function(e){
     	var curLink = jQuery( this );
-        var linkIdArray = curLink.attr( 'id' ).split( '-' );
-        var requestedPan = jQuery( '#wppsn-pan-' + linkIdArray[2] + '-' + linkIdArray[3] );
+        var requestedPan = jQuery( '#wppsn-pan-' + curLink.attr( 'id' ).split( '-' )[2] );
 
         // Display Pan if not visible
         if ( !curLink.hasClass( 'current-menu' ) ) {
@@ -167,21 +164,7 @@ WppsnModal.prototype.initMainMenuEvents = function() {
             curLink.addClass( 'current-menu' );
 
             // Get Media List
-            switch( linkIdArray[2] + '-' + linkIdArray[3] ) {
-
-                case 'single-media':
-                    _this.getSingleMediaList();
-                    break;
-
-                case 'img-gallery':
-                    _this.getImgGalleryMediaList();
-                    break;
-
-                case 'video-playlist':
-                    _this.getVideoPlaylistMediaList();
-                    break;
-
-            }
+            _this.getMediaList();
         }
         e.preventDefault();
     });
@@ -200,25 +183,25 @@ WppsnModal.prototype.initSingleMediaPanEvents = function() {
     this.domSingleMediaSearchInput.keypress(function(e) {
         var keycode = ( e.keyCode ? e.keyCode : e.which );
         if ( keycode == '13' ) {
-            _this.getSingleMediaList();
+            _this.getMediaList();
         }
     });
 
     // [click] Search Type Radio Buttons : Documents OR Coverages
     this.domSingleMediaSearchType.on( 'change', function(e){
-        _this.getSingleMediaList();
+        _this.getMediaList();
         e.preventDefault();
     });
 
     // [click] Record Type dropdown list
     this.domSingleMediaRecordType.on( 'change', function(e){
-        _this.getSingleMediaList();
+        _this.getMediaList();
         e.preventDefault();
     });
 
     // [click] List Pagination 
     this.domSingleMediaListPagination.on( 'click', 'a', function(e){
-        _this.getSingleMediaList( jQuery(this).text() );
+        _this.getMediaList( jQuery(this).text() );
         e.preventDefault();
     });
 
@@ -249,34 +232,202 @@ WppsnModal.prototype.initSingleMediaPanEvents = function() {
 
 
 /**
- * Get the Single Media List regarding current filters
+ * Init the Img Gallery Pan events (buttons, search field...)
+ */
+WppsnModal.prototype.initImgGalleryPanEvents = function() {
+
+    var _this = this;
+
+    // [press ENTER] Search Field 
+    this.domImgGallerySearchInput.keypress(function(e) {
+        var keycode = ( e.keyCode ? e.keyCode : e.which );
+        if ( keycode == '13' ) {
+            _this.getMediaList();
+        }
+    });
+
+    // [click] Search Type Radio Buttons : Documents OR Coverages
+    this.domImgGallerySearchType.on( 'change', function(e){
+        _this.getMediaList();
+        e.preventDefault();
+    });
+
+    // [click] List Pagination 
+    this.domImgGalleryListPagination.on( 'click', 'a', function(e){
+        _this.getMediaList( jQuery(this).text() );
+        e.preventDefault();
+    });
+
+    // [click] Preview Pan Close button
+    this.domPanImgGalleryPreview.find( '.media-preview-close' ).on( 'click', function(e){
+        _this.domPanImgGalleryPreview.hide();
+        e.preventDefault();
+    });
+
+    // [click] Selected Images list delete all
+    this.domImgGallerySelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
+        _this.domImgGallerySelectedList.find( '.selected-delete' ).each(function(){
+            jQuery( this ).trigger( 'click' );
+        });
+        e.preventDefault();
+    })
+
+    // [click] Create Image Gallery Step 1 button
+    this.domImgGallerySelectedListButtons.find( 'a' ).on( 'click', function(e){
+        _this.createImgGalleryStep1();
+        e.preventDefault();
+    });
+
+    // [click] Create Image Gallery Step 1 Close Button
+    this.domPanImgGalleryCreateStep1.find( '.create-gallery-step1-close' ).on( 'click', function(e){
+        _this.domPanImgGalleryCreateStep1.hide();
+        e.preventDefault();
+    });
+
+    // [click] Create Image Gallery Step 1 to step 2 button
+    this.domPanImgGalleryCreateStep1.find( '.create-gallery-step1-next' ).on( 'click', function(e){
+        _this.createImgGalleryStep2();
+        e.preventDefault();
+    });
+
+    // [click] Create Image Gallery Step 2 Close Button
+    this.domPanImgGalleryCreateStep2.find( '.create-gallery-step2-close' ).on( 'click', function(e){
+        _this.domPanImgGalleryCreateStep2.hide();
+        e.preventDefault();
+    });
+
+    // [click] Insert Image Gallery Buttons
+    this.domPanImgGalleryCreateStep2.on( 'click', '.button-primary', function(e){
+        _this.insertImgGallery( jQuery( this ).parents( 'li' ).attr( 'id' ).split( '-' )[4] );
+        e.preventDefault();
+    });
+
+};
+
+
+/**
+ * Init the Video Playlist Pan events (buttons, search field...)
+ */
+WppsnModal.prototype.initVideoPlaylistPanEvents = function() {
+
+    var _this = this;
+
+    // [press ENTER] Search Field 
+    this.domVideoPlaylistSearchInput.keypress(function(e) {
+        var keycode = ( e.keyCode ? e.keyCode : e.which );
+        if ( keycode == '13' ) {
+            _this.getMediaList();
+        }
+    });
+
+    // [click] Search Type Radio Buttons : Documents OR Coverages
+    this.domVideoPlaylistSearchType.on( 'change', function(e){
+        _this.getMediaList();
+        e.preventDefault();
+    });
+
+    // [click] List Pagination 
+    this.domVideoPlaylistListPagination.on( 'click', 'a', function(e){
+        _this.getMediaList( jQuery(this).text() );
+        e.preventDefault();
+    });
+
+    // [click] Preview Pan Close button
+    this.domPanVideoPlaylistPreview.find( '.media-preview-close' ).on( 'click', function(e){
+        _this.domPanVideoPlaylistPreview.hide();
+        e.preventDefault();
+    });
+
+    // [click] Selected Videos list delete all
+    this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
+        _this.domVideoPlaylistSelectedList.find( '.selected-delete' ).each(function(){
+            jQuery( this ).trigger( 'click' );
+        });
+        e.preventDefault();
+    })
+
+};
+
+
+/**
+ * Get the Media List regarding current filters
  * @param {int} pageNb Page number of pagination
  */
-WppsnModal.prototype.getSingleMediaList = function( pageNb ) {
+WppsnModal.prototype.getMediaList = function( pageNb ) {
+
+    // Get current workflow pan
+    var currentMainPan = jQuery( '.wppsn-main-pan:visible' );
+    var currentWorkflow = currentMainPan.attr( 'id' ).split( '-' )[2];
+    var currentMediaList = currentMainPan.find( '.wppsn-media-list' );
+    var currentRecordType = 'all';
 
     // If not already loading
-    if ( !this.domSingleMediaListMedias.hasClass( 'list-loading' ) ) {
+    if ( !currentMediaList.hasClass( 'list-loading' ) ) {
 
         // Loading animation
-        this.domSingleMediaListMedias.empty().addClass( 'list-loading' );
+        currentMediaList.empty().addClass( 'list-loading' );
 
-        // Hide Insert and Preview Pans if opened
-        this.domSingleMediaInsertPans.hide();
-        this.domSingleMediaInsertButtons.hide();
-        this.domPanSingleMediaPreview.hide();
-        this.domSingleMediaPreviewPans.hide();
+        // Switch between workflows
+        switch( currentWorkflow ) {
 
-    	// Get current Filters (search query, search type, record type and page of pagination)
+            // Single Media
+            case 'medias':
+
+                // Hide Insert and Preview Pans if opened
+                this.domSingleMediaInsertPans.hide();
+                this.domSingleMediaInsertButtons.hide();
+                this.domPanSingleMediaPreview.hide();
+                this.domSingleMediaPreviewPans.hide();
+
+                // Record Type
+                currentRecordType = this.domSingleMediaRecordType.val() || 'all';
+
+                // Disable search types radio buttons and record types dropdown list
+                this.domSingleMediaSearchType.attr( 'disabled', 'disabled' );
+                this.domSingleMediaRecordType.attr( 'disabled', 'disabled' );
+
+                break;
+
+            // Images Gallery
+            case 'images':
+
+                // Hide Pans : preview, create gallery step 1 and 2
+                this.domPanImgGalleryPreview.hide();
+                this.domPanImgGalleryCreateStep1.hide();
+                this.domPanImgGalleryCreateStep2.hide();
+
+                // Record Type
+                currentRecordType = 'image';
+
+                // Disable search types radio buttons
+                this.domImgGallerySearchType.attr( 'disabled', 'disabled' );
+
+                break;
+
+            // Videos Playlist
+            case 'videos':
+
+                // Hide Pans : preview and create playlist step 1
+                this.domPanVideoPlaylistPreview.hide();
+                this.domPanVideoPlaylistCreateStep1.hide();
+
+                // Record Type
+                currentRecordType = 'video';
+
+                // Disable search types radio buttons
+                this.domVideoPlaylistSearchType.attr( 'disabled', 'disabled' );
+
+                break;
+
+        }
+
+        // Current Filters (search query, search type, record type and page of pagination)
         var mediaFilters = {
-            searchQuery: this.domSingleMediaSearchInput.val() || '',
-            searchType: jQuery( '.wppsn-single-media-search-type:checked' ).val() || 0,
-            recordType: this.domSingleMediaRecordType.val() || 'all',
+            searchQuery: currentMainPan.find( '.wppsn-search-field' ).val() || '',
+            searchType: currentMainPan.find( '.wppsn-search-type:checked' ).val() || 0,
+            recordType: currentRecordType,
             pageNb: ( typeof( pageNb ) == "undefined" ) ? 1 : pageNb
         };
-
-        // Disable search types radio buttons and record types dropdown list
-        this.domSingleMediaSearchType.attr( 'disabled', 'disabled' );
-        this.domSingleMediaRecordType.attr( 'disabled', 'disabled' );
 
         // Request Media List Infos
         jQuery.ajax({
@@ -286,10 +437,24 @@ WppsnModal.prototype.getSingleMediaList = function( pageNb ) {
             success: function( resp ) {
 
                 // Save response
-                this.singleMediaListInfos = resp;
+                currentMediaList.data( 'mediaListInfos', resp );
 
                 // Prepare the list
-                this.prepareSingleMediaList();
+                switch( currentWorkflow ) {
+
+                    case 'medias':
+                        this.prepareSingleMediaList();
+                        break;
+
+                    case 'images':
+                        this.prepareImgGalleryMediaList();
+                        break;
+
+                    case 'videos':
+                        this.prepareVideoPlaylistMediaList();
+                        break;
+
+                }
 
             },
             dataType: 'json'
@@ -305,33 +470,35 @@ WppsnModal.prototype.getSingleMediaList = function( pageNb ) {
  */
 WppsnModal.prototype.prepareSingleMediaList = function() {
 
+    var mediaListInfos = this.domSingleMediaListMedias.data( 'mediaListInfos' );
+
     // Remove pagination
     this.domSingleMediaListPagination.empty();
 
     // No results
-    if ( this.singleMediaListInfos.s == 'no-results' ) {
+    if ( mediaListInfos.s == 'no-results' ) {
         this.domSingleMediaListMedias
             .removeClass( 'list-loading' )
-            .append( '<p class="wppsn-no-results">' + this.singleMediaListInfos.sMsg + '</p>' );
+            .append( '<p class="wppsn-no-results">' + mediaListInfos.sMsg + '</p>' );
         this.domSingleMediaCounter.text( '0' );
     }
     // Error
-    else if ( this.singleMediaListInfos.s == 'error' ) {
+    else if ( mediaListInfos.s == 'error' ) {
         this.domSingleMediaListMedias
             .removeClass( 'list-loading' )
-            .append( '<p class="wppsn-error">' + this.singleMediaListInfos.sMsg + '</p>' );
+            .append( '<p class="wppsn-error">' + mediaListInfos.sMsg + '</p>' );
         this.domSingleMediaCounter.text( '0' );
     }
     // Success
-    else if ( this.singleMediaListInfos.s == 'success' ) {
+    else if ( mediaListInfos.s == 'success' ) {
 
         var _this = this;
 
     	// Update Media Counter
-    	this.domSingleMediaCounter.text( this.singleMediaListInfos.total );
+    	this.domSingleMediaCounter.text( mediaListInfos.total );
 
     	// Create the HTML Media List and add it to DOM
-    	var mediaList = this.singleMediaListInfos.mediaList;
+    	var mediaList = mediaListInfos.mediaList;
     	var mediaListElt = jQuery( '<ul></ul>' );
 
     	for ( var i in mediaList ) {
@@ -372,13 +539,128 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
             .append( mediaListElt );
 
         // Append Pagination
-        this.domSingleMediaListPagination.append( this.singleMediaListInfos.pagination );
+        this.domSingleMediaListPagination.append( mediaListInfos.pagination );
 
     }
 
     // Re-enable search type radio buttons and record types dropdown list
     this.domSingleMediaSearchType.removeAttr( 'disabled' );
     this.domSingleMediaRecordType.removeAttr( 'disabled' );
+
+
+};
+
+
+/**
+ * Prepare the Img Gallery Media List
+ */
+WppsnModal.prototype.prepareImgGalleryMediaList = function() {
+
+    var mediaListInfos = this.domImgGalleryListMedias.data( 'mediaListInfos' );
+
+    // Remove pagination
+    this.domImgGalleryListPagination.empty();
+
+    // No results
+    if ( mediaListInfos.s == 'no-results' ) {
+        this.domImgGalleryListMedias
+            .removeClass( 'list-loading' )
+            .append( '<p class="wppsn-no-results">' + mediaListInfos.sMsg + '</p>' );
+        this.domImgGalleryCounter.text( '0' );
+    }
+    // Error
+    else if ( mediaListInfos.s == 'error' ) {
+        this.domImgGalleryListMedias
+            .removeClass( 'list-loading' )
+            .append( '<p class="wppsn-error">' + mediaListInfos.sMsg + '</p>' );
+        this.domImgGalleryCounter.text( '0' );
+    }
+    // Success
+    else if ( mediaListInfos.s == 'success' ) {
+
+        var _this = this;
+
+        // Update Media Counter
+        this.domImgGalleryCounter.text( mediaListInfos.total );
+
+        // Create the HTML Media List and add it to DOM
+        var mediaList = mediaListInfos.mediaList;
+        var mediaListElt = jQuery( '<ul></ul>' );
+
+        for ( var i in mediaList ) {
+
+            var mediaEltInfos = mediaList[i];
+            var mediaIsSelected = ( jQuery.inArray( mediaEltInfos.id, this.imgGallerySelectedImgIds ) != -1 ) ? true : false;
+
+            var mediaEltDetailsButton = jQuery( '<a href="" class="media-details-button button">' + wppsnModali18n.buttonDetails + '</a>' )
+                                            .on( 'click', function(){
+                                                // Click on "details" button open the the preview Pan
+                                                _this.showImgGalleryPreviewPan( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            var mediaEltSelectButton = jQuery( '<a href="" class="media-select-button button-primary">' + wppsnModali18n.buttonSelect + '</a> ' )
+                                            .on( 'click', function(){
+                                                // Add this img to the selection
+                                                _this.addToImgGallerySelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            if ( mediaIsSelected ) {
+                mediaEltSelectButton.css( 'display', 'none' );
+            }
+
+            var mediaEltUnselectButton = jQuery( '<a href="" class="media-unselect-button button-primary">' + wppsnModali18n.buttonUnselect + '</a> ' )
+                                            .on( 'click', function(){
+                                                // Remove this img from the selection
+                                                _this.deleteFromImgGallerySelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            if ( !mediaIsSelected ) {
+                mediaEltUnselectButton.css( 'display', 'none' );
+            }
+
+            // Media Element HTML
+            jQuery( '<li class="media-item-' + mediaEltInfos.id + '"></li>' )
+                .data( 'mediaInfos', mediaEltInfos )
+                .append( jQuery('<div class="media-item"></div>')
+                            .append( '<div class="media-thumb"><img src="' + mediaEltInfos.thumb + '"></div>' )
+                            .append( '<p class="media-title">' + mediaEltInfos.title + '</p>' )
+                            .append(
+                                jQuery( '<p class="media-buttons"></p>' )
+                                    .append( mediaEltDetailsButton )
+                                    .append( mediaEltSelectButton )
+                                    .append( mediaEltUnselectButton )
+                            ) 
+                )
+                .appendTo( mediaListElt );
+
+        }
+
+        // Remove old Media List and append the new one
+        this.domImgGalleryListMedias
+            .removeClass( 'list-loading' )
+            .empty()
+            .append( mediaListElt );
+
+        // Append Pagination
+        this.domImgGalleryListPagination.append( mediaListInfos.pagination );
+
+    }
+
+    // Re-enable search type radio buttons
+    this.domImgGallerySearchType.removeAttr( 'disabled' );
+
+
+};
+
+
+/**
+ * Prepare the Video Playlist Media List
+ */
+WppsnModal.prototype.prepareVideoPlaylistMediaList = function() {
+
 
 
 };
@@ -536,6 +818,27 @@ WppsnModal.prototype.showSingleMediaPreviewPan = function( mediaInfos ) {
 
 
 /**
+ * Show Img Gallery Media Preview Pan
+ * @param {object} mediaInfos Media Infos to use for fullfill the fields
+ */
+WppsnModal.prototype.showImgGalleryPreviewPan = function( mediaInfos ) {
+
+    // Fullfill the pan's fields
+    this.domPanImgGalleryPreview
+        .find( '.wppsn-media-preview-title' )
+        .text( mediaInfos.title );
+    this.domPanImgGalleryPreview
+        .find( '.wppsn-media-preview-thumb' )
+        .empty()
+        .append( '<img src="' + mediaInfos.preview.url + '">' );
+
+    // Show Pan
+    this.domPanImgGalleryPreview.show();
+
+};
+
+
+/**
  * Insert the Single Media Shortcode into the TinyMCE
  */
 WppsnModal.prototype.insertSingleMedia = function() {
@@ -613,254 +916,6 @@ WppsnModal.prototype.insertSingleMedia = function() {
 
 
 /**
- * Init the Img Gallery Pan events (buttons, search field...)
- */
-WppsnModal.prototype.initImgGalleryPanEvents = function() {
-
-    var _this = this;
-
-    // [press ENTER] Search Field 
-    this.domImgGallerySearchInput.keypress(function(e) {
-        var keycode = ( e.keyCode ? e.keyCode : e.which );
-        if ( keycode == '13' ) {
-            _this.getImgGalleryMediaList();
-        }
-    });
-
-    // [click] Search Type Radio Buttons : Documents OR Coverages
-    this.domImgGallerySearchType.on( 'change', function(e){
-        _this.getImgGalleryMediaList();
-        e.preventDefault();
-    });
-
-    // [click] List Pagination 
-    this.domImgGalleryListPagination.on( 'click', 'a', function(e){
-        _this.getImgGalleryMediaList( jQuery(this).text() );
-        e.preventDefault();
-    });
-
-    // [click] Preview Pan Close button
-    this.domPanImgGalleryPreview.find( '.media-preview-close' ).on( 'click', function(e){
-        _this.domPanImgGalleryPreview.hide();
-        e.preventDefault();
-    });
-
-    // [click] Selected Images list delete all
-    this.domImgGallerySelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
-        _this.domImgGallerySelectedList.find( '.selected-delete' ).each(function(){
-            jQuery( this ).trigger( 'click' );
-        });
-        e.preventDefault();
-    })
-
-    // [click] Create Image Gallery Step 1 button
-    this.domImgGallerySelectedListButtons.find( 'a' ).on( 'click', function(e){
-        _this.createImgGalleryStep1();
-        e.preventDefault();
-    });
-
-    // [click] Create Image Gallery Step 1 Close Button
-    this.domPanImgGalleryCreateStep1.find( '.create-gallery-step1-close' ).on( 'click', function(e){
-        _this.domPanImgGalleryCreateStep1.hide();
-        e.preventDefault();
-    });
-
-    // [click] Create Image Gallery Step 1 to step 2 button
-    this.domPanImgGalleryCreateStep1.find( '.create-gallery-step1-next' ).on( 'click', function(e){
-        _this.createImgGalleryStep2();
-        e.preventDefault();
-    });
-
-    // [click] Create Image Gallery Step 2 Close Button
-    this.domPanImgGalleryCreateStep2.find( '.create-gallery-step2-close' ).on( 'click', function(e){
-        _this.domPanImgGalleryCreateStep2.hide();
-        e.preventDefault();
-    });
-
-    // [click] Insert Image Gallery Buttons
-    this.domPanImgGalleryCreateStep2.on( 'click', '.button-primary', function(e){
-        _this.insertImgGallery( jQuery( this ).parents( 'li' ).attr( 'id' ).split( '-' )[4] );
-        e.preventDefault();
-    });
-
-};
-
-
-/**
- * Get the Img Gallery Media List regarding current filters
- * @param {int} pageNb Page number of pagination
- */
-WppsnModal.prototype.getImgGalleryMediaList = function( pageNb ) {
-
-    // If not already loading
-    if ( !this.domImgGalleryListMedias.hasClass( 'list-loading' ) ) {
-
-        // Loading animation
-        this.domImgGalleryListMedias.empty().addClass( 'list-loading' );
-
-        // Hide Pans : preview, create gallery step 1 and 2
-        this.domPanImgGalleryPreview.hide();
-        this.domPanImgGalleryCreateStep1.hide();
-        this.domPanImgGalleryCreateStep2.hide();
-
-        // Get current Filters (search query, search type and page of pagination)
-        var mediaFilters = {
-            searchQuery: this.domImgGallerySearchInput.val() || '',
-            searchType: jQuery( '.wppsn-img-gallery-search-type:checked' ).val() || 0,
-            recordType: 'image',
-            pageNb: ( typeof( pageNb ) == "undefined" ) ? 1 : pageNb
-        };
-
-        // Disable search types radio buttons
-        this.domImgGallerySearchType.attr( 'disabled', 'disabled' );
-
-        // Request Media List Infos
-        jQuery.ajax({
-            url: wppsnGlobals.ajaxUrl,
-            data: { action: 'wppsn-get-media-list', params: mediaFilters },
-            context: this,
-            success: function( resp ) {
-
-                // Save response
-                this.imgGalleryMediaListInfos = resp;
-
-                // Prepare the list
-                this.prepareImgGalleryMediaList();
-
-            },
-            dataType: 'json'
-        });
-
-    }
-
-};
-
-
-/**
- * Prepare the Img Gallery Media List
- */
-WppsnModal.prototype.prepareImgGalleryMediaList = function() {
-
-    // Remove pagination
-    this.domImgGalleryListPagination.empty();
-
-    // No results
-    if ( this.imgGalleryMediaListInfos.s == 'no-results' ) {
-        this.domImgGalleryListMedias
-            .removeClass( 'list-loading' )
-            .append( '<p class="wppsn-no-results">' + this.imgGalleryMediaListInfos.sMsg + '</p>' );
-        this.domImgGalleryCounter.text( '0' );
-    }
-    // Error
-    else if ( this.imgGalleryMediaListInfos.s == 'error' ) {
-        this.domImgGalleryListMedias
-            .removeClass( 'list-loading' )
-            .append( '<p class="wppsn-error">' + this.imgGalleryMediaListInfos.sMsg + '</p>' );
-        this.domImgGalleryCounter.text( '0' );
-    }
-    // Success
-    else if ( this.imgGalleryMediaListInfos.s == 'success' ) {
-
-        var _this = this;
-
-        // Update Media Counter
-        this.domImgGalleryCounter.text( this.imgGalleryMediaListInfos.total );
-
-        // Create the HTML Media List and add it to DOM
-        var mediaList = this.imgGalleryMediaListInfos.mediaList;
-        var mediaListElt = jQuery( '<ul></ul>' );
-
-        for ( var i in mediaList ) {
-
-            var mediaEltInfos = mediaList[i];
-            var mediaIsSelected = ( jQuery.inArray( mediaEltInfos.id, this.imgGallerySelectedImgIds ) != -1 ) ? true : false;
-
-            var mediaEltDetailsButton = jQuery( '<a href="" class="media-details-button button">' + wppsnModali18n.buttonDetails + '</a>' )
-                                            .on( 'click', function(){
-                                                // Click on "details" button open the the preview Pan
-                                                _this.showImgGalleryMediaPreviewPan( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
-                                                return false;
-                                            });
-
-            var mediaEltSelectButton = jQuery( '<a href="" class="media-select-button button-primary">' + wppsnModali18n.buttonSelect + '</a> ' )
-	                                        .on( 'click', function(){
-	                                            // Add this img to the selection
-	                                            _this.addToImgGallerySelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
-	                                            return false;
-	                                        });
-
-            if ( mediaIsSelected ) {
-                mediaEltSelectButton.css( 'display', 'none' );
-            }
-
-            var mediaEltUnselectButton = jQuery( '<a href="" class="media-unselect-button button-primary">' + wppsnModali18n.buttonUnselect + '</a> ' )
-                                            .on( 'click', function(){
-                                                // Remove this img from the selection
-                                                _this.deleteFromImgGallerySelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
-                                                return false;
-                                            });
-
-            if ( !mediaIsSelected ) {
-                mediaEltUnselectButton.css( 'display', 'none' );
-            }
-
-            // Media Element HTML
-            jQuery( '<li class="media-item-' + mediaEltInfos.id + '"></li>' )
-                .data( 'mediaInfos', mediaEltInfos )
-                .append( jQuery('<div class="media-item"></div>')
-                            .append( '<div class="media-thumb"><img src="' + mediaEltInfos.thumb + '"></div>' )
-                            .append( '<p class="media-title">' + mediaEltInfos.title + '</p>' )
-                            .append(
-                            	jQuery( '<p class="media-buttons"></p>' )
-                                    .append( mediaEltDetailsButton )
-                                    .append( mediaEltSelectButton )
-                                    .append( mediaEltUnselectButton )
-                            ) 
-                )
-                .appendTo( mediaListElt );
-
-        }
-
-        // Remove old Media List and append the new one
-        this.domImgGalleryListMedias
-            .removeClass( 'list-loading' )
-            .empty()
-            .append( mediaListElt );
-
-        // Append Pagination
-        this.domImgGalleryListPagination.append( this.imgGalleryMediaListInfos.pagination );
-
-    }
-
-    // Re-enable search type radio buttons
-    this.domImgGallerySearchType.removeAttr( 'disabled' );
-
-
-};
-
-
-/**
- * Show Img Gallery Media Preview Pan
- * @param {object} mediaInfos Media Infos to use for fullfill the fields
- */
-WppsnModal.prototype.showImgGalleryMediaPreviewPan = function( mediaInfos ) {
-
-    // Fullfill the pan's fields
-    this.domPanImgGalleryPreview
-        .find( '.wppsn-media-preview-title' )
-        .text( mediaInfos.title );
-    this.domPanImgGalleryPreview
-        .find( '.wppsn-media-preview-thumb' )
-        .empty()
-        .append( '<img src="' + mediaInfos.preview.url + '">' );
-
-    // Show Pan
-    this.domPanImgGalleryPreview.show();
-
-};
-
-
-/**
  * Add an Image to the Image Gallery Selection
  * @param {object} mediaInfos Media Infos
  */
@@ -874,7 +929,7 @@ WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
 		
 		var imgSelectedDetailsLink = jQuery( '<a href="" class="selected-details">' + wppsnModali18n.linkDetails + '</a>' )
 										.on( 'click', function(e){
-											_this.showImgGalleryMediaPreviewPan( mediaInfos );
+											_this.showImgGalleryPreviewPan( mediaInfos );
 											return false;
 										});
 
@@ -919,7 +974,7 @@ WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
 
 	}
 
-}
+};
 
 
 /**
@@ -954,7 +1009,7 @@ WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
 		this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).show();
 	}
 
-}
+};
 
 
 /**
@@ -1006,7 +1061,7 @@ WppsnModal.prototype.createImgGalleryStep1 = function() {
         .empty()
         .append( mediaList );
 
-}
+};
 
 
 /**
@@ -1017,7 +1072,7 @@ WppsnModal.prototype.createImgGalleryStep2 = function() {
     // Show Pan
     this.domPanImgGalleryCreateStep2.show();
 
-}
+};
 
 
 /**
@@ -1072,110 +1127,7 @@ WppsnModal.prototype.insertImgGallery = function( displayStyle ) {
     // Insert Shortcode into TinyMCE
     wppsnDialog.insert( wppsnDialog.local_ed, output );
 
-}
-
-
-/**
- * Init the Video Playlist Pan events (buttons, search field...)
- */
-WppsnModal.prototype.initVideoPlaylistPanEvents = function() {
-
-    var _this = this;
-
-    // [press ENTER] Search Field 
-    this.domVideoPlaylistSearchInput.keypress(function(e) {
-        var keycode = ( e.keyCode ? e.keyCode : e.which );
-        if ( keycode == '13' ) {
-            _this.getVideoPlaylistMediaList();
-        }
-    });
-
-    // [click] Search Type Radio Buttons : Documents OR Coverages
-    this.domVideoPlaylistSearchType.on( 'change', function(e){
-        _this.getVideoPlaylistMediaList();
-        e.preventDefault();
-    });
-
-    // [click] List Pagination 
-    this.domVideoPlaylistListPagination.on( 'click', 'a', function(e){
-        _this.getVideoPlaylistMediaList( jQuery(this).text() );
-        e.preventDefault();
-    });
-
-    // [click] Preview Pan Close button
-    this.domPanVideoPlaylistPreview.find( '.media-preview-close' ).on( 'click', function(e){
-        _this.domPanVideoPlaylistPreview.hide();
-        e.preventDefault();
-    });
-
-    // [click] Selected Videos list delete all
-    this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list-delete-all a' ).on( 'click', function(e){
-        _this.domVideoPlaylistSelectedList.find( '.selected-delete' ).each(function(){
-            jQuery( this ).trigger( 'click' );
-        });
-        e.preventDefault();
-    })
-
-}
-
-
-/**
- * Get the Video Playlist Media List regarding current filters
- * @param {int} pageNb Page number of pagination
- */
-WppsnModal.prototype.getVideoPlaylistMediaList = function( pageNb ) {
-
-    // If not already loading
-    if ( !this.domVideoPlaylistListMedias.hasClass( 'list-loading' ) ) {
-
-        // Loading animation
-        this.domVideoPlaylistListMedias.empty().addClass( 'list-loading' );
-
-        // Hide Pans : preview and create playlist step 1
-        this.domPanVideoPlaylistPreview.hide();
-        this.domPanVideoPlaylistCreateStep1.hide();
-
-        // Get current Filters (search query, search type and page of pagination)
-        var mediaFilters = {
-            searchQuery: this.domVideoPlaylistSearchInput.val() || '',
-            searchType: jQuery( '.wppsn-video-playlist-search-type:checked' ).val() || 0,
-            recordType: 'video',
-            pageNb: ( typeof( pageNb ) == "undefined" ) ? 1 : pageNb
-        };
-
-        // Disable search types radio buttons
-        this.domVideoPlaylistSearchType.attr( 'disabled', 'disabled' );
-
-        // Request Media List Infos
-        jQuery.ajax({
-            url: wppsnGlobals.ajaxUrl,
-            data: { action: 'wppsn-get-media-list', params: mediaFilters },
-            context: this,
-            success: function( resp ) {
-
-                // Save response
-                this.VideoPlaylistMediaListInfos = resp;
-
-                // Prepare the list
-                this.prepareVideoPlaylistMediaList();
-
-            },
-            dataType: 'json'
-        });
-
-    }
-
 };
-
-
-/**
- * Prepare the Video Playlist Media List
- */
-WppsnModal.prototype.prepareVideoPlaylistMediaList = function() {
-
-
-
-}
 
 
 /**

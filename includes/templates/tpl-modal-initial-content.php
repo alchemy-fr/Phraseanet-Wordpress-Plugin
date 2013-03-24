@@ -33,9 +33,9 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	<div id="wppsn-sidebar">
 
 		<div id="wppsn-menu">
-			<a href="" id="wppsn-menu-single-media" class="wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
-			<a href="" id="wppsn-menu-img-gallery" class="wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
-			<a href="" id="wppsn-menu-video-playlist" class="wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
+			<a href="" id="wppsn-menu-medias" class="wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
+			<a href="" id="wppsn-menu-images" class="wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
+			<a href="" id="wppsn-menu-videos" class="wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
 		</div>
 
 		<div id="wppsn-credits">
@@ -46,7 +46,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 	<div id="wppsn-main">
 
-		<div id="wppsn-pan-single-media" class="wppsn-main-pan">
+		<div id="wppsn-pan-medias" class="wppsn-main-pan">
 
 			<div class="wppsn-main-pan-header">
 
@@ -66,17 +66,17 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
-						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" value="0" checked="checked">
+						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-search-type" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
 					</label>
 					<label>
-						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" value="1">
+						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-search-type" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
 						<span class="wppsn-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
-						<select name="wppsn-single-media-record-type" class="wppsn-single-media-record-type">
+						<select name="wppsn-single-media-record-type" class="wppsn-record-type">
 							<option value="all"><?php _e( 'All', 'wp-phraseanet' ); ?></option>
 							<option value="image"><?php _e( 'Images', 'wp-phraseanet' ); ?></option>
 							<option value="video"><?php _e( 'Videos', 'wp-phraseanet' ); ?></option>
@@ -187,7 +187,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		</div>
 
-		<div id="wppsn-pan-img-gallery" class="wppsn-main-pan">
+		<div id="wppsn-pan-images" class="wppsn-main-pan">
 
 			<div class="wppsn-main-pan-header">
 
@@ -207,11 +207,11 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
-						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" value="0" checked="checked">
+						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-search-type" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
 					</label>
 					<label>
-						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" value="1">
+						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-search-type" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
 
@@ -326,7 +326,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		</div>
 
-		<div id="wppsn-pan-video-playlist" class="wppsn-main-pan">
+		<div id="wppsn-pan-videos" class="wppsn-main-pan">
 
 			<div class="wppsn-main-pan-header">
 
@@ -346,11 +346,11 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
-						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-video-playlist-search-type" value="0" checked="checked">
+						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-search-type" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
 					</label>
 					<label>
-						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-video-playlist-search-type" value="1">
+						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-search-type" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
 
