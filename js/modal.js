@@ -16,7 +16,8 @@ var wppsnGlobals = {
 var WppsnModal = function() {
 
 	this.bodyElt = jQuery('body');
-    this.imgGallerySelectedImgIds = new Array();
+    this.imgGallerySelectedImgIds = new Array(); // Images Gallery : selected images IDs
+    this.videoPlaylistSelectedVideoIds = new Array(); // Video Playlist : selected videos IDs
 
 };
 
@@ -104,7 +105,7 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.domVideoPlaylistSelectedList = this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list' );
     this.domVideoPlaylistSelectedListButtons = this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-selected-media-list-buttons' );
     this.domPanVideoPlaylistPreview = this.domPanVideoPlaylist.find( '.wppsn-media-preview-wrapper' );
-    this.domPanVideoPlaylistCreateStep1 = this.domPanVideoPlaylist.find( '#wppsn-video-playlist-create-gallery-step1' );
+    this.domPanVideoPlaylistCreateStep1 = this.domPanVideoPlaylist.find( '#wppsn-video-playlist-create-playlist-step1' );
     this.domVideoPlaylistCreateStep1MediaList = this.domPanVideoPlaylistCreateStep1.find( '#wppsn-video-playlist-list-media-fields' );
     this.domVideoPlaylistBasketsWrapper = this.domPanVideoPlaylist.find( '.wppsn-baskets-wrapper' );
 
@@ -270,7 +271,7 @@ WppsnModal.prototype.initImgGalleryPanEvents = function() {
             jQuery( this ).trigger( 'click' );
         });
         e.preventDefault();
-    })
+    });
 
     // [click] Create Image Gallery Step 1 button
     this.domImgGallerySelectedListButtons.find( 'a' ).on( 'click', function(e){
@@ -334,7 +335,7 @@ WppsnModal.prototype.initVideoPlaylistPanEvents = function() {
 
     // [click] Preview Pan Close button
     this.domPanVideoPlaylistPreview.find( '.media-preview-close' ).on( 'click', function(e){
-        _this.domPanVideoPlaylistPreview.hide();
+        _this.domPanVideoPlaylistPreview.hide().find( '.wppsn-media-preview-video-player-wrapper' ).empty();
         e.preventDefault();
     });
 
@@ -344,7 +345,25 @@ WppsnModal.prototype.initVideoPlaylistPanEvents = function() {
             jQuery( this ).trigger( 'click' );
         });
         e.preventDefault();
-    })
+    });
+
+    // [click] Create Videos Playlist Step 1 button
+    this.domVideoPlaylistSelectedListButtons.find( 'a' ).on( 'click', function(e){
+        _this.createVideoPlaylistStep1();
+        e.preventDefault();
+    });
+
+    // [click] Create Videos Playlist Step 1 Close Button
+    this.domPanVideoPlaylistCreateStep1.find( '.create-playlist-step1-close' ).on( 'click', function(e){
+        _this.domPanVideoPlaylistCreateStep1.hide();
+        e.preventDefault();
+    });
+
+    // [click] Insert Video Playlist Button
+    this.domPanVideoPlaylistCreateStep1.on( 'click', '.button-primary', function(e){
+        _this.insertVideoPlaylist();
+        e.preventDefault();
+    });
 
 };
 
@@ -661,7 +680,101 @@ WppsnModal.prototype.prepareImgGalleryMediaList = function() {
  */
 WppsnModal.prototype.prepareVideoPlaylistMediaList = function() {
 
+    var mediaListInfos = this.domVideoPlaylistListMedias.data( 'mediaListInfos' );
 
+    // Remove pagination
+    this.domVideoPlaylistListPagination.empty();
+
+    // No results
+    if ( mediaListInfos.s == 'no-results' ) {
+        this.domVideoPlaylistListMedias
+            .removeClass( 'list-loading' )
+            .append( '<p class="wppsn-no-results">' + mediaListInfos.sMsg + '</p>' );
+        this.domVideoPlaylistCounter.text( '0' );
+    }
+    // Error
+    else if ( mediaListInfos.s == 'error' ) {
+        this.domVideoPlaylistListMedias
+            .removeClass( 'list-loading' )
+            .append( '<p class="wppsn-error">' + mediaListInfos.sMsg + '</p>' );
+        this.domVideoPlaylistCounter.text( '0' );
+    }
+    // Success
+    else if ( mediaListInfos.s == 'success' ) {
+
+        var _this = this;
+
+        // Update Media Counter
+        this.domVideoPlaylistCounter.text( mediaListInfos.total );
+
+        // Create the HTML Media List and add it to DOM
+        var mediaList = mediaListInfos.mediaList;
+        var mediaListElt = jQuery( '<ul></ul>' );
+
+        for ( var i in mediaList ) {
+
+            var mediaEltInfos = mediaList[i];
+            var mediaIsSelected = ( jQuery.inArray( mediaEltInfos.id, this.videoPlaylistSelectedVideoIds ) != -1 ) ? true : false;
+
+            var mediaEltDetailsButton = jQuery( '<a href="" class="media-details-button button">' + wppsnModali18n.buttonDetails + '</a>' )
+                                            .on( 'click', function(){
+                                                // Click on "details" button open the the preview Pan
+                                                _this.showVideoPlaylistPreviewPan( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            var mediaEltSelectButton = jQuery( '<a href="" class="media-select-button button-primary">' + wppsnModali18n.buttonSelect + '</a> ' )
+                                            .on( 'click', function(){
+                                                // Add this img to the selection
+                                                _this.addToVideoPlaylistSelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            if ( mediaIsSelected ) {
+                mediaEltSelectButton.css( 'display', 'none' );
+            }
+
+            var mediaEltUnselectButton = jQuery( '<a href="" class="media-unselect-button button-primary">' + wppsnModali18n.buttonUnselect + '</a> ' )
+                                            .on( 'click', function(){
+                                                // Remove this img from the selection
+                                                _this.deleteFromVideoPlaylistSelection( jQuery( this ).parents( 'li' ).data( 'mediaInfos' ) );
+                                                return false;
+                                            });
+
+            if ( !mediaIsSelected ) {
+                mediaEltUnselectButton.css( 'display', 'none' );
+            }
+
+            // Media Element HTML
+            jQuery( '<li class="media-item-' + mediaEltInfos.id + '"></li>' )
+                .data( 'mediaInfos', mediaEltInfos )
+                .append( jQuery('<div class="media-item"></div>')
+                            .append( '<div class="media-thumb"><img src="' + mediaEltInfos.thumb + '"></div>' )
+                            .append( '<p class="media-title">' + mediaEltInfos.title + '</p>' )
+                            .append(
+                                jQuery( '<p class="media-buttons"></p>' )
+                                    .append( mediaEltDetailsButton )
+                                    .append( mediaEltSelectButton )
+                                    .append( mediaEltUnselectButton )
+                            ) 
+                )
+                .appendTo( mediaListElt );
+
+        }
+
+        // Remove old Media List and append the new one
+        this.domVideoPlaylistListMedias
+            .removeClass( 'list-loading' )
+            .empty()
+            .append( mediaListElt );
+
+        // Append Pagination
+        this.domVideoPlaylistListPagination.append( mediaListInfos.pagination );
+
+    }
+
+    // Re-enable search type radio buttons
+    this.domVideoPlaylistSearchType.removeAttr( 'disabled' );
 
 };
 
@@ -839,6 +952,368 @@ WppsnModal.prototype.showImgGalleryPreviewPan = function( mediaInfos ) {
 
 
 /**
+ * Show Videos Playlist Media Preview Pan
+ * @param {object} mediaInfos Media Infos to use for fullfill the fields
+ */
+WppsnModal.prototype.showVideoPlaylistPreviewPan = function( mediaInfos ) {
+
+    // Fullfill the pan's fields
+    this.domPanVideoPlaylistPreview
+        .find( '.wppsn-media-preview-title' )
+        .text( mediaInfos.title );
+
+    // Is there a preview ? then build the video player with all its sources
+    if ( typeof( mediaInfos.preview.nopreview ) == "undefined" ) {
+
+        // Build player HTML
+        var playerContainer = jQuery( '<div class="wppsn-video-player color-light"></div>' );
+        var playerVideo = jQuery( '<video autoplay></video>' );
+
+        if ( typeof( mediaInfos.preview.mp4 ) != "undefined" ) {
+            playerVideo.append( '<source type="video/mp4" src="' + mediaInfos.preview.mp4 + '">' );
+        }
+
+        if ( typeof( mediaInfos.preview.webm ) != "undefined" ) {
+            playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.webm + '">' );
+        }
+
+        if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
+            playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.ogg + '">' );
+        }
+
+        playerContainer.append( playerVideo );
+
+        // Append Player in DOM
+        this.domPanVideoPlaylistPreview
+            .find( '.wppsn-media-preview-video-player-wrapper' )
+            .empty()
+            .append( playerContainer );
+
+        // Load Player
+        this.domPanVideoPlaylistPreview
+            .find( '.wppsn-video-player' )
+            .flowplayer({
+                swf: "../../libs/flowplayer/flowplayer.swf"
+            });
+
+    }
+    // No preview
+    else {
+
+        // Show the no-preview image
+        previewPan
+            .find( '.wppsn-media-preview-video-player-wrapper' )
+            .empty()
+            .append( '<img src="' + mediaInfos.preview.nopreview + '">' );
+
+    }
+
+    // Show Pan
+    this.domPanVideoPlaylistPreview.show();
+
+};
+
+
+/**
+ * Add an Image to the Image Gallery Selection
+ * @param {object} mediaInfos Media Infos
+ */
+WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
+
+	var _this = this;
+
+	// Check if the image is not already selected
+    if ( jQuery.inArray( mediaInfos.id, this.imgGallerySelectedImgIds ) == -1 ) {
+
+		
+		var imgSelectedDetailsLink = jQuery( '<a href="" class="selected-details">' + wppsnModali18n.linkDetails + '</a>' )
+										.on( 'click', function(e){
+											_this.showImgGalleryPreviewPan( mediaInfos );
+											return false;
+										});
+
+		var imgSelectedDeleteLink = jQuery( '<a href="" class="selected-delete">' + wppsnModali18n.linkDelete + '</a>' )
+										.on( 'click', function(e){
+											_this.deleteFromImgGallerySelection( mediaInfos );
+											return false;
+										});
+
+		var imgSelected = jQuery( '<li class="selected-' + mediaInfos.id + ' clearfix"></li>' )
+							.data( 'mediaInfos', mediaInfos )
+							.append( '<div class="selected-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+							.append( '<p class="selected-title">' + mediaInfos.title + '</p>' )
+							.append(
+								jQuery( '<p class="selected-buttons"></p>' )
+									.append( imgSelectedDetailsLink )
+									.append( imgSelectedDeleteLink )
+							);
+
+        // Add image in the list and in the array of Img Ids
+        this.domImgGallerySelectedList.find( 'ul' ).append( imgSelected );
+        this.imgGallerySelectedImgIds.push( mediaInfos.id );
+
+        // Switch "select" and "unselect" buttons in the main media list
+        var mediaItem = this.domImgGalleryListMedias.find( '.media-item-' + mediaInfos.id );
+        mediaItem.find( '.media-select-button' ).hide();
+        mediaItem.find( '.media-unselect-button' ).show();
+
+        // Nb of images in the selection
+        var nbImagesSelected = this.imgGallerySelectedImgIds.length;
+        this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
+
+		// First image to add ? then hide the "no selection" message
+		if ( nbImagesSelected == 1 ) {
+			this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).hide();
+		}
+
+        // Show the Create gallery button when at least 2 images are selected
+        if ( nbImagesSelected > 1 ) {
+            this.domImgGallerySelectedListButtons.show();
+        }
+
+	}
+
+};
+
+
+/**
+ * Add a Video to the Videos Playlist Selection
+ * @param {object} mediaInfos Media Infos
+ */
+WppsnModal.prototype.addToVideoPlaylistSelection = function( mediaInfos ) {
+
+    var _this = this;
+
+    // Check if the video is not already selected
+    if ( jQuery.inArray( mediaInfos.id, this.videoPlaylistSelectedVideoIds ) == -1 ) {
+
+        
+        var videoSelectedDetailsLink = jQuery( '<a href="" class="selected-details">' + wppsnModali18n.linkDetails + '</a>' )
+                                        .on( 'click', function(e){
+                                            _this.showVideoPlaylistPreviewPan( mediaInfos );
+                                            return false;
+                                        });
+
+        var videoSelectedDeleteLink = jQuery( '<a href="" class="selected-delete">' + wppsnModali18n.linkDelete + '</a>' )
+                                        .on( 'click', function(e){
+                                            _this.deleteFromVideoPlaylistSelection( mediaInfos );
+                                            return false;
+                                        });
+
+        var videoSelected = jQuery( '<li class="selected-' + mediaInfos.id + ' clearfix"></li>' )
+                                .data( 'mediaInfos', mediaInfos )
+                                .append( '<div class="selected-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+                                .append( '<p class="selected-title">' + mediaInfos.title + '</p>' )
+                                .append(
+                                    jQuery( '<p class="selected-buttons"></p>' )
+                                        .append( videoSelectedDetailsLink )
+                                        .append( videoSelectedDeleteLink )
+                                );
+
+        // Add video in the list and in the array of Img Ids
+        this.domVideoPlaylistSelectedList.find( 'ul' ).append( videoSelected );
+        this.videoPlaylistSelectedVideoIds.push( mediaInfos.id );
+
+        // Switch "select" and "unselect" buttons in the main media list
+        var mediaItem = this.domVideoPlaylistListMedias.find( '.media-item-' + mediaInfos.id );
+        mediaItem.find( '.media-select-button' ).hide();
+        mediaItem.find( '.media-unselect-button' ).show();
+
+        // Nb of videos in the selection
+        var nbVideosSelected = this.videoPlaylistSelectedVideoIds.length;
+        this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbVideosSelected );
+
+        // First video to add ? then hide the "no selection" message
+        if ( nbVideosSelected == 1 ) {
+            this.domVideoPlaylistSelectedList.find( '.wppsn-media-no-selection' ).hide();
+        }
+
+        // Show the Create Playlist button when at least 2 videos are selected
+        if ( nbVideosSelected > 1 ) {
+            this.domVideoPlaylistSelectedListButtons.show();
+        }
+
+    }
+
+};
+
+
+/**
+ * Remove an Image from the Image Gallery Selection
+ * @param {object} mediaInfos Media Infos
+ */
+WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
+
+	// Remove image from the list and from the array of Images Ids
+    var removeID = mediaInfos.id; 
+	this.domImgGallerySelectedList.find( '.selected-' + removeID ).remove();
+    this.imgGallerySelectedImgIds = jQuery.grep( this.imgGallerySelectedImgIds, function( v ){
+        return v != removeID;
+    });
+
+    // Switch "select" and "unselect" buttons in the main media list
+    var mediaItem = this.domImgGalleryListMedias.find( '.media-item-' + mediaInfos.id );
+    mediaItem.find( '.media-select-button' ).show();
+    mediaItem.find( '.media-unselect-button' ).hide();
+
+    // Nb of images left in the selection
+    var nbImagesSelected = this.imgGallerySelectedImgIds.length;
+    this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
+
+    // If less than 2 images in the selection, hide the Create gallery button
+    if ( nbImagesSelected < 2 ) {
+        this.domImgGallerySelectedListButtons.hide();
+    }
+
+	// If no more images in the selection, display the msg
+	if ( nbImagesSelected == 0 ) {
+		this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).show();
+	}
+
+};
+
+
+/**
+ * Remove a Video from the Videos Playlist Selection
+ * @param {object} mediaInfos Media Infos
+ */
+WppsnModal.prototype.deleteFromVideoPlaylistSelection = function( mediaInfos ) {
+
+    // Remove video from the list and from the array of Videos Ids
+    var removeID = mediaInfos.id; 
+    this.domVideoPlaylistSelectedList.find( '.selected-' + removeID ).remove();
+    this.videoPlaylistSelectedVideoIds = jQuery.grep( this.videoPlaylistSelectedVideoIds, function( v ){
+        return v != removeID;
+    });
+
+    // Switch "select" and "unselect" buttons in the main media list
+    var mediaItem = this.domVideoPlaylistListMedias.find( '.media-item-' + mediaInfos.id );
+    mediaItem.find( '.media-select-button' ).show();
+    mediaItem.find( '.media-unselect-button' ).hide();
+
+    // Nb of videos left in the selection
+    var nbVideosSelected = this.videoPlaylistSelectedVideoIds.length;
+    this.domVideoPlaylistSelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbVideosSelected );
+
+    // If less than 2 videos in the selection, hide the Create playlist button
+    if ( nbVideosSelected < 2 ) {
+        this.domVideoPlaylistSelectedListButtons.hide();
+    }
+
+    // If no more videos in the selection, display the msg
+    if ( nbVideosSelected == 0 ) {
+        this.domVideoPlaylistSelectedList.find( '.wppsn-media-no-selection' ).show();
+    }
+
+};
+
+
+/**
+ * Prepare the Images Gallery creation step 1
+ */
+WppsnModal.prototype.createImgGalleryStep1 = function() {
+
+    var mediaList = jQuery( '<ul></ul>' );
+
+    // Show Pan
+    this.domPanImgGalleryCreateStep1.show();
+
+    // List Media
+    this.domImgGallerySelectedList.find( 'li' ).each(function(){
+
+        // Get Media Infos
+        var mediaInfos = jQuery( this ).data( 'mediaInfos' );
+
+        // Build the li element
+        var mediaElt = jQuery( '<li class="clearfix"></li>' )
+                        .data( 'mediaInfos', mediaInfos )
+                        .append( '<div class="media-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+                        .append(
+                            jQuery( '<div class="media-fields"></div>' )
+                                .append(
+                                    jQuery( '<p></p>' )
+                                        .append( '<label>' + wppsnModali18n.mediaTitleLabel + '</label>' )
+                                        .append( '<input type="text" name="wppsn-create-media-title" value="' + mediaInfos.title + '" class="wppsn-create-media-title input-text">' )
+                                )
+                                .append(
+                                    jQuery( '<p></p>' )
+                                        .append( '<label>' + wppsnModali18n.mediaAltTextLabel + '</label>' )
+                                        .append( '<input type="text" name="wppsn-create-media-alt-text" value="" class="wppsn-create-media-alt-text input-text">' )
+                                )
+                                .append(
+                                    jQuery( '<p></p>' )
+                                        .append( '<label>' + wppsnModali18n.mediaLegendLabel + '</label>' )
+                                        .append( '<input type="text" name="wppsn-create-media-legend" value="" class="wppsn-create-media-legend input-text">' )
+                                )
+                        );
+
+        // Add media element in the UL
+        mediaList.append( mediaElt );
+
+    });
+
+    // Add UL in the DOM
+    this.domImgGalleryCreateStep1MediaList
+        .empty()
+        .append( mediaList );
+
+};
+
+
+/**
+ * Prepare the Image Gallery creation Step 2
+ */
+WppsnModal.prototype.createImgGalleryStep2 = function() {
+
+    // Show Pan
+    this.domPanImgGalleryCreateStep2.show();
+
+};
+
+
+/**
+ * Prepare the Videos Playlist creation step 1
+ */
+WppsnModal.prototype.createVideoPlaylistStep1 = function() {
+
+    var mediaList = jQuery( '<ul></ul>' );
+
+    // Show Pan
+    this.domPanVideoPlaylistCreateStep1.show();
+
+    // List Media
+    this.domVideoPlaylistSelectedList.find( 'li' ).each(function(){
+
+        // Get Media Infos
+        var mediaInfos = jQuery( this ).data( 'mediaInfos' );
+
+        // Build the li element
+        var mediaElt = jQuery( '<li class="clearfix"></li>' )
+                        .data( 'mediaInfos', mediaInfos )
+                        .append( '<div class="media-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+                        .append(
+                            jQuery( '<div class="media-fields"></div>' )
+                                .append(
+                                    jQuery( '<p></p>' )
+                                        .append( '<label>' + wppsnModali18n.mediaTitleLabel + '</label>' )
+                                        .append( '<input type="text" name="wppsn-create-media-title" value="' + mediaInfos.title + '" class="wppsn-create-media-title input-text">' )
+                                )
+                        );
+
+        // Add media element in the UL
+        mediaList.append( mediaElt );
+
+    });
+
+    // Add UL in the DOM
+    this.domVideoPlaylistCreateStep1MediaList
+        .empty()
+        .append( mediaList );
+
+}
+
+
+/**
  * Insert the Single Media Shortcode into the TinyMCE
  */
 WppsnModal.prototype.insertSingleMedia = function() {
@@ -916,166 +1391,6 @@ WppsnModal.prototype.insertSingleMedia = function() {
 
 
 /**
- * Add an Image to the Image Gallery Selection
- * @param {object} mediaInfos Media Infos
- */
-WppsnModal.prototype.addToImgGallerySelection = function( mediaInfos ) {
-
-	var _this = this;
-
-	// Check if the image is not already selected
-    if ( jQuery.inArray( mediaInfos.id, this.imgGallerySelectedImgIds ) == -1 ) {
-
-		
-		var imgSelectedDetailsLink = jQuery( '<a href="" class="selected-details">' + wppsnModali18n.linkDetails + '</a>' )
-										.on( 'click', function(e){
-											_this.showImgGalleryPreviewPan( mediaInfos );
-											return false;
-										});
-
-		var imgSelectedDeleteLink = jQuery( '<a href="" class="selected-delete">' + wppsnModali18n.linkDelete + '</a>' )
-										.on( 'click', function(e){
-											_this.deleteFromImgGallerySelection( mediaInfos );
-											return false;
-										});
-
-		var imgSelected = jQuery( '<li class="selected-' + mediaInfos.id + ' clearfix"></li>' )
-							.data( 'mediaInfos', mediaInfos )
-							.append( '<div class="selected-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
-							.append( '<p class="selected-title">' + mediaInfos.title + '</p>' )
-							.append(
-								jQuery( '<p class="selected-buttons"></p>' )
-									.append( imgSelectedDetailsLink )
-									.append( imgSelectedDeleteLink )
-							);
-
-        // Add image in the list and in the array of Img Ids
-        this.domImgGallerySelectedList.find( 'ul' ).append( imgSelected );
-        this.imgGallerySelectedImgIds.push( mediaInfos.id );
-
-        // Switch "select" and "unselect" buttons in the main media list
-        var mediaItem = this.domImgGalleryListMedias.find( '.media-item-' + mediaInfos.id );
-        mediaItem.find( '.media-select-button' ).hide();
-        mediaItem.find( '.media-unselect-button' ).show();
-
-        // Nb of images in the selection
-        var nbImagesSelected = this.imgGallerySelectedImgIds.length;
-        this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
-
-		// First image to add ? then hide the "no selection" message
-		if ( nbImagesSelected == 1 ) {
-			this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).hide();
-		}
-
-        // Show the Create gallery button when at least 2 images are selected
-        if ( nbImagesSelected > 1 ) {
-            this.domImgGallerySelectedListButtons.show();
-        }
-
-	}
-
-};
-
-
-/**
- * Remove an Image from the Image Gallery Selection
- * @param {object} mediaInfos Media Infos
- */
-WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
-
-	// Remove image from the list and from the array of Img Ids
-    var removeID = mediaInfos.id; 
-	this.domImgGallerySelectedList.find( '.selected-' + removeID ).remove();
-    this.imgGallerySelectedImgIds = jQuery.grep( this.imgGallerySelectedImgIds, function( v ){
-        return v != removeID;
-    });
-
-    // Switch "select" and "unselect" buttons in the main media list
-    var mediaItem = this.domImgGalleryListMedias.find( '.media-item-' + mediaInfos.id );
-    mediaItem.find( '.media-select-button' ).show();
-    mediaItem.find( '.media-unselect-button' ).hide();
-
-    // Nb of images left in the selection
-    var nbImagesSelected = this.imgGallerySelectedImgIds.length;
-    this.domImgGallerySelectedListWrapper.find( '.wppsn-media-selection-counter' ).text( nbImagesSelected );
-
-    // If less than 2 images in the selection, hide the Create gallery button
-    if ( nbImagesSelected < 2 ) {
-        this.domImgGallerySelectedListButtons.hide();
-    }
-
-	// If no more images in the selection, display the msg
-	if ( nbImagesSelected == 0 ) {
-		this.domImgGallerySelectedList.find( '.wppsn-media-no-selection' ).show();
-	}
-
-};
-
-
-/**
- * Prepare the Images Gallery creation step 1
- */
-WppsnModal.prototype.createImgGalleryStep1 = function() {
-
-    var mediaList = jQuery( '<ul></ul>' );
-
-    // Show Pan
-    this.domPanImgGalleryCreateStep1.show();
-
-    // List Media
-    this.domImgGallerySelectedList.find( 'li' ).each(function(){
-
-        // Get Media Infos
-        var mediaInfos = jQuery( this ).data( 'mediaInfos' );
-
-        // Build the li element
-        var mediaElt = jQuery( '<li class="clearfix"></li>' )
-                        .data( 'mediaInfos', mediaInfos )
-                        .append( '<div class="media-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
-                        .append(
-                            jQuery( '<div class="media-fields"></div>' )
-                                .append(
-                                    jQuery( '<p></p>' )
-                                        .append( '<label>' + wppsnModali18n.mediaTitleLabel + '</label>' )
-                                        .append( '<input type="text" name="wppsn-create-img-gallery-img-title" value="' + mediaInfos.title + '" class="wppsn-create-img-gallery-img-title input-text">' )
-                                )
-                                .append(
-                                    jQuery( '<p></p>' )
-                                        .append( '<label>' + wppsnModali18n.mediaAltTextLabel + '</label>' )
-                                        .append( '<input type="text" name="wppsn-create-img-gallery-img-alt-text" value="" class="wppsn-create-img-gallery-img-alt-text input-text">' )
-                                )
-                                .append(
-                                    jQuery( '<p></p>' )
-                                        .append( '<label>' + wppsnModali18n.mediaLegendLabel + '</label>' )
-                                        .append( '<input type="text" name="wppsn-create-img-gallery-img-legend" value="" class="wppsn-create-img-gallery-img-legend input-text">' )
-                                )
-                        );
-
-        // Add media element in the UL
-        mediaList.append( mediaElt );
-
-    });
-
-    // Add UL in the DOM
-    this.domImgGalleryCreateStep1MediaList
-        .empty()
-        .append( mediaList );
-
-};
-
-
-/**
- * Prepare the Image Gallery creation Step 2
- */
-WppsnModal.prototype.createImgGalleryStep2 = function() {
-
-    // Show Pan
-    this.domPanImgGalleryCreateStep2.show();
-
-};
-
-
-/**
  * Insert the Image Gallery Shortcode into the TinyMCE
  * @param {string} displayStyle Style of gallery display (list, grid, carrousel)
  */
@@ -1095,9 +1410,9 @@ WppsnModal.prototype.insertImgGallery = function( displayStyle ) {
         var currentMediaElt = jQuery( this );
         var currentMediaInfos = currentMediaElt.data( 'mediaInfos' );
 
-        allTitles.push( currentMediaElt.find( '.wppsn-create-img-gallery-img-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
-        allAlts.push( currentMediaElt.find( '.wppsn-create-img-gallery-img-alt-text' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
-        allLegends.push( currentMediaElt.find( '.wppsn-create-img-gallery-img-legend' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
+        allTitles.push( currentMediaElt.find( '.wppsn-create-media-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
+        allAlts.push( currentMediaElt.find( '.wppsn-create-media-alt-text' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
+        allLegends.push( currentMediaElt.find( '.wppsn-create-media-legend' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
         allThumbs.push( currentMediaInfos.thumb );
         allUrls.push( currentMediaInfos.preview.url );
 
@@ -1128,6 +1443,43 @@ WppsnModal.prototype.insertImgGallery = function( displayStyle ) {
     wppsnDialog.insert( wppsnDialog.local_ed, output );
 
 };
+
+
+/**
+ * Insert the Video Playlist Shortcode into the TinyMCE
+ */
+WppsnModal.prototype.insertVideoPlaylist = function() {
+
+    // Begin Shortcode Output
+    var output = '[wppsn-video-playlist ';
+
+    var allTitles = new Array();
+    var allUrls = new Array();
+
+    // Get All media Infos
+    this.domVideoPlaylistCreateStep1MediaList.find( 'li' ).each(function(){
+
+        var currentMediaElt = jQuery( this );
+        var currentMediaInfos = currentMediaElt.data( 'mediaInfos' );
+
+        allTitles.push( currentMediaElt.find( '.wppsn-create-media-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
+        allUrls.push( currentMediaInfos.preview.mp4 );
+
+    });
+
+    // Titles
+    output += 'titles="' + allTitles.join( ' || ' ) + '" ';
+
+    // Urls
+    output += 'urls="' + allUrls.join( ' || ' ) + '" ';
+
+    // Close shortcode
+    output += ']';
+
+    // Insert Shortcode into TinyMCE
+    wppsnDialog.insert( wppsnDialog.local_ed, output );
+
+}
 
 
 /**

@@ -23,7 +23,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 		buttonSelect:  '<?php _e( 'Select', 'wp-phraseanet' ); ?>',
 		buttonUnselect:  '<?php _e( 'Unselect', 'wp-phraseanet' ); ?>',
 		linkDetails: '<?php _e( 'details', 'wp-phraseanet' ); ?>',
-		linkDelete: '<?php _e( 'delete', 'wp-phraseanet' ); ?>',
+		linkDelete: '<?php _e( 'remove', 'wp-phraseanet' ); ?>',
 		mediaTitleLabel: '<?php _e( 'Title', 'wp-phraseanet' ); ?>',
 		mediaAltTextLabel: '<?php _e( 'Alternate Text', 'wp-phraseanet' ); ?>',
 		mediaLegendLabel: '<?php _e( 'Legend', 'wp-phraseanet' ); ?>'
@@ -235,7 +235,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
 
 				<p class="wppsn-selected-media-list-delete-all">
-					<a href=""><?php _e( 'delete all', 'wp-phraseanet' ); ?></a>
+					<a href=""><?php _e( 'remove all', 'wp-phraseanet' ); ?></a>
 				</p>
 
 				<div class="wppsn-selected-media-list">
@@ -374,7 +374,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
 
 				<p class="wppsn-selected-media-list-delete-all">
-					<a href=""><?php _e( 'delete all', 'wp-phraseanet' ); ?></a>
+					<a href=""><?php _e( 'remove all', 'wp-phraseanet' ); ?></a>
 				</p>
 
 				<div class="wppsn-selected-media-list">
@@ -384,6 +384,42 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 				<p class="wppsn-selected-media-list-buttons">
 					<a href="" class="button-primary"><?php _e( 'Create the playlist', 'wp-phraseanet' ); ?></a>
+				</p>
+
+			</div>
+
+			<div class="wppsn-media-preview-wrapper">
+
+				<p>
+					<a href="" class="media-preview-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
+				</p>
+				
+				<h2><?php _e( 'Media Details', 'wp-phraseanet' ); ?></h2>
+
+				<h3 class="wppsn-media-preview-title"></h3>
+
+				<div class="wppsn-media-preview-video-player-wrapper">
+					
+				</div>
+
+			</div>
+
+			<div id="wppsn-video-playlist-create-playlist-step1">
+				
+				<p>
+					<a href="" class="create-playlist-step1-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
+				</p>
+				
+				<h2><?php _e( 'Videos informations', 'wp-phraseanet' ); ?></h2>
+
+				<p class="wppsn-note">
+					<?php _e( 'Fill the fields of each video to allow better Search Engine Optimisation.', 'wp-phraseanet' ); ?>
+				</p>
+
+				<div id="wppsn-video-playlist-list-media-fields"></div>
+
+				<p id="wppsn-video-playlist-insert-button">
+					<a href="" class="button-primary"><?php _e( 'Insert Playlist', 'wp-phraseanet'); ?></a>
 				</p>
 
 			</div>

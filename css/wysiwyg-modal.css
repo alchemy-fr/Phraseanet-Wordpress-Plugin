@@ -27,8 +27,10 @@ html, body {
 }
 .wppsn-no-results {
 	padding:16px;
+	text-align:center;
 }
-#wppsn-single-media-preview-video-player-wrapper .fp-embed {
+#wppsn-single-media-preview-video-player-wrapper .fp-embed,
+.wppsn-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
 
@@ -223,6 +225,7 @@ html, body {
 .wppsn-media-list .media-details-button {
 	margin-right:5px;
 }
+.wppsn-media-list .media-select-button:hover,
 .wppsn-media-list .media-unselect-button {
 	background-color: #e5ba2b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7c40e), to(#e5ba2b));
@@ -233,6 +236,7 @@ html, body {
 	background-image:   linear-gradient(to bottom, #f7c40e, #e5ba2b);
 	border-color: #e5ba2b;
 	border-bottom-color: #e5ba2b;
+	box-shadow:none;
 }
 
 .wppsn-media-list-pagination {
@@ -628,6 +632,74 @@ html, body {
 	position:absolute;
 	right:0;
 	bottom:16px;
+}
+
+/* Video Playlist Creation Step 1 */
+
+#wppsn-video-playlist-create-playlist-step1 {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow:hidden;
+	padding:0 16px;
+	background:#fff;
+	z-index:30;
+}
+#wppsn-video-playlist-create-playlist-step1 h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-video-playlist-list-media-fields {
+	position:absolute;
+	top:130px;
+	right:0;
+	bottom:50px;
+	left:0;
+	overflow:auto;
+	padding:0 16px;
+}
+#wppsn-video-playlist-list-media-fields ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#wppsn-video-playlist-list-media-fields li {
+	padding-bottom:24px;
+}
+#wppsn-video-playlist-list-media-fields .media-thumb {
+	float:left;
+	width:200px;
+}
+#wppsn-video-playlist-list-media-fields .media-fields {
+	margin-left:216px;
+	padding-left:0;
+}
+#wppsn-video-playlist-list-media-fields .media-fields p {
+	margin:0 0 16px;
+}
+#wppsn-video-playlist-list-media-fields label {
+	display:block;
+	padding-bottom:5px;
+}
+#wppsn-video-playlist-list-media-fields .input-text {
+	width:98%;
+	max-width:300px;
+}
+#wppsn-video-playlist-insert-button {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:34px;
+	margin:0;
+	padding:0 16px 0;
+	text-align:right;
 }
 
 

@@ -318,3 +318,4 @@ function wppsn_shortcode_image_gallery( $atts ) {
 }
 
 add_shortcode( 'wppsn-img-gallery', 'wppsn_shortcode_image_gallery' );
+
