@@ -1471,7 +1471,7 @@ WppsnModal.prototype.insertVideoPlaylist = function() {
     output += 'titles="' + allTitles.join( ' || ' ) + '" ';
 
     // Urls
-    output += 'urls="' + allUrls.join( ' || ' ) + '" ';
+    output += 'mp4s="' + allUrls.join( ' || ' ) + '" ';
 
     // Close shortcode
     output += ']';

@@ -7,6 +7,19 @@
 	display:none !important;
 }
 
+/* Video Playlist Player */
+
+.wppsn-video-playlist-player .fp-playlist {
+	position:absolute;
+	left:0;
+	right:0;
+	background-color:#f1f1f1;
+}
+.wppsn-video-playlist-player .fp-playlist a {
+	display:block;
+	padding:5px 0;
+}
+
 /* Flexsliders */
 
 .wppsn-slider {
