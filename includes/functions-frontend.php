@@ -32,6 +32,7 @@ function wppsn_wp_enqueue_scripts() {
 	// Swipebox JS
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
 	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.4', true );
+	wp_register_script( 'wppsn_swipebox_ios_orientation_fix_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'ios-orientationchange-fix.js', array( 'jquery' ), '1.0.4', true );
 
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
@@ -43,7 +44,7 @@ function wppsn_wp_enqueue_scripts() {
 
 	// Custom JS for Swipebox
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
-	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js' ), '1.0.4', true );
+	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js', 'wppsn_swipebox_ios_orientation_fix_js' ), '1.0.4', true );
 
 }
 
