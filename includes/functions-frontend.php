@@ -18,6 +18,9 @@ function wppsn_wp_enqueue_scripts() {
 	// FlexSlider CSS
 	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.4', 'all' );
 
+	// Swipebox CSS
+	wp_enqueue_style( 'wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array(), '1.0.4', 'all' );
+
 	// Flowplayer JS
 	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
 	wp_register_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.4', true );
@@ -26,13 +29,21 @@ function wppsn_wp_enqueue_scripts() {
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
 	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array( 'jquery' ), '1.0.4', true );
 
+	// Swipebox JS
+	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
+	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.4', true );
+
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
 	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.4', true );
 
 	// Custom JS for Flowplayer
-	// Register only : it will be enqueue if 'wppsn-video-playlist' shortcode is found with carrousel mode
+	// Register only : it will be enqueue if 'wppsn-video-playlist' shortcode is found
 	wp_register_script( 'wppsn_frontend_video_playlist_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video-playlist.js', array( 'wppsn_flowplayer_js' ), '1.0.4', true );
+
+	// Custom JS for Swipebox
+	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
+	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js' ), '1.0.4', true );
 
 }
 
@@ -45,8 +56,12 @@ add_action( 'wp_enqueue_scripts', 'wppsn_wp_enqueue_scripts' );
  * @return html        HTML replacing the shortcode
  */
 function wppsn_shortcode_single_image( $atts ) {
+	global $post;
 
 	$output = '';
+
+	// Add Swipebox JS to the footer
+	wp_enqueue_script( 'wppsn_frontend_swipebox_js' );
 
 	extract( shortcode_atts( array(
 	    'title'				=> '',
@@ -69,8 +84,8 @@ function wppsn_shortcode_single_image( $atts ) {
 
 	// Encapsulate the image in a div for responsive design
 	$output .= '<div class="wppsn-image wp-caption">
-					<a href="' . $url . '">
-						<img class="wp-image-" src="' . $url . '" title="' . $title . '" alt="' . $alt . '">
+					<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
+						<img class="wp-image-" src="' . $url . '" alt="' . $alt . '">
 					</a>';
 
 	if ( $legend != '' || $downloadLink != '' ) {
@@ -98,7 +113,7 @@ function wppsn_shortcode_single_video( $atts ) {
 	$playerID = 'wppsn-video-player-' . $uniqueString;
 	usleep(1);
 
-	// Add JS to the footer
+	// Add FLowplayer JS to the footer
 	wp_enqueue_script( 'wppsn_flowplayer_js' );
 
 	// Get Attributes
@@ -145,6 +160,7 @@ add_shortcode( 'wppsn-video', 'wppsn_shortcode_single_video' );
  * @return html        HTML replacing the shortcode
  */
 function wppsn_shortcode_image_gallery( $atts ) {
+	global $post;
 
 	$output = '';
 
@@ -168,6 +184,9 @@ function wppsn_shortcode_image_gallery( $atts ) {
 
 		case 'grid':
 
+			// Add Swipebox JS to the footer
+			wp_enqueue_script( 'wppsn_frontend_swipebox_js' );
+
 			$cpt = 1;
 			$galleryID = 'gallery-' . md5( microtime( true ) );
 			usleep(1);
@@ -190,7 +209,7 @@ function wppsn_shortcode_image_gallery( $atts ) {
 							}
 						</style>';
 
-			$output .= '<div id="' . $galleryID . '" class="gallery">';
+			$output .= '<div id="' . $galleryID . '" class="wppsn-gallery gallery">';
 
 			foreach( $allTitles as $i => $t ) {
 
@@ -202,7 +221,7 @@ function wppsn_shortcode_image_gallery( $atts ) {
 
 				$output .= '<dl class="gallery-item">
 								<dt class="gallery-icon">
-									<a href="' . $url . '" title="' . $title . '">
+									<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
 										<img src="' . $thumb . '" class="attachment-thumbnail" alt="' . $alt . '">
 									</a>
 								</dt>';
@@ -238,7 +257,7 @@ function wppsn_shortcode_image_gallery( $atts ) {
 			$carrouselID = 'wppsn-carrousel-' . $uniqueString;
 			usleep(1);
 
-			// Add JS to the Footer
+			// Add Flexslider JS to the Footer
 			wp_enqueue_script( 'wppsn_frontend_carrousel_js' );
 
 			// Create the slider First
@@ -296,6 +315,9 @@ function wppsn_shortcode_image_gallery( $atts ) {
 
 		default: // List
 
+			// Add Swipebox JS to the footer
+			wp_enqueue_script( 'wppsn_frontend_swipebox_js' );
+
 			foreach( $allTitles as $i => $t ) {
 
 				$title = trim( $t );
@@ -304,8 +326,8 @@ function wppsn_shortcode_image_gallery( $atts ) {
 				$url = trim( $allUrls[$i] );
 
 				$output .= '<div class="wppsn-image wp-caption">
-								<a href="' . $url . '">
-									<img class="wp-image-" src="' . $url . '" title="' . $title . '" alt="' . $alt . '">
+								<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
+									<img class="wp-image-" src="' . $url . '" alt="' . $alt . '">
 								</a>';
 
 				if ( $legend != '' ) {
@@ -339,7 +361,7 @@ function wppsn_shortcode_video_playlist( $atts ) {
 	$playerID = 'wppsn-video-playlist-player-' . $uniqueString;
 	usleep(1);
 
-	// Add JS to the footer
+	// Add Flowplayer JS to the footer
 	wp_enqueue_script( 'wppsn_frontend_video_playlist_js' );
 
 	// Get Attributes
