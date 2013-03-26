@@ -3,7 +3,8 @@
 .wppsn-video-player {
 	background-color:#f1f1f1;
 }
-.wppsn-video-player .fp-embed {
+.wppsn-video-player .fp-embed,
+.wppsn-video-playlist-player .fp-embed {
 	display:none !important;
 }
 
@@ -13,11 +14,16 @@
 	position:absolute;
 	left:0;
 	right:0;
-	background-color:#f1f1f1;
+	background-color:#fff;
+	border-top:1px solid #dfdfdf;
 }
 .wppsn-video-playlist-player .fp-playlist a {
 	display:block;
-	padding:5px 0;
+	padding:3px 10px;
+	border-bottom:1px solid #dfdfdf;
+}
+.wppsn-video-playlist-player .fp-playlist a:hover {
+	background-color:#f1f1f1;
 }
 
 /* Flexsliders */

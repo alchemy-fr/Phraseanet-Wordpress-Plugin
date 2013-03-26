@@ -60,9 +60,12 @@ function wppsn_shortcode_single_image( $atts ) {
 	$alt = trim( $alt );
 	$legend = trim( $legend );
 	$url = trim( $url );
+	$downloadLink = '';
 
 	// Download link ?
-	$downloadLink = ( $download == 1 ) ? '<a href="' . $url . '" target="_blank">' . __( 'Download', 'wp-phraseanet' ) . '</a>' : '';
+	if ( $download == 1 ) {
+		$downloadLink = '<a href="' . $url . ( ( false === strpos( '?', $url ) ) ? '?download' : '&download' ) . '">' . __( 'Download', 'wp-phraseanet' ) . '</a>';
+	}
 
 	// Encapsulate the image in a div for responsive design
 	$output .= '<div class="wppsn-image wp-caption">
