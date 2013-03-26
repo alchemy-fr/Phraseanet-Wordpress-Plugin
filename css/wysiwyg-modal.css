@@ -196,6 +196,9 @@ html, body {
 .wppsn-media-list li:hover {
 	background-color:#f1f1f1;
 }
+.wppsn-media-list li.current-selected {
+	background-color:#e5e5e5 !important;
+}
 .wppsn-media-list .media-item {
 	padding:10px;
 }

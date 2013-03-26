@@ -528,7 +528,10 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
             var mediaEltDetailsButton = jQuery( '<a href="" class="media-details-button button">' + wppsnModali18n.buttonDetails + '</a>' )
                                             .on( 'click', function(){
                                                 // Click on "details" button open the sidebar insert Pan and the preview Pan
-                                                var mInfos = jQuery( this ).parents( 'li' ).data( 'mediaInfos' );
+                                                var liElt = jQuery( this ).parents( 'li' );
+                                                var mInfos = liElt.data( 'mediaInfos' );
+                                                _this.domSingleMediaListMedias.find( 'li' ).removeClass( 'current-selected' );
+                                                liElt.addClass( 'current-selected' );
                                                 _this.showSingleMediaInsertInfos( mInfos );
                                                 _this.showSingleMediaPreviewPan( mInfos );
                                                 return false;
@@ -544,6 +547,8 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
     			)
                 .on( 'click', function(e){
                     // Click anywhere in the media item <li> open only the sidebar
+                    _this.domSingleMediaListMedias.find( 'li' ).removeClass( 'current-selected' );
+                    jQuery( this ).addClass( 'current-selected' );
                     _this.showSingleMediaInsertInfos( jQuery( this ).data( 'mediaInfos' ) );
                     e.preventDefault();
                 })
