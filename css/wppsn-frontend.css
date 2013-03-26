@@ -3,8 +3,27 @@
 .wppsn-video-player {
 	background-color:#f1f1f1;
 }
-.wppsn-video-player .fp-embed {
+.wppsn-video-player .fp-embed,
+.wppsn-video-playlist-player .fp-embed {
 	display:none !important;
+}
+
+/* Video Playlist Player */
+
+.wppsn-video-playlist-player .fp-playlist {
+	position:absolute;
+	left:0;
+	right:0;
+	background-color:#fff;
+	border-bottom:2px solid #dfdfdf;
+}
+.wppsn-video-playlist-player .fp-playlist a {
+	display:block;
+	padding:3px 10px;
+	border-top:1px solid #dfdfdf;
+}
+.wppsn-video-playlist-player .fp-playlist a:hover {
+	background-color:#f1f1f1;
 }
 
 /* Flexsliders */
