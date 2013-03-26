@@ -13,8 +13,8 @@ jQuery(document).ready(function() {
 
 			var currentPlaylist = jQuery(this).find( '.fp-playlist' );
 
-			playlistPlayerWrappers.css( 'padding-bottom', currentPlaylist.height() + 2 );
-			currentPlaylist.css( 'bottom', - currentPlaylist.height() - 2 );
+			playlistPlayerWrappers.css( 'padding-bottom', currentPlaylist.height() + 5 );
+			currentPlaylist.css( 'bottom', - currentPlaylist.height() - 5 );
 
 		});
 
