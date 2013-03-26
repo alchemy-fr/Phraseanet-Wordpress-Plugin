@@ -25,7 +25,12 @@ html, body {
 	padding:0 16px;
 	color:#999;
 }
-#wppsn-single-media-preview-video-player-wrapper .fp-embed {
+.wppsn-no-results {
+	padding:16px;
+	text-align:center;
+}
+#wppsn-single-media-preview-video-player-wrapper .fp-embed,
+.wppsn-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
 
@@ -96,35 +101,14 @@ html, body {
     line-height:45px;
     color:#000;
 }
-
-/* Main Pans */
-
-#wppsn-pan-single-media {
+.wppsn-main-pan {
     position:relative;
     width:100%;
     height:100%;
     overflow:hidden;
     z-index:15;
 }
-#wppsn-pan-img-gallery {
-	position:relative;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-	z-index:15;
-}
-#wppsn-pan-video-playlist {
-	position:relative;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-	z-index:15;
-}
-
-/* Media Lists Headers */
-
-#wppsn-single-media-header,
-#wppsn-img-gallery-header {
+.wppsn-main-pan-header {
     position:absolute;
     top:0;
     right:225px;
@@ -133,8 +117,10 @@ html, body {
     background-color:#ddd;
     z-index:20;
 }
-#wppsn-single-media-list-medias-wrapper,
-#wppsn-img-gallery-list-medias-wrapper {
+
+/* Media Lists Headers */
+
+.wppsn-media-list-wrapper {
     position:absolute;
     top:47px;
     right:225px;
@@ -143,8 +129,7 @@ html, body {
     overflow:hidden;
     z-index:20;
 }
-#wppsn-single-media-list-medias-header,
-#wppsn-img-gallery-list-medias-header {
+.wppsn-media-list-header {
 	position:absolute;
 	top:0;
 	right:0;
@@ -152,38 +137,32 @@ html, body {
 	padding:0 16px;
 	height:105px;
 }
-#wppsn-single-media-list-medias-header label,
-#wppsn-img-gallery-list-medias-header label {
+.wppsn-media-list-header label {
 	padding-right:10px;
 	line-height:30px;
 }
-#wppsn-single-media-list-medias-header label span,
-#wppsn-img-gallery-list-medias-header label span {
+.wppsn-media-list-header label span {
 	cursor:pointer;
 }
-#wppsn-single-media-list-medias-header p,
-#wppsn-img-gallery-list-medias-header p {
+.wppsn-media-list-header p {
 	margin:5px 0 0;
 }
-#wppsn-single-media-search,
-#wppsn-img-gallery-search {
+.wppsn-search-field {
 	display:block;
 	width:98%;
 }
-#wppsn-single-media-counter,
-#wppsn-img-gallery-counter {
+.wppsn-media-counter {
     float:left;
     padding-top:10px;
     font-size:14px;
 }
-#wppsn-single-media-record-type {
+.wppsn-record-type {
     float:right;
 }
 
 /* Media Lists */
 
-#wppsn-single-media-list-medias,
-#wppsn-img-gallery-list-medias {
+.wppsn-media-list {
     position:absolute;
     top:105px;
     right:0;
@@ -191,11 +170,10 @@ html, body {
     left:0;
     overflow:hidden;
     margin:0;
-    padding:0 8px;
+    padding:0;
     background-color:#fff;
 }
-#wppsn-single-media-list-medias .media-list,
-#wppsn-img-gallery-list-medias .media-list {
+.wppsn-media-list ul {
 	position:absolute;
 	top:0;
 	right:0;
@@ -203,40 +181,34 @@ html, body {
 	left:0;
 	overflow:auto;
 	margin:0;
-	padding:10px 0;
+	padding:8px;
 	list-style:none;
 }
-#wppsn-single-media-list-medias .media-list li,
-#wppsn-img-gallery-list-medias .media-list li {
+.wppsn-media-list li {
 	float:left;
 	width:100%;
 	height:230px;
 	max-width:220px;
 }
-#wppsn-single-media-list-medias .media-item {
+#wppsn-pan-medias .wppsn-media-list li {
 	cursor:pointer;
 }
-#wppsn-single-media-list-medias .media-item,
-#wppsn-img-gallery-list-medias .media-item {
-	padding:10px;
-}
-#wppsn-single-media-list-medias .media-item:hover,
-#wppsn-img-gallery-list-medias .media-item:hover {
+.wppsn-media-list li:hover {
 	background-color:#f1f1f1;
 }
-#wppsn-single-media-list-medias .media-thumb,
-#wppsn-img-gallery-list-medias .media-thumb {
+.wppsn-media-list .media-item {
+	padding:10px;
+}
+.wppsn-media-list .media-thumb {
 	height:133px;
 	text-align:center;
 }
-#wppsn-single-media-list-medias .media-thumb img,
-#wppsn-img-gallery-list-medias .media-thumb img {
+.wppsn-media-list .media-thumb img {
 	max-width:100%;
 	height:auto;
 	max-height:133px;
 }
-#wppsn-single-media-list-medias .media-title,
-#wppsn-img-gallery-list-medias .media-title {
+.wppsn-media-list .media-title {
 	margin:0;
 	padding:5px 0;
 	height:36px;
@@ -244,17 +216,17 @@ html, body {
 	font-size:12px;
 	line-height:18px;
 }
-#wppsn-single-media-list-medias .media-buttons,
-#wppsn-img-gallery-list-medias .media-buttons {
+.wppsn-media-list .media-buttons {
 	margin:0;
 	padding:0;
 	line-height:25px;
 	text-align:right;
 }
-#wppsn-img-gallery-list-medias .media-details-button {
+.wppsn-media-list .media-details-button {
 	margin-right:5px;
 }
-#wppsn-img-gallery-list-medias .media-unselect-button {
+.wppsn-media-list .media-select-button:hover,
+.wppsn-media-list .media-unselect-button {
 	background-color: #e5ba2b;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#f7c40e), to(#e5ba2b));
 	background-image: -webkit-linear-gradient(top, #f7c40e, #e5ba2b);
@@ -264,10 +236,10 @@ html, body {
 	background-image:   linear-gradient(to bottom, #f7c40e, #e5ba2b);
 	border-color: #e5ba2b;
 	border-bottom-color: #e5ba2b;
+	box-shadow:none;
 }
 
-#wppsn-single-media-list-pagination,
-#wppsn-img-gallery-list-pagination {
+.wppsn-media-list-pagination {
 	position:absolute;
 	right:0;
 	bottom:0;
@@ -276,14 +248,12 @@ html, body {
 	overflow:hidden;
 	background-color:#f1f1f1;
 }
-#wppsn-single-media-list-pagination p,
-#wppsn-img-gallery-list-pagination p {
+.wppsn-media-list-pagination p {
 	margin:10px 0 0;
 	padding:0;
 	text-align:center;
 }
-#wppsn-single-media-list-pagination a,
-#wppsn-img-gallery-list-pagination a {
+.wppsn-media-list-pagination a {
 	margin:0 2px;
 	padding:3px 6px;
 	font-size:12px;
@@ -295,23 +265,19 @@ html, body {
 	border:1px solid #e3e3e3;
 	border-radius:3px;
 }
-#wppsn-single-media-list-pagination a:hover,
-#wppsn-single-media-list-pagination a.current,
-#wppsn-img-gallery-list-pagination a:hover,
-#wppsn-img-gallery-list-pagination a.current {
+.wppsn-media-list-pagination a:hover,
+.wppsn-media-list-pagination a.current {
 	background:#333;
 	color:#fff;
 	border-color:#000;
 }
-#wppsn-single-media-list-pagination a.current,
-#wppsn-img-gallery-list-pagination a.current {
+.wppsn-media-list-pagination a.current {
 	font-size:14px;
 }
 
 /* Baskets */
 
-#wppsn-single-media-list-baskets-wrapper,
-#wppsn-img-gallery-list-baskets-wrapper {
+.wppsn-baskets-wrapper {
     position:absolute;
     top:47px;
     right:225px;
@@ -321,17 +287,6 @@ html, body {
     margin:0;
     padding:0 8px;
     z-index:20;
-}
-#wppsn-single-media-list-baskets,
-#wppsn-img-gallery-list-baskets {
-    position:absolute;
-    top:0;
-    right:0;
-    bottom:0;
-    left:0;
-    overflow:auto;
-    margin:0;
-    padding:0 8px;
 }
 
 /* Single Media Insert Sidebar */
@@ -401,9 +356,9 @@ html, body {
 	text-align:center;
 }
 
-/* Img Gallery Selected images list */
+/* Img Gallery + Video Playlist Selected list */
 
-#wppsn-img-gallery-selected-list-wrapper {
+.wppsn-media-selected-list-wrapper {
 	position:absolute;
     top:0;
     right:0;
@@ -414,7 +369,7 @@ html, body {
     box-shadow:0px 0px 7px #000;
     z-index:26;
 }
-#wppsn-img-gallery-selected-list-wrapper h2 {
+.wppsn-media-selected-list-wrapper h2 {
 	margin:0;
 	padding:10px 16px 0;
 	font-size:18px;
@@ -422,12 +377,12 @@ html, body {
 	font-weight:200;
 	color:#000;
 }
-#wppsn-img-gallery-selected-list-wrapper .wppsn-note {
+.wppsn-media-selected-list-wrapper .wppsn-note {
 	margin:0;
 	font-size:12px;
 	line-height:18px;
 }
-#wppsn-img-gallery-selection-delete-all {
+.wppsn-selected-media-list-delete-all {
 	margin:10px 0 0 0;
 	padding:0 8px;
 	font-size:12px;
@@ -436,15 +391,17 @@ html, body {
 	border-bottom:1px solid #dfdfdf;
 	box-shadow:0 4px 5px -3px #ddd;
 }
-#wppsn-img-gallery-selection-delete-all a {
+.wppsn-selected-media-list-delete-all a:link,
+.wppsn-selected-media-list-delete-all a:visited {
 	text-decoration:none;
 	color:red;
 }
-#wppsn-img-gallery-selection-delete-all a:hover {
+.wppsn-selected-media-list-delete-all a:hover,
+.wppsn-selected-media-list-delete-all a:active {
 	text-decoration:underline;
 	color:#000;
 }
-#wppsn-img-gallery-selected-list {
+.wppsn-selected-media-list {
 	position:absolute;
 	top:89px;
 	right:0;
@@ -453,33 +410,33 @@ html, body {
 	padding:0 8px 0 16px;
 	overflow:auto;
 }
-#wppsn-img-gallery-no-selection {
+.wppsn-media-no-selection {
 	margin:0;
 	padding:16px 0;
 }
-#wppsn-img-gallery-selected-list ul {
+.wppsn-selected-media-list ul {
 	margin:0;
 	padding:0;
 	list-style:none;
 }
-#wppsn-img-gallery-selected-list li {
+.wppsn-selected-media-list li {
 	position:relative;
 	padding:10px 0;
 	border-bottom:1px solid #ddd;
 }
-#wppsn-img-gallery-selected-list li:last-child {
+.wppsn-selected-media-list li:last-child {
 	border-bottom:none;
 }
-#wppsn-img-gallery-selected-list .selected-img-thumb {
+.wppsn-selected-media-list .selected-thumb {
 	float:left;
 	width:75px;
 }
-#wppsn-img-gallery-selected-list .selected-img-thumb img {
+.wppsn-selected-media-list .selected-thumb img {
 	display:block;
 	max-width:100%;
 	height:auto;
 }
-#wppsn-img-gallery-selected-list .selected-img-title {
+.wppsn-selected-media-list .selected-title {
 	margin:0 0 0 85px;
 	padding:0;
 	height:36px;
@@ -488,7 +445,7 @@ html, body {
 	line-height:18px;
 	font-weight:bold;
 }
-#wppsn-img-gallery-selected-list .selected-img-buttons {
+.wppsn-selected-media-list .selected-buttons {
 	position:absolute;
 	bottom:8px;
 	right:0;
@@ -497,21 +454,21 @@ html, body {
 	font-size:11px;
 	text-align:right;
 }
-#wppsn-img-gallery-selected-list .selected-img-details {
+.wppsn-selected-media-list .selected-details {
 	padding-right:5px;
 	color:#21759b;
 	text-decoration:none;
 }
-#wppsn-img-gallery-selected-list .selected-img-delete {
+.wppsn-selected-media-list .selected-delete {
 	color:red;
 	text-decoration:none;
 }
-#wppsn-img-gallery-selected-list .selected-img-details:hover,
-#wppsn-img-gallery-selected-list .selected-img-delete:hover {
+.wppsn-selected-media-list .selected-details:hover,
+.wppsn-selected-media-list .selected-delete:hover {
 	color:#000;
 	text-decoration:underline;
 }
-#wppsn-img-gallery-selected-list-buttons {
+.wppsn-selected-media-list-buttons {
 	position:absolute;
 	right:0;
 	bottom:0;
@@ -524,8 +481,7 @@ html, body {
 
 /* Media Preview */
 
-#wppsn-single-media-preview-wrapper,
-#wppsn-img-gallery-preview-wrapper {
+.wppsn-media-preview-wrapper {
 	position:absolute;
 	top:0;
 	right:225px;
@@ -536,8 +492,7 @@ html, body {
 	background:#fff;
 	z-index:25;
 }
-#wppsn-single-media-preview-wrapper h2,
-#wppsn-img-gallery-preview-wrapper h2 {
+.wppsn-media-preview-wrapper h2 {
 	margin:0;
 	padding:0;
 	font-size:18px;
@@ -545,8 +500,7 @@ html, body {
 	font-weight:200;
 	color:#000;
 }
-#wppsn-single-media-preview-wrapper h3,
-#wppsn-img-gallery-preview-wrapper h3 {
+.wppsn-media-preview-wrapper h3 {
 	margin:16px 0 10px;
 	padding:0;
 	font-size:16px;
@@ -680,45 +634,106 @@ html, body {
 	bottom:16px;
 }
 
+/* Video Playlist Creation Step 1 */
+
+#wppsn-video-playlist-create-playlist-step1 {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow:hidden;
+	padding:0 16px;
+	background:#fff;
+	z-index:30;
+}
+#wppsn-video-playlist-create-playlist-step1 h2 {
+	margin:0;
+	padding:0;
+	font-size:18px;
+	line-height:30px;
+	font-weight:200;
+	color:#000;
+}
+#wppsn-video-playlist-list-media-fields {
+	position:absolute;
+	top:130px;
+	right:0;
+	bottom:50px;
+	left:0;
+	overflow:auto;
+	padding:0 16px;
+}
+#wppsn-video-playlist-list-media-fields ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#wppsn-video-playlist-list-media-fields li {
+	padding-bottom:24px;
+}
+#wppsn-video-playlist-list-media-fields .media-thumb {
+	float:left;
+	width:200px;
+}
+#wppsn-video-playlist-list-media-fields .media-fields {
+	margin-left:216px;
+	padding-left:0;
+}
+#wppsn-video-playlist-list-media-fields .media-fields p {
+	margin:0 0 16px;
+}
+#wppsn-video-playlist-list-media-fields label {
+	display:block;
+	padding-bottom:5px;
+}
+#wppsn-video-playlist-list-media-fields .input-text {
+	width:98%;
+	max-width:300px;
+}
+#wppsn-video-playlist-insert-button {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	height:34px;
+	margin:0;
+	padding:0 16px 0;
+	text-align:right;
+}
+
 
 /* Starting with 770px, enlarge the right sidebar */
 @media only screen and ( min-width:770px ) {
-	#wppsn-single-media-header,
-	#wppsn-img-gallery-header,
-	#wppsn-single-media-list-medias-wrapper,
-	#wppsn-img-gallery-list-medias-wrapper,
-	#wppsn-single-media-list-baskets-wrapper,
-	#wppsn-img-gallery-list-baskets-wrapper,
-	#wppsn-single-media-preview-wrapper,
-	#wppsn-img-gallery-preview-wrapper {
+	.wppsn-main-pan-header,
+	.wppsn-media-list-wrapper,
+	.wppsn-baskets-wrapper,
+	.wppsn-media-preview-wrapper {
 	    right:275px;
 	}
 	#wppsn-single-media-insert-wrapper,
-	#wppsn-img-gallery-selected-list-wrapper {
+	.wppsn-media-selected-list-wrapper {
 		width:275px;
 	}
 }
 
 /* List media with 2 by rows */
 @media only screen and ( min-width:700px ) and ( max-width:1048px ) {
-	#wppsn-single-media-list-medias .media-list li,
-	#wppsn-img-gallery-list-medias .media-list li {
+	.wppsn-media-list li {
 		width:50%;
 	}	
 }
 
 /* List media with 3 by rows */
 @media only screen and ( min-width:1049px ) and ( max-width:1230px ) {
-	#wppsn-single-media-list-medias .media-list li,
-	#wppsn-img-gallery-list-medias .media-list li {
+	.wppsn-media-list li {
 		width:33%;
 	}
 }
 
 /* List media with 4 by rows */
 @media only screen and ( min-width:1231px ) {
-	#wppsn-single-media-list-medias .media-list li,
-	#wppsn-img-gallery-list-medias .media-list li {
+	.wppsn-media-list li {
 		width:25%;
 	}
 }

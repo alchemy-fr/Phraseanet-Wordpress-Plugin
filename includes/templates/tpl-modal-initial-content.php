@@ -23,7 +23,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 		buttonSelect:  '<?php _e( 'Select', 'wp-phraseanet' ); ?>',
 		buttonUnselect:  '<?php _e( 'Unselect', 'wp-phraseanet' ); ?>',
 		linkDetails: '<?php _e( 'details', 'wp-phraseanet' ); ?>',
-		linkDelete: '<?php _e( 'delete', 'wp-phraseanet' ); ?>',
+		linkDelete: '<?php _e( 'remove', 'wp-phraseanet' ); ?>',
 		mediaTitleLabel: '<?php _e( 'Title', 'wp-phraseanet' ); ?>',
 		mediaAltTextLabel: '<?php _e( 'Alternate Text', 'wp-phraseanet' ); ?>',
 		mediaLegendLabel: '<?php _e( 'Legend', 'wp-phraseanet' ); ?>'
@@ -33,9 +33,9 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	<div id="wppsn-sidebar">
 
 		<div id="wppsn-menu">
-			<a href="" id="wppsn-menu-single-media" class="wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
-			<a href="" id="wppsn-menu-img-gallery" class="wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
-			<!-- <a href="" id="wppsn-menu-video-playlist" class="wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a> -->
+			<a href="" id="wppsn-menu-medias" class="wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
+			<a href="" id="wppsn-menu-images" class="wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
+			<a href="" id="wppsn-menu-videos" class="wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
 		</div>
 
 		<div id="wppsn-credits">
@@ -46,37 +46,37 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 	<div id="wppsn-main">
 
-		<div id="wppsn-pan-single-media" class="wppsn-main-pan">
+		<div id="wppsn-pan-medias" class="wppsn-main-pan">
 
-			<div id="wppsn-single-media-header">
+			<div class="wppsn-main-pan-header">
 
 				<h1><?php _e( 'Insert a Media', 'wp-phraseanet' ); ?></h1>
 
-				<h2 id="wppsn-single-media-tabs">
-					<a href="" id="wppsn-single-media-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
-					<a href="" id="wppsn-single-media-tab-basket"><?php _e( 'Baskets', 'wp-phraseanet' ); ?></a>
+				<h2 class="wppsn-main-pan-tabs">
+					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
+					<a href="" class="wppsn-main-pan-tab-basket"><?php _e( 'Baskets', 'wp-phraseanet' ); ?></a>
 				</h2>
 
 			</div>
 
-			<div id="wppsn-single-media-list-medias-wrapper">
+			<div class="wppsn-media-list-wrapper">
 
-				<div id="wppsn-single-media-list-medias-header">
+				<div class="wppsn-media-list-header">
 					
-					<input type="text" name="wppsn-single-media-search" id="wppsn-single-media-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
+					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
-						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" id="wppsn-single-media-search-type-0" value="0" checked="checked">
+						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-search-type" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
 					</label>
 					<label>
-						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-single-media-search-type" id="wppsn-single-media-search-type-1" value="1">
+						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-search-type" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
-						<span id="wppsn-single-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
-						<select name="wppsn-single-media-record-type" id="wppsn-single-media-record-type">
+						<span class="wppsn-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
+						<select name="wppsn-single-media-record-type" class="wppsn-record-type">
 							<option value="all"><?php _e( 'All', 'wp-phraseanet' ); ?></option>
 							<option value="image"><?php _e( 'Images', 'wp-phraseanet' ); ?></option>
 							<option value="video"><?php _e( 'Videos', 'wp-phraseanet' ); ?></option>
@@ -87,19 +87,13 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</p>
 				</div> 
 				
-				<div id="wppsn-single-media-list-medias"></div>
+				<div class="wppsn-media-list"></div>
 
-				<div id="wppsn-single-media-list-pagination"></div>
-
-			</div>
-
-			<div id="wppsn-single-media-list-baskets-wrapper">
-
-				<div id="wppsn-single-media-list-baskets" class="list-loading">
-
-				</div>
+				<div class="wppsn-media-list-pagination"></div>
 
 			</div>
+
+			<div class="wppsn-baskets-wrapper"></div>
 
 			<div id="wppsn-single-media-insert-wrapper">
 
@@ -129,7 +123,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</p>
 
 					<p>
-						<label><?php _e( 'Display setting', 'wp-phraseanet' ); ?></label>
+						<label><?php _e( 'Download setting', 'wp-phraseanet' ); ?></label>
 						<label class="input-radio">
 							<input type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="0" checked="checked">
 							<span><?php _e( 'Without download link', 'wp-phraseanet' ); ?></span>
@@ -165,7 +159,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					
 			</div>
 
-			<div id="wppsn-single-media-preview-wrapper">
+			<div class="wppsn-media-preview-wrapper">
 
 				<p>
 					<a href="" class="media-preview-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
@@ -193,75 +187,69 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		</div>
 
-		<div id="wppsn-pan-img-gallery" class="wppsn-main-pan">
+		<div id="wppsn-pan-images" class="wppsn-main-pan">
 
-			<div id="wppsn-img-gallery-header">
+			<div class="wppsn-main-pan-header">
 
 				<h1><?php _e( 'Create an Images Gallery', 'wp-phraseanet' ); ?></h1>
 
-				<h2 id="wppsn-img-gallery-tabs">
-					<a href="" id="wppsn-img-gallery-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
-					<a href="" id="wppsn-img-gallery-tab-basket"><?php _e( 'Baskets', 'wp-phraseanet' ); ?></a>
+				<h2 class="wppsn-main-pan-tabs">
+					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
+					<a href="" class="wppsn-main-pan-tab-basket"><?php _e( 'Baskets', 'wp-phraseanet' ); ?></a>
 				</h2>
 
 			</div>
 
-			<div id="wppsn-img-gallery-list-medias-wrapper">
+			<div class="wppsn-media-list-wrapper">
 
-				<div id="wppsn-img-gallery-list-medias-header">
+				<div class="wppsn-media-list-header">
 
-					<input type="text" name="wppsn-img-gallery-search" id="wppsn-img-gallery-search" class="search" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
+					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
 
 					<label>
-						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" id="wppsn-img-gallery-search-type-0" value="0" checked="checked">
+						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-search-type" value="0" checked="checked">
 						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
 					</label>
 					<label>
-						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-img-gallery-search-type" id="wppsn-img-gallery-search-type-1" value="1">
+						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-search-type" value="1">
 						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
-						<span id="wppsn-img-gallery-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
+						<span class="wppsn-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
 					</p>
 				</div> 
 				
-				<div id="wppsn-img-gallery-list-medias"></div>
+				<div class="wppsn-media-list"></div>
 
-				<div id="wppsn-img-gallery-list-pagination"></div>
-
-			</div>
-
-			<div id="wppsn-img-gallery-list-baskets-wrapper">
-
-				<div id="wppsn-img-gallery-list-baskets" class="list-loading">
-
-				</div>
+				<div class="wppsn-media-list-pagination"></div>
 
 			</div>
 
-			<div id="wppsn-img-gallery-selected-list-wrapper">
+			<div class="wppsn-baskets-wrapper"></div>
+
+			<div class="wppsn-media-selected-list-wrapper">
 				
-				<h2><strong id="wppsn-img-gallery-selection-counter">0</strong> <?php _e( 'images selected', 'wp-phraseanet' ); ?></h2>
+				<h2><strong class="wppsn-media-selection-counter">0</strong> <?php _e( 'images selected', 'wp-phraseanet' ); ?></h2>
 
 				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
 
-				<p id="wppsn-img-gallery-selection-delete-all">
-					<a href=""><?php _e( 'delete all', 'wp-phraseanet' ); ?></a>
+				<p class="wppsn-selected-media-list-delete-all">
+					<a href=""><?php _e( 'remove all', 'wp-phraseanet' ); ?></a>
 				</p>
 
-				<div id="wppsn-img-gallery-selected-list">
-					<p id="wppsn-img-gallery-no-selection"><?php _e( 'No images selected', 'wp-phraseanet' ); ?></p>
+				<div class="wppsn-selected-media-list">
+					<p class="wppsn-media-no-selection"><?php _e( 'No images selected', 'wp-phraseanet' ); ?></p>
 					<ul></ul>
 				</div>
 
-				<p id="wppsn-img-gallery-selected-list-buttons">
+				<p class="wppsn-selected-media-list-buttons">
 					<a href="" class="button-primary"><?php _e( 'Create the gallery', 'wp-phraseanet' ); ?></a>
 				</p>
 
 			</div>
 
-			<div id="wppsn-img-gallery-preview-wrapper">
+			<div class="wppsn-media-preview-wrapper">
 
 				<p>
 					<a href="" class="media-preview-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
@@ -338,11 +326,105 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		</div>
 
-		<!-- <div id="wppsn-pan-video-playlist" class="wppsn-main-pan">
+		<div id="wppsn-pan-videos" class="wppsn-main-pan">
 
-			
+			<div class="wppsn-main-pan-header">
 
-		</div> -->
+				<h1><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ); ?></h1>
+
+				<h2 class="wppsn-main-pan-tabs">
+					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
+					<a href="" class="wppsn-main-pan-tab-basket"><?php _e( 'Baskets', 'wp-phraseanet' ); ?></a>
+				</h2>
+
+			</div>
+
+			<div class="wppsn-media-list-wrapper">
+
+				<div class="wppsn-media-list-header">
+
+					<input type="text" name="wppsn-search-field" class="search wppsn-search-field" value="" placeholder="<?php _e( 'Search', 'wp-phraseanet' ); ?>">
+
+					<label>
+						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-search-type" value="0" checked="checked">
+						<span><?php _e( 'Documents', 'wp-phraseanet' ); ?></span>
+					</label>
+					<label>
+						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-search-type" value="1">
+						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
+					</label>
+
+					<p class="clearfix">
+						<span class="wppsn-media-counter"><strong>0</strong> <?php _e( 'Medias', 'wp-phraseanet' ); ?></span>
+					</p>
+				</div> 
+				
+				<div class="wppsn-media-list"></div>
+
+				<div class="wppsn-media-list-pagination"></div>
+
+			</div>
+
+			<div class="wppsn-baskets-wrapper"></div>
+
+			<div class="wppsn-media-selected-list-wrapper">
+				
+				<h2><strong class="wppsn-media-selection-counter">0</strong> <?php _e( 'videos selected', 'wp-phraseanet' ); ?></h2>
+
+				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
+
+				<p class="wppsn-selected-media-list-delete-all">
+					<a href=""><?php _e( 'remove all', 'wp-phraseanet' ); ?></a>
+				</p>
+
+				<div class="wppsn-selected-media-list">
+					<p class="wppsn-media-no-selection"><?php _e( 'No videos selected', 'wp-phraseanet' ); ?></p>
+					<ul></ul>
+				</div>
+
+				<p class="wppsn-selected-media-list-buttons">
+					<a href="" class="button-primary"><?php _e( 'Create the playlist', 'wp-phraseanet' ); ?></a>
+				</p>
+
+			</div>
+
+			<div class="wppsn-media-preview-wrapper">
+
+				<p>
+					<a href="" class="media-preview-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
+				</p>
+				
+				<h2><?php _e( 'Media Details', 'wp-phraseanet' ); ?></h2>
+
+				<h3 class="wppsn-media-preview-title"></h3>
+
+				<div class="wppsn-media-preview-video-player-wrapper">
+					
+				</div>
+
+			</div>
+
+			<div id="wppsn-video-playlist-create-playlist-step1">
+				
+				<p>
+					<a href="" class="create-playlist-step1-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
+				</p>
+				
+				<h2><?php _e( 'Videos informations', 'wp-phraseanet' ); ?></h2>
+
+				<p class="wppsn-note">
+					<?php _e( 'Fill the fields of each video to allow better Search Engine Optimisation.', 'wp-phraseanet' ); ?>
+				</p>
+
+				<div id="wppsn-video-playlist-list-media-fields"></div>
+
+				<p id="wppsn-video-playlist-insert-button">
+					<a href="" class="button-primary"><?php _e( 'Insert Playlist', 'wp-phraseanet'); ?></a>
+				</p>
+
+			</div>
+
+		</div>
 
 	</div>
 
