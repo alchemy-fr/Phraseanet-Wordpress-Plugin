@@ -22,4 +22,4 @@ Once the plugin is installed, activate it. You must then configure it in the Set
 [Alchemy](http://www.alchemy.fr/) and [Labomedia](http://labomedia.org)
 
 ## License
-This project is licensed under the [GPLv2](http://www.gnu.org/licenses/gpl-2.0.html).
+This project is licensed under the [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).
