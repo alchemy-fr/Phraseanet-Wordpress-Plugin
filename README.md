@@ -20,3 +20,6 @@ Once the plugin is installed, activate it. You must then configure it in the Set
 
 ## License
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+## Development
+[Alchemy](https://www.phraseanet.com/software/company/) and [Labomedia](http://labomedia.org)
