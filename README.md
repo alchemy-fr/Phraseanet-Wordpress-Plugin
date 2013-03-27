@@ -16,8 +16,7 @@ In your Wordpress Install, go into the *wp-content/plugins* directory
 	composer install
 	
 ## Plugin Activation and Configuration
-Once the plugin is installed, activate it. Yu must then configure it in the Settings > WP Phraseanet menu, fullfilling the fields as requested.
+Once the plugin is installed, activate it. You must then configure it in the Settings > WP Phraseanet menu.
 
 ## License
-
 This project is licensed under the [MIT license](http://opensource.org/licenses/MIT).
