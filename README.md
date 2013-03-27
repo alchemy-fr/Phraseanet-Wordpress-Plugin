@@ -23,3 +23,4 @@ Once the plugin is installed, activate it. You must then configure it in the Set
 
 ## License
 This project is licensed under the [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).
+Why GPL ? Because this plugin embeds GPL products (Flowplayer, Flexslider). 
