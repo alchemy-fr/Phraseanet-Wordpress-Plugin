@@ -188,7 +188,16 @@ function wppsn_get_media_preview( $record ) {
 
 		case 'video':
 
-			// Try the SubDefs for 'screen' devices
+			// Try the Thumbnail subdef for the video poster
+			try {
+				$subDefThumb = $record->getSubDefs( 'thumbnail' );
+			} catch( NotFoundException $e ) {
+				$subDefThumb = null;
+			}
+
+			$preview_infos['thumb'] = ( $subDefThumb != null ) ? $subDefThumb->getPermalink()->getUrl() : '';
+
+			// Try the Videos SubDefs for 'screen' devices
 			try {
 				$subDefsMimeTypes = $record->getSubdefsByDevicesAndMimeTypes( array( 'screen' ), array( 'video/mp4', 'video/webm', 'video/ogg' ) );
 			} catch( NotFoundException $e ) {
@@ -210,19 +219,11 @@ function wppsn_get_media_preview( $record ) {
 			else {
 
 				if ( $subDef != null ) {
-
-					$preview_infos = array(
-						'mp4'		=> $subDef->getPermalink()->getUrl()
-					);
-
+					$preview_infos['mp4'] = $subDef->getPermalink()->getUrl();
 				}
 				// No preview
 				else {
-
-					$preview_infos = array(
-						'nopreview'	=> 'http://placehold.it/600x400&text=No+preview'
-					);
-
+					$preview_infos['nopreview']	= 'http://placehold.it/600x400&text=No+preview';
 				}
 
 			}

@@ -528,7 +528,10 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
             var mediaEltDetailsButton = jQuery( '<a href="" class="media-details-button button">' + wppsnModali18n.buttonDetails + '</a>' )
                                             .on( 'click', function(){
                                                 // Click on "details" button open the sidebar insert Pan and the preview Pan
-                                                var mInfos = jQuery( this ).parents( 'li' ).data( 'mediaInfos' );
+                                                var liElt = jQuery( this ).parents( 'li' );
+                                                var mInfos = liElt.data( 'mediaInfos' );
+                                                _this.domSingleMediaListMedias.find( 'li' ).removeClass( 'current-selected' );
+                                                liElt.addClass( 'current-selected' );
                                                 _this.showSingleMediaInsertInfos( mInfos );
                                                 _this.showSingleMediaPreviewPan( mInfos );
                                                 return false;
@@ -544,6 +547,8 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
     			)
                 .on( 'click', function(e){
                     // Click anywhere in the media item <li> open only the sidebar
+                    _this.domSingleMediaListMedias.find( 'li' ).removeClass( 'current-selected' );
+                    jQuery( this ).addClass( 'current-selected' );
                     _this.showSingleMediaInsertInfos( jQuery( this ).data( 'mediaInfos' ) );
                     e.preventDefault();
                 })
@@ -1361,6 +1366,7 @@ WppsnModal.prototype.insertSingleMedia = function() {
             // Title
             output += 'title="' + currentInsertPan.find( '#wppsn-single-media-insert-video-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) + '" ';
 
+            // Video files
             output += 'mp4="' + mediaInfos.preview.mp4 + '" ';
 
             if ( typeof( mediaInfos.preview.webm ) != "undefined" ) {
@@ -1370,6 +1376,9 @@ WppsnModal.prototype.insertSingleMedia = function() {
             if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
                 output += 'ogg="' + mediaInfos.preview.ogg + '" ';
             }
+
+            // Poster
+            output += 'splash="' + mediaInfos.preview.thumb + '"';
 
             // Close Shortcode
             output += ']';
@@ -1472,6 +1481,10 @@ WppsnModal.prototype.insertVideoPlaylist = function() {
 
     // Urls
     output += 'mp4s="' + allUrls.join( ' || ' ) + '" ';
+
+    // Splash
+    var firstVideoMediaInfos = this.domVideoPlaylistCreateStep1MediaList.find( 'li:first' ).data( 'mediaInfos' );
+    output += 'splash="' + firstVideoMediaInfos.preview.thumb + '"';
 
     // Close shortcode
     output += ']';
