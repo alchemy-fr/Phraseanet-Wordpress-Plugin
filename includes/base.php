@@ -32,4 +32,4 @@ define( 'WPPSN_PLUGIN_FLEXSLIDER_URL', WPPSN_PLUGIN_LIBS_URL . 'flexslider/' );
 define( 'WPPSN_PLUGIN_SWIPEBOX_URL', WPPSN_PLUGIN_LIBS_URL . 'swipebox/' );
 
 /* Others */
-define( 'WPPSN_MODAL_LIST_MEDIA_PER_PAGE', 10 ); // tips : 24 is a multiple of 2, 3 and 4 (for rows of media in responsive design)
+define( 'WPPSN_MODAL_LIST_MEDIA_PER_PAGE', 12 ); // tips : 12 or 24 are multiple of 2, 3 and 4 (for rows of media in responsive design)
