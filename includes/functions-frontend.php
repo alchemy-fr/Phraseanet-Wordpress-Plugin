@@ -122,16 +122,20 @@ function wppsn_shortcode_single_video( $atts ) {
 	    'title'				=> '',
 	    'mp4'				=> '',
 	    'webm'				=> '',
-	    'ogg'				=> ''
+	    'ogg'				=> '',
+	    'splash'			=> ''
 	  ), $atts ) );
 
 	$title = trim( $title );
 	$mp4 = trim( $mp4 );
 	$webm = trim( $webm );
 	$ogg = trim( $ogg );
+	$splash = trim( $splash );
+
+	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-player flowplayer color-light">
+					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-player flowplayer is-splash" ' . $styleSplash . '>
 						<video>
 							<source type="video/mp4" src="' . $mp4 . '">';
 
@@ -368,15 +372,19 @@ function wppsn_shortcode_video_playlist( $atts ) {
 	// Get Attributes
 	extract( shortcode_atts( array(
 	    'titles'			=> '',
-	    'mp4s'				=> ''
+	    'mp4s'				=> '',
+	    'splash'			=> ''
 	  ), $atts ) );
 
 	// Explode Strings to Arrays
 	$allTitles = explode( '||', $titles );
 	$allMp4s = explode( '||', $mp4s );
+	$splash = trim( $splash );
+
+	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-playlist-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-playlist-player flowplayer color-light">
+					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-playlist-player flowplayer is-splash"' . $styleSplash . '>
 						<video>
 							<source type="video/mp4" src="' . trim( $allMp4s[0] ) . '">
 						</video>

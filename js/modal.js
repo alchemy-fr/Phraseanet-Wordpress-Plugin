@@ -1366,6 +1366,7 @@ WppsnModal.prototype.insertSingleMedia = function() {
             // Title
             output += 'title="' + currentInsertPan.find( '#wppsn-single-media-insert-video-title' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) + '" ';
 
+            // Video files
             output += 'mp4="' + mediaInfos.preview.mp4 + '" ';
 
             if ( typeof( mediaInfos.preview.webm ) != "undefined" ) {
@@ -1375,6 +1376,9 @@ WppsnModal.prototype.insertSingleMedia = function() {
             if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
                 output += 'ogg="' + mediaInfos.preview.ogg + '" ';
             }
+
+            // Poster
+            output += 'splash="' + mediaInfos.preview.thumb + '"';
 
             // Close Shortcode
             output += ']';
@@ -1477,6 +1481,10 @@ WppsnModal.prototype.insertVideoPlaylist = function() {
 
     // Urls
     output += 'mp4s="' + allUrls.join( ' || ' ) + '" ';
+
+    // Splash
+    var firstVideoMediaInfos = this.domVideoPlaylistCreateStep1MediaList.find( 'li:first' ).data( 'mediaInfos' );
+    output += 'splash="' + firstVideoMediaInfos.preview.thumb + '"';
 
     // Close shortcode
     output += ']';
