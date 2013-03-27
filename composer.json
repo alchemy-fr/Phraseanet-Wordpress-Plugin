@@ -2,7 +2,7 @@
     "name": "phraseanet/wordpress-plugin",
     "type": "plugin",
     "description": "A wordpress plugin for Phraseanet",
-    "license": "MIT",
+    "license": "GPL-3.0",
     "require": {
         "php"                      : ">=5.3.3",
         "phraseanet/php-sdk"       : "~0.2.2"
