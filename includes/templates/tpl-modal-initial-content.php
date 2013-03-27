@@ -119,7 +119,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 					<p>
 						<label for="wppsn-single-media-insert-image-legend"><?php _e( 'Legend', 'wp-phraseanet' ); ?></label>
-						<input type="text" name="wppsn-single-media-insert-image-legend" id="wppsn-single-media-insert-image-legend" class="input-text">
+						<textarea name="wppsn-single-media-insert-image-legend" id="wppsn-single-media-insert-image-legend" rows="5" class="input-text"></textarea>
 					</p>
 
 					<p>
