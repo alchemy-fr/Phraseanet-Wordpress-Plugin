@@ -71,8 +71,25 @@ html, body {
     right:0;
     bottom:0;
     left:0;
-    height:150px;
+    height:100px;
+    font-size:12px;
+    line-height:20px;
     background-color:#ddd;
+    text-align:center;
+}
+#wppsn-credits span {
+	display:block;
+	padding-top:10px;
+}
+#wppsn-credits a,
+#wppsn-credits img {
+	display:block;
+}
+#wppsn-credits a {
+	margin-top:11px;
+}
+#wppsn-credits img {
+	margin:0 auto;
 }
 
 

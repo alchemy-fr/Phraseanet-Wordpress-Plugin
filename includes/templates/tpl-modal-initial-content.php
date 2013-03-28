@@ -39,7 +39,9 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 		</div>
 
 		<div id="wppsn-credits">
-			Crédits Phraseanet / Labomedia
+			<span>Crédits</span>
+			<a href="https://www.phraseanet.com" target="_blank"><img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'credits-phraseanet.png'; ?>" alt=""></a>
+			<a href="http://labomedia.org" target="_blank"><img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'credits-labomedia.png'; ?>" alt=""></a>
 		</div>
 
 	</div>
@@ -297,7 +299,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 				<ul id="create-image-gallery-display-setting">
 					<li id="create-image-gallery-display-list" class="clearfix">
-						<img src="http://placehold.it/70x70">
+						<img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'list.jpg' ?>">
 						<div>
 							<h3><?php _e( 'List', 'wp-phraseanet' ); ?></h3>
 							<p class="wppsn-note"><?php _e( 'The images are displayed one above the other.', 'wp-phraseanet' ); ?></p>
@@ -305,7 +307,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 						</div>
 					</li>
 					<li id="create-image-gallery-display-grid" class="clearfix">
-						<img src="http://placehold.it/70x70">
+						<img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'grid.jpg' ?>">
 						<div>
 							<h3><?php _e( 'Grid', 'wp-phraseanet' ); ?></h3>
 							<p class="wppsn-note"><?php _e( 'The images are displayed as a grid of thumbnails.', 'wp-phraseanet' ); ?></p>
@@ -313,7 +315,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 						</div>
 					</li>
 					<li id="create-image-gallery-display-carrousel" class="clearfix">
-						<img src="http://placehold.it/70x70">
+						<img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'carrousel.jpg' ?>">
 						<div>
 							<h3><?php _e( 'Carrousel', 'wp-phraseanet' ); ?></h3>
 							<p class="wppsn-note"><?php _e( 'The images are displayed in a carrousel.', 'wp-phraseanet' ); ?></p>
