@@ -5,8 +5,8 @@ Description: Add possibility to insert content from a phraseanet database into t
 Version: 1.0
 Author: Nicolas Derambure (Labomedia) and the Alchemy team
 Author URI: https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin
-Licence: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Licence: GNU General Public License v3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
 
 
