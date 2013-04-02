@@ -13,16 +13,25 @@
 		/* Core WP CSS */
 
 		$css_buttons = '../../../../../wp-includes/css/buttons.min.css';
-		$css_buttons_old = '../../../../../wp-admin/css/wp-admin.css';
+		$css_editor = '../../../../../wp-includes/css/media-views.min.css';
 
 		if ( file_exists( $css_buttons ) ) {
 			?><link rel="stylesheet" href="<?php echo $css_buttons; ?>?ver=1.0.5"><?php
 		}
 		else {
-			?><link rel="stylesheet" href="<?php echo $css_buttons_old; ?>?ver=1.0.5"><?php
+			?>
+			<link rel="stylesheet" href="../../../../../wp-admin/css/wp-admin.css?ver=1.0.5">
+			<link rel="stylesheet" href="../../../../../wp-admin/css/colors-fresh.css?ver=1.0.5">
+			<?php
+		}
+
+		if ( file_exists( $css_editor ) ) {
+			?><link rel="stylesheet" href="<?php echo $css_editor; ?>?ver=1.0.5"><?php
+		}
+		else {
+			?><link rel="stylesheet" href="../../../../../wp-includes/css/editor.css?ver=1.0.5"><?php
 		}
 		?>
-		<link rel="stylesheet" href="../../../../../wp-includes/css/media-views.min.css?ver=1.0.5">
 
 		<?php /* Phraseanet CSS + Normalize */ ?>
 		<link rel="stylesheet" href="../../css/normalize.css?ver=1.0.5">
