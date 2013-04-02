@@ -9,31 +9,10 @@
 		<title>WP Phraseanet</title>
 
 		
-		<?php
-		/* Core WP CSS */
+		<?php /* Core WP CSS */ ?>
+		<link rel="stylesheet" href="../../css/wp-core-css.css?ver=1.0.5">
 
-		$css_buttons = '../../../../../wp-includes/css/buttons.min.css';
-		$css_editor = '../../../../../wp-includes/css/media-views.min.css';
-
-		if ( file_exists( $css_buttons ) ) {
-			?><link rel="stylesheet" href="<?php echo $css_buttons; ?>?ver=1.0.5"><?php
-		}
-		else {
-			?>
-			<link rel="stylesheet" href="../../../../../wp-admin/css/wp-admin.css?ver=1.0.5">
-			<link rel="stylesheet" href="../../../../../wp-admin/css/colors-fresh.css?ver=1.0.5">
-			<?php
-		}
-
-		if ( file_exists( $css_editor ) ) {
-			?><link rel="stylesheet" href="<?php echo $css_editor; ?>?ver=1.0.5"><?php
-		}
-		else {
-			?><link rel="stylesheet" href="../../../../../wp-includes/css/editor.css?ver=1.0.5"><?php
-		}
-		?>
-
-		<?php /* Phraseanet CSS + Normalize */ ?>
+		<?php /* Normalize.css */ ?>
 		<link rel="stylesheet" href="../../css/normalize.css?ver=1.0.5">
 
 		<?php /* FlowPlayer CSS */ ?>
@@ -43,7 +22,7 @@
 		<link rel="stylesheet" href="../../css/wysiwyg-modal.css?ver=1.0.5">
 
 
-		<?php /* jQuery */ ?>
+		<?php /* WP jQuery */ ?>
 		<script src="../../../../../wp-includes/js/jquery/jquery.js?ver=1.0.5"></script>
 
 		<?php /* TinyMCE Popup Lib and Register */ ?>
