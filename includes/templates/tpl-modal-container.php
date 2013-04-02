@@ -10,10 +10,9 @@
 
 		
 		<?php /* Core WP CSS */ ?>
-		<link rel="stylesheet" href="../../../../../wp-includes/css/buttons.min.css?ver=1.0.5">
-		<link rel="stylesheet" href="../../../../../wp-includes/css/media-views.min.css?ver=1.0.5">
+		<link rel="stylesheet" href="../../css/wp-core-css.css?ver=1.0.5">
 
-		<?php /* Phraseanet CSS + Normalize */ ?>
+		<?php /* Normalize.css */ ?>
 		<link rel="stylesheet" href="../../css/normalize.css?ver=1.0.5">
 
 		<?php /* FlowPlayer CSS */ ?>
@@ -23,7 +22,7 @@
 		<link rel="stylesheet" href="../../css/wysiwyg-modal.css?ver=1.0.5">
 
 
-		<?php /* jQuery */ ?>
+		<?php /* WP jQuery */ ?>
 		<script src="../../../../../wp-includes/js/jquery/jquery.js?ver=1.0.5"></script>
 
 		<?php /* TinyMCE Popup Lib and Register */ ?>
