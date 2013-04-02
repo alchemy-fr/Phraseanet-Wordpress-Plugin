@@ -9,8 +9,19 @@
 		<title>WP Phraseanet</title>
 
 		
-		<?php /* Core WP CSS */ ?>
-		<link rel="stylesheet" href="../../../../../wp-includes/css/buttons.min.css?ver=1.0.5">
+		<?php
+		/* Core WP CSS */
+
+		$css_buttons = '../../../../../wp-includes/css/buttons.min.css';
+		$css_buttons_old = '../../../../../wp-admin/css/wp-admin.css';
+
+		if ( file_exists( $css_buttons ) ) {
+			?><link rel="stylesheet" href="<?php echo $css_buttons; ?>?ver=1.0.5"><?php
+		}
+		else {
+			?><link rel="stylesheet" href="<?php echo $css_buttons_old; ?>?ver=1.0.5"><?php
+		}
+		?>
 		<link rel="stylesheet" href="../../../../../wp-includes/css/media-views.min.css?ver=1.0.5">
 
 		<?php /* Phraseanet CSS + Normalize */ ?>
