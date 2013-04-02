@@ -405,4 +405,4 @@ function wppsn_shortcode_video_playlist( $atts ) {
 
 }
 
-add_shortcode( 'wppsn-video-playlist', 'wppsn_shortcode_video_playlist' );
+add_shortcode( 'wppsn-videoplaylist', 'wppsn_shortcode_video_playlist' );
