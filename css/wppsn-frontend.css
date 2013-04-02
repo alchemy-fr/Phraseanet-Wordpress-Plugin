@@ -1,3 +1,17 @@
+/* Images gallery grid */
+
+.gallery-item a {
+	display:block;
+}
+.gallery-item a, .gallery-caption {
+	width:90%;
+}
+.gallery .gallery-icon img {
+	height:auto;
+	max-width:90%;
+	padding:5% !important;
+}
+
 /* Video Player */
 
 .wppsn-video-player {
@@ -37,12 +51,15 @@
 .wppsn-slider .slides > li {
 	margin:0;
 }
-.wppsn-carrousel .slides > li {
-	margin:5px;
+.wppsn-slider .slides img {
+	max-width:100%;
 }
 
 .wppsn-carrousel ul {
 	margin-bottom:0 !important;
+}
+.wppsn-carrousel .slides > li {
+	margin:5px;
 }
 .wppsn-carrousel img {
 	display:block;
