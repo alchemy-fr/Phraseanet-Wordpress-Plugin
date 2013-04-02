@@ -1460,7 +1460,7 @@ WppsnModal.prototype.insertImgGallery = function( displayStyle ) {
 WppsnModal.prototype.insertVideoPlaylist = function() {
 
     // Begin Shortcode Output
-    var output = '[wppsn-video-playlist ';
+    var output = '[wppsn-videoplaylist ';
 
     var allTitles = new Array();
     var allUrls = new Array();
