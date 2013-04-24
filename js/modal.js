@@ -909,7 +909,7 @@ WppsnModal.prototype.showSingleMediaPreviewPan = function( mediaInfos ) {
                 }
 
                 if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
-                    playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.ogg + '">' );
+                    playerVideo.append( '<source type="video/ogg" src="' + mediaInfos.preview.ogg + '">' );
                 }
 
                 playerContainer.append( playerVideo );
@@ -994,7 +994,7 @@ WppsnModal.prototype.showVideoPlaylistPreviewPan = function( mediaInfos ) {
         }
 
         if ( typeof( mediaInfos.preview.ogg ) != "undefined" ) {
-            playerVideo.append( '<source type="video/webm" src="' + mediaInfos.preview.ogg + '">' );
+            playerVideo.append( '<source type="video/ogg" src="' + mediaInfos.preview.ogg + '">' );
         }
 
         playerContainer.append( playerVideo );
