@@ -142,6 +142,17 @@ WppsnModal.prototype.prepareInitialContent = function() {
     // Load the Single Media List
     this.getMediaList();
 
+    // ##### TEMP
+    // jQuery('.mon-test').on( 'click', function(e){
+    //     e.preventDefault();
+
+    //     var tinywin = tinyMCEPopup.getWin();
+
+    //     //console.log(jQuery('#postimagediv', tinywin.document));
+    //     tinywin.wp.media.featuredImage.set(209);
+    // });
+    // ##### /TEMP
+
 };
 
 
