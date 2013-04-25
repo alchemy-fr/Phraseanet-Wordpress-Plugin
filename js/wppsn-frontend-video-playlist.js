@@ -1,6 +1,5 @@
 /**
  * JS for videos Playlists
- * (Put playlists bellow the players)
  */
 
 jQuery(document).ready(function() {
@@ -10,9 +9,16 @@ jQuery(document).ready(function() {
 	if ( playlistPlayerWrappers.length > 0 ) {
 
 		playlistPlayerWrappers.each(function(){
+			var currentWrapper = jQuery( this );
+			var currentPlayer = currentWrapper.find( '.wppsn-video-playlist-player' );
+			var currentPlaylist = currentWrapper.find( '.fp-playlist' );
 
-			var currentPlaylist = jQuery(this).find( '.fp-playlist' );
-
+			// Load Player
+			currentPlayer.flowplayer({
+				swf: wppsnFlowPlayerVars.flashUrl
+			});
+			
+			// Adjust Playlist CSS below the player
 			playlistPlayerWrappers.css( 'padding-bottom', currentPlaylist.height() + 5 );
 			currentPlaylist.css( 'bottom', - currentPlaylist.height() - 5 );
 

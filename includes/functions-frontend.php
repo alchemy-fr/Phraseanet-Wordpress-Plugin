@@ -31,6 +31,9 @@ function wppsn_wp_enqueue_scripts() {
 	 */
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.6', false );
+	wp_localize_script( 'wppsn_flowplayer_js', 'wppsnFlowPlayerVars', array(
+		'flashUrl'	=> WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf'
+	));
 
 	// Flexslider JS
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
@@ -44,6 +47,10 @@ function wppsn_wp_enqueue_scripts() {
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
 	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.6', true );
+
+	// Custom JS for Flowplayer and single videos
+	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
+	wp_register_script( 'wppsn_frontend_video_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video.js', array( 'wppsn_flowplayer_js' ), '1.0.6', true );
 
 	// Custom JS for Flowplayer and video playlists
 	// Register only : it will be enqueue if 'wppsn-video-playlist' shortcode is found
@@ -106,7 +113,7 @@ function wppsn_shortcode_single_image( $atts ) {
 
 }
 
-//add_shortcode( 'wppsn-image', 'wppsn_shortcode_single_image' );
+add_shortcode( 'wppsn-image', 'wppsn_shortcode_single_image' );
 
 
 /**
@@ -117,9 +124,12 @@ function wppsn_shortcode_single_image( $atts ) {
 function wppsn_shortcode_single_video( $atts ) {
 
 	$output = '';
-	$uniqueString = md5( microtime( true ) );
-	$playerID = 'wppsn-video-player-' . $uniqueString;
-	usleep(1);
+	// $uniqueString = md5( microtime( true ) );
+	// $playerID = 'wppsn-video-player-' . $uniqueString;
+	// usleep(1);
+
+	// Add JS for loading Flowplayer to the footer
+	wp_enqueue_script( 'wppsn_frontend_video_js' );
 
 	// Get Attributes
 	extract( shortcode_atts( array(
@@ -139,7 +149,7 @@ function wppsn_shortcode_single_video( $atts ) {
 	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="flowplayer is-splash wppsn-video-player" ' . $styleSplash . '>
+					<div class="is-splash wppsn-video-player" ' . $styleSplash . '>
 						<video>
 							<source type="video/mp4" src="' . $mp4 . '">';
 
@@ -355,7 +365,7 @@ function wppsn_shortcode_image_gallery( $atts ) {
 
 }
 
-//add_shortcode( 'wppsn-img-gallery', 'wppsn_shortcode_image_gallery' );
+add_shortcode( 'wppsn-img-gallery', 'wppsn_shortcode_image_gallery' );
 
 
 /**
@@ -366,11 +376,11 @@ function wppsn_shortcode_image_gallery( $atts ) {
 function wppsn_shortcode_video_playlist( $atts ) {
 
 	$output = '';
-	$uniqueString = md5( microtime( true ) );
-	$playerID = 'wppsn-video-playlist-player-' . $uniqueString;
-	usleep(1);
+	// $uniqueString = md5( microtime( true ) );
+	// $playerID = 'wppsn-video-playlist-player-' . $uniqueString;
+	// usleep(1);
 
-	// Add Flowplayer JS to the footer
+	// Add JS for loading Flowplayer to the footer
 	wp_enqueue_script( 'wppsn_frontend_video_playlist_js' );
 
 	// Get Attributes
@@ -388,9 +398,9 @@ function wppsn_shortcode_video_playlist( $atts ) {
 	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-playlist-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-playlist-player flowplayer is-splash"' . $styleSplash . '>
+					<div class="is-splash wppsn-video-playlist-player"' . $styleSplash . '>
 						<video>
-							<source type="video/mp4" src="' . trim( $allMp4s[0] ) . '&flowhack">
+							<source type="video/mp4" src="' . trim( $allMp4s[0] ) . '">
 						</video>
 						<div class="fp-playlist">';
 
