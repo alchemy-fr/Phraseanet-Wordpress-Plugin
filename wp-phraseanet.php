@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Phraseanet
 Description: Add possibility to insert content from a phraseanet database into the Wysiwyg editor
-Version: 0.1.0
+Version: 0.1.2
 Author: Nicolas Derambure (Labomedia) and the Alchemy team
 Author URI: https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin
 Licence: GNU General Public License v3 or later
