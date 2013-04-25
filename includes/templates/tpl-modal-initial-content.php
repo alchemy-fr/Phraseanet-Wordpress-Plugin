@@ -28,6 +28,11 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 		mediaAltTextLabel: '<?php _e( 'Alternate Text', 'wp-phraseanet' ); ?>',
 		mediaLegendLabel: '<?php _e( 'Legend', 'wp-phraseanet' ); ?>'
 	};
+
+	/**
+	 * True if WP is 3.5+ : say if we can set Featured Image via wp.media functions
+	 */
+	var wppsnCanSetFeaturedImageAutomatically = <?php echo ( version_compare( get_bloginfo( 'version' ), '3.5.0' ) != -1 ) ? 'true' : 'false'; ?>;
 	</script>
 
 	<div id="wppsn-sidebar">
@@ -108,6 +113,14 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</p>
 
 					<div id="wppsn-single-media-insert-image-thumb"></div>
+
+					<div class="wppsn-set-featured-image-wrapper">
+						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
+						<span class="wppsn-loader visuallyhidden"></span>
+						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
+						<p class="wppsn-success-partial visuallyhidden"><?php _e( 'The image has been added to the Media Library with success.<br><br><strong>Note :</strong> since you are using a Wordpress version inferior than 3.5.0, we can\'t set the image as Featured automatically. You may do this by the traditionnal way, in the widget on the sidebar of the post form, choosing the added image in your Media Library.', 'wp-phraseanet' ); ?></p>
+						<p class="wppsn-success visuallyhidden"><?php _e( 'The image has been added to the Media Library and set as a Featured Image with success.', 'wp-phraseanet' ); ?></p>
+					</div>
 
 					<p>
 						<label for="wppsn-single-media-insert-image-title"><?php _e( 'Title', 'wp-phraseanet' ); ?></label>
@@ -426,6 +439,18 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 			</div>
 
+		</div>
+
+	</div>
+
+	<div id="wppsn-clonable-elements">
+		
+		<div class="wppsn-set-featured-image-wrapper">
+			<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
+			<span class="wppsn-loader visuallyhidden"></span>
+			<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
+			<p class="wppsn-success-partial visuallyhidden"><?php _e( 'The image has been added to the Media Library with success.<br><br><strong>Note :</strong> since you are using a Wordpress version inferior than 3.5.0, we can\'t set the image as Featured automatically. You may do this by the traditionnal way, in the widget on the sidebar of the post form, choosing the added image in your Media Library.', 'wp-phraseanet' ); ?></p>
+			<p class="wppsn-success visuallyhidden"><?php _e( 'The image has been added to the Media Library and set as a Featured Image with success.', 'wp-phraseanet' ); ?></p>
 		</div>
 
 	</div>

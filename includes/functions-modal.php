@@ -359,3 +359,55 @@ function wppsn_get_media_list_pagination_html( $total_pages, $current_page ) {
 	return $pagination;
 
 }
+
+
+/**
+ * Add external image to the Media Library
+ * Code borrowed from wp-admin/includes/media.php function media_sideload_image()
+ * @return json  Response
+ */
+function wppsn_add_phraseanet_image_in_media_library() {
+	$output = array( 'imgID' => 0 );
+
+	if ( !empty( $_GET['url'] ) ) {
+		$file = $_GET['url'];
+
+		$image_title = ( $_GET['title'] != '' ) ? $_GET['title'] : null;
+
+		// Download file to temp location
+		$tmp = download_url( $file );
+
+		// Set variables for storage
+		// fix file filename for query strings
+		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+		$file_array['name'] = basename($matches[0]);
+		$file_array['tmp_name'] = $tmp;
+
+		// If error storing temporarily, unlink
+		if ( is_wp_error( $tmp ) ) {
+			@unlink( $file_array['tmp_name'] );
+			$file_array['tmp_name'] = '';
+		}
+		else {
+
+			// do the validation and storage stuff
+			$id = media_handle_sideload( $file_array, 0, $image_title );
+
+			// If error storing permanently, unlink
+			if ( is_wp_error( $id ) ) {
+				@unlink( $file_array['tmp_name'] );
+			}
+			else {
+				$output['imgID'] = $id;
+			}
+
+		}
+
+	}
+
+	echo json_encode( $output );
+
+	exit();
+}
+
+add_action( 'wp_ajax_wppsn-add-phraseanet-image-in-media-library', 'wppsn_add_phraseanet_image_in_media_library' );
