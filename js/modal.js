@@ -109,6 +109,7 @@ WppsnModal.prototype.prepareInitialContent = function() {
     this.domVideoPlaylistCreateStep1MediaList = this.domPanVideoPlaylistCreateStep1.find( '#wppsn-video-playlist-list-media-fields' );
     this.domVideoPlaylistBasketsWrapper = this.domPanVideoPlaylist.find( '.wppsn-baskets-wrapper' );
 
+    this.domClonableElements = jQuery( '#wppsn-clonable-elements' );
     
     // Hide what should be hidden at first load
     this.domSingleMediaTabs.hide();
@@ -141,17 +142,6 @@ WppsnModal.prototype.prepareInitialContent = function() {
 
     // Load the Single Media List
     this.getMediaList();
-
-    // ##### TEMP
-    // jQuery('.mon-test').on( 'click', function(e){
-    //     e.preventDefault();
-
-    //     var tinywin = tinyMCEPopup.getWin();
-
-    //     //console.log(jQuery('#postimagediv', tinywin.document));
-    //     tinywin.wp.media.featuredImage.set(209);
-    // });
-    // ##### /TEMP
 
 };
 
@@ -231,6 +221,17 @@ WppsnModal.prototype.initSingleMediaPanEvents = function() {
         _this.domSingleMediaPreviewPans.hide();
         // Stop video if any
         _this.domPanSingleMediaPreview.find( '#wppsn-single-media-preview-video-player-wrapper' ).empty();
+        e.preventDefault();
+    });
+
+    // [click] Use image as Featured Image
+    this.domPanSingleMediaInsert.find( '.wppsn-set-featured-image' ).on( 'click', function(e){
+        var curLink = jQuery( this );
+        var mediaInfos = curLink.parents( '.wppsn-single-media-insert-pan' ).data( 'mediaInfos' );
+        var container = curLink.parent( 'div' );
+
+        _this.setFeaturedImage( container, mediaInfos );
+
         e.preventDefault();
     });
 
@@ -1229,6 +1230,7 @@ WppsnModal.prototype.deleteFromVideoPlaylistSelection = function( mediaInfos ) {
  */
 WppsnModal.prototype.createImgGalleryStep1 = function() {
 
+    var _this = this;
     var mediaList = jQuery( '<ul></ul>' );
 
     // Show Pan
@@ -1241,9 +1243,19 @@ WppsnModal.prototype.createImgGalleryStep1 = function() {
         var mediaInfos = jQuery( this ).data( 'mediaInfos' );
 
         // Build the li element
+        var featuredImgElt = _this.domClonableElements.find( '.wppsn-set-featured-image-wrapper' ).clone();
+
+        featuredImgElt.on( 'click', '.wppsn-set-featured-image', function(e){
+            _this.setFeaturedImage( featuredImgElt, mediaInfos );
+            e.preventDefault();
+        });
+
         var mediaElt = jQuery( '<li class="clearfix"></li>' )
                         .data( 'mediaInfos', mediaInfos )
-                        .append( '<div class="media-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+                        .append( 
+                            jQuery( '<div class="media-thumb"><img src="' + mediaInfos.thumb + '"></div>' )
+                                .append( featuredImgElt )
+                        )
                         .append(
                             jQuery( '<div class="media-fields"></div>' )
                                 .append(
@@ -1502,6 +1514,63 @@ WppsnModal.prototype.insertVideoPlaylist = function() {
 
     // Insert Shortcode into TinyMCE
     wppsnDialog.insert( wppsnDialog.local_ed, output );
+
+}
+
+
+/**
+ * Set a featured Image
+ * @param {jQuery element} container  The current container (context)
+ * @param {litteral object} mediaInfos Infos about the image
+ */
+WppsnModal.prototype.setFeaturedImage = function( container, mediaInfos ) {
+    var loaderGif = container.find( '.wppsn-loader' );
+    var msgError = container.find( '.wppsn-error' );
+    var msgSuccessPartial = container.find( '.wppsn-success-partial' );
+    var msgSuccess = container.find( '.wppsn-success' );
+
+    // Hide messages
+    msgError.addClass( 'visuallyhidden' );
+    msgSuccessPartial.addClass( 'visuallyhidden' );
+    msgSuccess.addClass( 'visuallyhidden' );
+
+    // Show loader
+    loaderGif.removeClass( 'visuallyhidden' );
+    
+    // Request server for adding the image in Media Library
+    jQuery.ajax({
+        url: wppsnGlobals.ajaxUrl,
+        data: {
+            action: 'wppsn-add-phraseanet-image-in-media-library',
+            url: mediaInfos.preview.url,
+            title: mediaInfos.title
+        },
+        success: function( resp ) {
+            loaderGif.addClass( 'visuallyhidden' );
+
+            // Image added to Media Library with success
+            if ( resp.imgID != 0 ) {
+
+                // Wordpress version >= 3.5
+                if ( wppsnCanSetFeaturedImageAutomatically ) {
+
+                    var tinywin = tinyMCEPopup.getWin();
+                    tinywin.wp.media.featuredImage.set( resp.imgID );
+
+                    msgSuccess.removeClass( 'visuallyhidden' );
+                }
+                // Wordpress version < 3.5
+                else {
+                    msgSuccessPartial.removeClass( 'visuallyhidden' );
+                }
+            }
+            // Error
+            else {
+                container.find( '.wppsn-error' ).removeClass( 'visuallyhidden' );
+            }
+        },
+        dataType: 'json'
+    });
 
 }
 
