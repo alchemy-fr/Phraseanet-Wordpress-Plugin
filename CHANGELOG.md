@@ -1,7 +1,12 @@
 CHANGELOG
 ---------
 
-* 0.1.2 (XX-XX-2013)
+* 0.1.3 (XX-XX-XXXX)
+
+  * Add substitution images for each record types
+  * Add icons for each media type
+
+* 0.1.2 (04-26-2013)
 
   * Update FlowPlayer to 5.4.
   * Add support for Featured Image from plugin.
