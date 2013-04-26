@@ -220,6 +220,7 @@ html, body {
 	background-color:#e5e5e5 !important;
 }
 .wppsn-media-list .media-item {
+	position:relative;
 	padding:10px;
 }
 .wppsn-media-list .media-thumb {
@@ -263,6 +264,31 @@ html, body {
 	border-color: #e5ba2b;
 	border-bottom-color: #e5ba2b;
 	box-shadow:none;
+}
+.wppsn-media-list .media-type {
+	position:absolute;
+	top:5px;
+	right:5px;
+	width:30px;
+	height:30px;
+	background-color:transparent;
+	background-image:url(../images/media-types.png);
+	background-repeat:no-repeat;
+}
+.wppsn-media-list .media-type-image {
+	background-position:0 0;
+}
+.wppsn-media-list .media-type-video {
+	background-position:0 -35px;
+}
+.wppsn-media-list .media-type-audio {
+	background-position:0 -70px;
+}
+.wppsn-media-list .media-type-document {
+	background-position:0 -105px;
+}
+.wppsn-media-list .media-type-flash {
+	background-position:0 -140px;
 }
 
 .wppsn-media-list-pagination {

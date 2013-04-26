@@ -555,7 +555,8 @@ WppsnModal.prototype.prepareSingleMediaList = function() {
     			.append( jQuery('<div class="media-item"></div>')
     						.append( '<div class="media-thumb"><img src="' + mediaEltInfos.thumb + '"></div>' )
     						.append( '<p class="media-title">' + mediaEltInfos.title + '</p>' )
-    						.append( jQuery( '<p class="media-buttons"></p>' ).append( mediaEltDetailsButton ) ) 
+    						.append( jQuery( '<p class="media-buttons"></p>' ).append( mediaEltDetailsButton ) )
+                            .append( '<span class="media-type media-type-'+mediaEltInfos.phraseaType+'"></span>' )
     			)
                 .on( 'click', function(e){
                     // Click anywhere in the media item <li> open only the sidebar
@@ -669,6 +670,7 @@ WppsnModal.prototype.prepareImgGalleryMediaList = function() {
                                     .append( mediaEltSelectButton )
                                     .append( mediaEltUnselectButton )
                             ) 
+                            .append( '<span class="media-type media-type-'+mediaEltInfos.phraseaType+'"></span>' )
                 )
                 .appendTo( mediaListElt );
 
@@ -774,6 +776,7 @@ WppsnModal.prototype.prepareVideoPlaylistMediaList = function() {
                                     .append( mediaEltSelectButton )
                                     .append( mediaEltUnselectButton )
                             ) 
+                            .append( '<span class="media-type media-type-'+mediaEltInfos.phraseaType+'"></span>' )
                 )
                 .appendTo( mediaListElt );
 

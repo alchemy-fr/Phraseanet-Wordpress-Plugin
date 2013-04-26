@@ -118,7 +118,7 @@ function wppsn_ajax_get_media_list() {
 				$mediaList[] = array(
 					'id' 			=> $record->getRecordId(),
 					'title'			=> $record->getTitle(),
-					'thumb'			=> ( $mediaThumb != null ) ? $mediaThumb->getPermalink()->getUrl() : 'http://placehold.it/200x133&text=+no+image',
+					'thumb'			=> ( $mediaThumb != null ) ? $mediaThumb->getPermalink()->getUrl() : WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-' . $record->getPhraseaType() . '.png',
 					'phraseaType'	=> $record->getPhraseaType(),
 					'preview'		=> wppsn_get_media_preview( $record )
 				);
@@ -179,7 +179,7 @@ function wppsn_get_media_preview( $record ) {
 			else {
 
 				$preview_infos = array(
-					'url'		=> 'http://placehold.it/600x400&text=No+preview'
+					'url'		=> WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-image-big.png'
 				);
 
 			}
@@ -223,7 +223,7 @@ function wppsn_get_media_preview( $record ) {
 				}
 				// No preview
 				else {
-					$preview_infos['nopreview']	= 'http://placehold.it/600x400&text=No+preview';
+					$preview_infos['nopreview']	= WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-video-big.png';
 				}
 
 			}
@@ -405,6 +405,7 @@ function wppsn_add_phraseanet_image_in_media_library() {
 
 	}
 
+	header( "Content-Type: application/json" );
 	echo json_encode( $output );
 
 	exit();
