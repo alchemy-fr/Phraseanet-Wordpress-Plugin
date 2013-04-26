@@ -1,10 +1,10 @@
 CHANGELOG
 ---------
 
-* 0.1.2 (04-25-2013)
+* 0.1.2 (04-26-2013)
 
-  * Update FlowPlayer to 5.4
-  * Add support for setting Featured Image directly from the Modal Window in WP >= 3.5, and only add image to the Media Library for WP < 3.5
+  * Update FlowPlayer to 5.4.
+  * Add support for Featured Image from plugin.
 
 * 0.1.1 (04-09-2013)
 
