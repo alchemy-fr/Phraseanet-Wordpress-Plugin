@@ -33,6 +33,9 @@ html, body {
 .wppsn-media-preview-video-player-wrapper .fp-embed {
 	display:none;
 }
+#wppsn-clonable-elements {
+	display:none;
+}
 
 
 /**
@@ -348,10 +351,12 @@ html, body {
 }
 #wppsn-single-media-insert-image-thumb,
 #wppsn-single-media-insert-video-thumb {
-	padding-bottom:16px;
+	padding-bottom:10px;
 }
 #wppsn-single-media-insert-image-thumb img,
 #wppsn-single-media-insert-video-thumb img {
+	display:block;
+	margin:0 auto;
 	max-width:100%;
 	height:auto;
 	border:1px solid #dfdfdf;
@@ -586,6 +591,14 @@ html, body {
 	float:left;
 	width:200px;
 }
+#wppsn-img-gallery-list-media-fields .media-thumb img {
+	margin-bottom:5px;
+	max-width:100%;
+	height:auto;
+	border:1px solid #dfdfdf;
+	border-radius:5px;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.2);
+}
 #wppsn-img-gallery-list-media-fields .media-fields {
 	margin-left:216px;
 	padding-left:0;
@@ -708,6 +721,13 @@ html, body {
 	float:left;
 	width:200px;
 }
+#wppsn-video-playlist-list-media-fields .media-thumb img {
+	max-width:100%;
+	height:auto;
+	border:1px solid #dfdfdf;
+	border-radius:5px;
+	box-shadow:0 1px 4px rgba(0, 0, 0, 0.2);
+}
 #wppsn-video-playlist-list-media-fields .media-fields {
 	margin-left:216px;
 	padding-left:0;
@@ -732,6 +752,31 @@ html, body {
 	margin:0;
 	padding:0 16px 0;
 	text-align:right;
+}
+
+/* Generic */
+
+.wppsn-set-featured-image-wrapper {
+	padding-bottom:10px;
+	text-align:center;
+}
+.wppsn-set-featured-image-wrapper .wppsn-loader {
+	display:block;
+	margin-top:5px;
+	height:24px;
+	background:transparent url(../images/loader-small.gif) 50% 0 no-repeat;
+}
+.wppsn-set-featured-image-wrapper .wppsn-error {
+	margin:0;
+	text-align:left;
+}
+.wppsn-set-featured-image-wrapper .wppsn-success,
+.wppsn-set-featured-image-wrapper .wppsn-success-partial {
+	margin:0;
+	padding:1em;
+	line-height:1.5em;
+	color:#4cbe4c;
+	text-align:left;
 }
 
 

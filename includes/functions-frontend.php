@@ -9,42 +9,56 @@
  */
 function wppsn_wp_enqueue_scripts() {
 
+	/* CSS */
+
 	// Custom CSS
-	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.4', 'all' );
+	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.6', 'all' );
 
 	// Flowplayer CSS
-	wp_enqueue_style( 'wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.4', 'all' );
+	wp_enqueue_style( 'wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.6', 'all' );
 
 	// FlexSlider CSS
-	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.4', 'all' );
+	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.6', 'all' );
 
 	// Swipebox CSS
-	wp_enqueue_style( 'wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array(), '1.0.4', 'all' );
+	wp_enqueue_style( 'wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array(), '1.0.6', 'all' );
 
-	// Flowplayer JS
-	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
-	wp_register_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.4', true );
+	/* JS */
+
+	/**
+	 * Load FlowPlayer in head
+	 * It appears that loading it in footer makes problems
+	 */
+	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.6', false );
+	wp_localize_script( 'wppsn_flowplayer_js', 'wppsnFlowPlayerVars', array(
+		'flashUrl'	=> WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf'
+	));
 
 	// Flexslider JS
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array( 'jquery' ), '1.0.4', true );
+	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array( 'jquery' ), '1.0.6', true );
 
 	// Swipebox JS
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
-	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.4', true );
-	wp_register_script( 'wppsn_swipebox_ios_orientation_fix_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'ios-orientationchange-fix.js', array( 'jquery' ), '1.0.4', true );
+	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.6', true );
+	wp_register_script( 'wppsn_swipebox_ios_orientation_fix_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'ios-orientationchange-fix.js', array( 'jquery' ), '1.0.6', true );
 
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.4', true );
+	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.6', true );
 
-	// Custom JS for Flowplayer
+	// Custom JS for Flowplayer and single videos
+	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
+	wp_register_script( 'wppsn_frontend_video_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video.js', array( 'wppsn_flowplayer_js' ), '1.0.6', true );
+
+	// Custom JS for Flowplayer and video playlists
 	// Register only : it will be enqueue if 'wppsn-video-playlist' shortcode is found
-	wp_register_script( 'wppsn_frontend_video_playlist_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video-playlist.js', array( 'wppsn_flowplayer_js' ), '1.0.4', true );
+	wp_register_script( 'wppsn_frontend_video_playlist_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video-playlist.js', array( 'wppsn_flowplayer_js' ), '1.0.6', true );
 
 	// Custom JS for Swipebox
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
-	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js', 'wppsn_swipebox_ios_orientation_fix_js' ), '1.0.4', true );
+	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js', 'wppsn_swipebox_ios_orientation_fix_js' ), '1.0.6', true );
 
 }
 
@@ -110,12 +124,12 @@ add_shortcode( 'wppsn-image', 'wppsn_shortcode_single_image' );
 function wppsn_shortcode_single_video( $atts ) {
 
 	$output = '';
-	$uniqueString = md5( microtime( true ) );
-	$playerID = 'wppsn-video-player-' . $uniqueString;
-	usleep(1);
+	// $uniqueString = md5( microtime( true ) );
+	// $playerID = 'wppsn-video-player-' . $uniqueString;
+	// usleep(1);
 
-	// Add FLowplayer JS to the footer
-	wp_enqueue_script( 'wppsn_flowplayer_js' );
+	// Add JS for loading Flowplayer to the footer
+	wp_enqueue_script( 'wppsn_frontend_video_js' );
 
 	// Get Attributes
 	extract( shortcode_atts( array(
@@ -135,7 +149,7 @@ function wppsn_shortcode_single_video( $atts ) {
 	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-player flowplayer is-splash" ' . $styleSplash . '>
+					<div class="is-splash wppsn-video-player" ' . $styleSplash . '>
 						<video>
 							<source type="video/mp4" src="' . $mp4 . '">';
 
@@ -358,18 +372,15 @@ add_shortcode( 'wppsn-img-gallery', 'wppsn_shortcode_image_gallery' );
  * Define the shortcode 'wppsn-video-playlist'
  * @param  array $atts Array of attributes
  * @return html        HTML replacing the shortcode
- *
- * ** NOTE ** Ugly hack for Flowplayer : in playlist mode, it takes the 4 last characters of the first video url played and concatenate it to the other videos url, breaking the parameters in the urls if any
- * So we add a non usefull parameter (&flowhack) to each url which will cut and paste by flowplayer API without impacting on the real needed parameters.
  */
 function wppsn_shortcode_video_playlist( $atts ) {
 
 	$output = '';
-	$uniqueString = md5( microtime( true ) );
-	$playerID = 'wppsn-video-playlist-player-' . $uniqueString;
-	usleep(1);
+	// $uniqueString = md5( microtime( true ) );
+	// $playerID = 'wppsn-video-playlist-player-' . $uniqueString;
+	// usleep(1);
 
-	// Add Flowplayer JS to the footer
+	// Add JS for loading Flowplayer to the footer
 	wp_enqueue_script( 'wppsn_frontend_video_playlist_js' );
 
 	// Get Attributes
@@ -387,14 +398,14 @@ function wppsn_shortcode_video_playlist( $atts ) {
 	$styleSplash = ( $splash != '' ) ? ' style="background-image:url(' . $splash . ')"' : '';
 
 	$output .= '<div class="wppsn-video-playlist-player-wrapper">
-					<div data-swf="' . WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf' . '" class="wppsn-video-playlist-player flowplayer is-splash"' . $styleSplash . '>
+					<div class="is-splash wppsn-video-playlist-player"' . $styleSplash . '>
 						<video>
-							<source type="video/mp4" src="' . trim( $allMp4s[0] ) . '&flowhack">
+							<source type="video/mp4" src="' . trim( $allMp4s[0] ) . '">
 						</video>
 						<div class="fp-playlist">';
 
 							foreach( $allTitles as $i => $t ) {
-								$output .= '<a href="' . trim( $allMp4s[$i] ) . '&flowhack">' . trim( $t ) . '</a>';
+								$output .= '<a href="' . trim( $allMp4s[$i] ) . '">' . trim( $t ) . '</a>';
 							}
 
 	$output .= '		</div>
