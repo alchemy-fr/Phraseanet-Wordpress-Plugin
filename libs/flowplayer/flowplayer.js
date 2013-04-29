@@ -1,6 +1,6 @@
 /*!
 
-   Flowplayer v5.4.0 (Sunday, 14. April 2013 12:33AM) | flowplayer.org/license
+   Flowplayer v5.4.1 (Friday, 26. April 2013 07:03PM) | flowplayer.org/license
 
 */
 !function($) { 
@@ -67,7 +67,7 @@ $(window).on('beforeunload', function() {
 
 $.extend(flowplayer, {
 
-   version: '5.4.0',
+   version: '5.4.1',
 
    engine: {},
 
@@ -100,7 +100,7 @@ $.extend(flowplayer, {
 
       splash: false,
 
-      swf: "http://releases.flowplayer.org/5.4.0/flowplayer.swf",
+      swf: "//releases.flowplayer.org/5.4.1/flowplayer.swf",
 
       speeds: [0.25, 0.5, 1, 1.5, 2],
 
@@ -556,10 +556,11 @@ $.fn.flowplayer = function(opts, callback) {
       ANDROID_VER = IS_ANDROID ? parseFloat(/Android\ (\d\.\d)/.exec(UA)[1], 10) : 0;
 
    $.extend(s, {
-      video: !!video.canPlayType,
       subtitles: !!video.addTextTrack,
-      fullscreen: typeof document.webkitCancelFullScreen == 'function'
-         && !/Mac OS X 10_5.+Version\/5\.0\.\d Safari/.test(UA) || document.mozFullScreenEnabled || typeof document.exitFullscreen == 'function',
+      fullscreen: !IS_ANDROID &&
+         (typeof document.webkitCancelFullScreen == 'function' && !/Mac OS X 10_5.+Version\/5\.0\.\d Safari/.test(UA) ||
+            document.mozFullScreenEnabled ||
+            typeof document.exitFullscreen == 'function'),
       inlineBlock: !(IS_IE && browser.version < 8),
       touch: ('ontouchstart' in window),
       dataload: !IS_IPAD && !IS_IPHONE && !IS_WP,
@@ -583,6 +584,12 @@ $.fn.flowplayer = function(opts, callback) {
       s.flashVideo = ver[0] > 9 || ver[0] == 9 && ver[3] >= 115;
 
    } catch (ignored) {}
+   try {
+      s.video = !!video.canPlayType;
+      s.video && video.canPlayType('video/mp4');
+   } catch (e) {
+      s.video = false;
+   }
 
    // animation
    s.animation = (function() {
@@ -696,6 +703,9 @@ flowplayer.engine.flash = function(player, root) {
                url: url,
                callback: "jQuery."+ callbackId
             };
+            if (root.data("origin")) {
+               opts.origin = root.data("origin");
+            }
 
             if (is_absolute) delete conf.rtmp;
 
@@ -955,6 +965,11 @@ flowplayer.engine.html5 = function(player, root) {
          } else {
 
             api = videoTag[0];
+            var sources = videoTag.find('source');
+            if (!api.src && sources.length) {
+               api.src = video.src;
+               sources.remove();
+            }
 
             // change of clip
             if (player.video.src && video.src != player.video.src) {
@@ -1878,6 +1893,7 @@ flowplayer(function(player, root) {
       if (i === undefined) player.resume();
       if (typeof i === 'number' && !player.conf.playlist[i]) return player;
       else if (typeof i != 'number') player.load.apply(null, arguments);
+      player.unbind('resume.fromfirst'); // Don't start from beginning if clip explicitely chosen
       player.load(typeof player.conf.playlist[i] === 'string' ?
          player.conf.playlist[i].toString() :
          player.conf.playlist[i].map(function(item) { return $.extend({}, item); })
@@ -1950,7 +1966,7 @@ flowplayer(function(player, root) {
          } else {
             root.addClass("is-playing"); // show play button
 
-            player.one("resume", function() {
+            player.one("resume.fromfirst", function() {
                player.play(0);
                return false;
             });
@@ -2315,7 +2331,7 @@ if (flowplayer.support.touch || isIeMobile) {
       });
 
       // native fullscreen
-      if (player.conf.native_fullscreen && $.browser.webkit) {
+      if (player.conf.native_fullscreen && ($.browser.webkit || $.browser.safari)) {
          player.fullscreen = function() {
             $('video', root)[0].webkitEnterFullScreen();
          }
@@ -2378,7 +2394,15 @@ flowplayer(function(player, root) {
          tag.append($("<source/>", { type: "video/" + src.type, src: src.src }));
       });
 
-      var code = $("<foo/>", { src: "http://embed.flowplayer.org/5.4.0/embed.min.js" }).append(el);
+      var scriptAttrs = { src: "//embed.flowplayer.org/5.4.1/embed.min.js" };
+      if ($.isPlainObject(conf.embed)) {
+         scriptAttrs['data-swf'] = conf.embed.swf;
+         scriptAttrs['data-library'] = conf.embed.library;
+         scriptAttrs['src'] = conf.embed.script || scriptAttrs['src'];
+         if (conf.embed.skin) { scriptAttrs['data-skin'] = conf.embed.skin; }
+      }
+
+      var code = $("<foo/>", scriptAttrs).append(el);
       return $("<p/>").append(code).html().replace(/<(\/?)foo/g, "<$1script");
    };
 
@@ -2432,4 +2456,4 @@ $.fn.fptip = function(trigger, active) {
 };
 
 }(jQuery);
-flowplayer(function(a,b){function j(a){var b=c("<a/>")[0];return b.href=a,b.hostname}var c=jQuery,d=a.conf,e=d.swf.indexOf("flowplayer.org")&&d.e&&d.origin,f=e?j(e):location.hostname,g=d.key;location.protocol=="file:"&&(f="localhost"),a.load.ed=1,d.hostname=f,d.origin=e||location.href,e&&b.addClass("is-embedded"),typeof g=="string"&&(g=g.split(/,\s*/));if(g&&typeof key_check=="function"&&key_check(g,f))d.logo&&b.append(c("<a>",{"class":"fp-logo",href:e,target:"_top"}).append(c("<img/>",{src:d.logo})));else{var h=c("<a/>",{href:"http://flowplayer.org",target:"_top"}).appendTo(b),i=c(".fp-controls",b);a.bind("pause resume finish unload",function(b){/pause|resume/.test(b.type)&&a.engine!="flash"?(h.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".org",".flowplayer","stream","//"].reverse().join("")+")"}),a.load.ed=h.is(":visible")):h.hide()})}});
+flowplayer(function(api,root){var $=jQuery,conf=api.conf,origin=conf.swf.indexOf("flowplayer.org")&&conf.e&&root.data("origin"),domain=origin?getHost(origin):location.hostname,key=conf.key;if(location.protocol=="file:")domain="localhost";api.load.ed=1;conf.hostname=domain;conf.origin=origin||location.href;if(origin)root.addClass("is-embedded");if(typeof key=="string")key=key.split(/,\s*/);if(key&&typeof key_check=="function"&&key_check(key,domain)){if(conf.logo){root.append($("<a>",{"class":"fp-logo",href:origin}).append($("<img/>",{src:conf.logo})))}}else{var logo=$("<a/>").attr("href","http://flowplayer.org").appendTo(root),controls=$(".fp-controls",root);api.bind("pause resume finish unload",function(e){if(/pause|resume/.test(e.type)&&api.engine!="flash"){logo.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".net",".cloudfront","d32wqyuo10o653","//"].reverse().join("")+")"});api.load.ed=logo.is(":visible");if(!api.load.ed){api.pause()}}else{logo.hide()}})}function getHost(url){var a=$("<a/>")[0];a.href=url;return a.hostname}});
