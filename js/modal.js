@@ -1166,7 +1166,9 @@ WppsnModal.prototype.deleteFromImgGallerySelection = function( mediaInfos ) {
 
 	// Remove image from the list and from the array of Images Ids
     var removeID = mediaInfos.id; 
-	this.domImgGallerySelectedList.find( '.selected-' + removeID ).remove();
+	this.domImgGallerySelectedList.find( '.selected-' + removeID ).fadeOut(function(){
+        jQuery( this ).remove();
+    });
     this.imgGallerySelectedImgIds = jQuery.grep( this.imgGallerySelectedImgIds, function( v ){
         return v != removeID;
     });
@@ -1201,7 +1203,9 @@ WppsnModal.prototype.deleteFromVideoPlaylistSelection = function( mediaInfos ) {
 
     // Remove video from the list and from the array of Videos Ids
     var removeID = mediaInfos.id; 
-    this.domVideoPlaylistSelectedList.find( '.selected-' + removeID ).remove();
+    this.domVideoPlaylistSelectedList.find( '.selected-' + removeID ).fadeOut(function(){
+        jQuery( this ).remove();
+    });
     this.videoPlaylistSelectedVideoIds = jQuery.grep( this.videoPlaylistSelectedVideoIds, function( v ){
         return v != removeID;
     });
