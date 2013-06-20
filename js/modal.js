@@ -900,7 +900,7 @@ var wppsnGlobals = {
                 previewPan
                     .find( '.wppsn-media-preview-thumb' )
                     .empty()
-                    .append( '<img src="' + mediaInfos.preview.url + '">' );
+                    .append( '<img src="' + mediaInfos.preview.thumb_url + '">' );
 
                 break;
 
@@ -972,7 +972,7 @@ var wppsnGlobals = {
         this.domPanImgGalleryPreview
             .find( '.wppsn-media-preview-thumb' )
             .empty()
-            .append( '<img src="' + mediaInfos.preview.url + '">' );
+            .append( '<img src="' + mediaInfos.preview.thumb_url + '">' );
 
         // Show Pan
         this.domPanImgGalleryPreview.show();
@@ -1390,7 +1390,7 @@ var wppsnGlobals = {
                 output += 'download="' + currentInsertPan.find( '.wppsn-single-media-insert-image-download-link:checked' ).val() + '" ';
 
                 // Url
-                output += 'url="' + mediaInfos.preview.url + '"';
+                output += 'url="' + mediaInfos.preview.thumb_url + '"';
 
                 // Close Shortcode
                 output += ']';
@@ -1417,7 +1417,7 @@ var wppsnGlobals = {
                 }
 
                 // Poster
-                output += 'splash="' + mediaInfos.preview.thumb + '"';
+                output += 'splash="' + mediaInfos.preview.thumb_url + '"';
 
                 // Close Shortcode
                 output += ']';
@@ -1462,7 +1462,7 @@ var wppsnGlobals = {
             allAlts.push( currentMediaElt.find( '.wppsn-create-media-alt-text' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
             allLegends.push( currentMediaElt.find( '.wppsn-create-media-legend' ).val().replace( /\"/g, '&quot;' ).replace( /\[/g, '' ).replace( /\]/g, '' ) );
             allThumbs.push( currentMediaInfos.thumb );
-            allUrls.push( currentMediaInfos.preview.url );
+            allUrls.push( currentMediaInfos.preview.thumb_url );
 
         });
 
@@ -1523,7 +1523,7 @@ var wppsnGlobals = {
 
         // Splash
         var firstVideoMediaInfos = this.domVideoPlaylistCreateStep1MediaList.find( 'li:first' ).data( 'mediaInfos' );
-        output += 'splash="' + firstVideoMediaInfos.preview.thumb + '"';
+        output += 'splash="' + firstVideoMediaInfos.preview.thumb_url + '"';
 
         // Close shortcode
         output += ']';
@@ -1545,6 +1545,8 @@ var wppsnGlobals = {
         var msgSuccessPartial = container.find( '.wppsn-success-partial' );
         var msgSuccess = container.find( '.wppsn-success' );
 
+        console.log(mediaInfos);
+
         // Hide messages
         msgError.addClass( 'visuallyhidden' );
         msgSuccessPartial.addClass( 'visuallyhidden' );
@@ -1558,7 +1560,7 @@ var wppsnGlobals = {
             url: wppsnGlobals.ajaxUrl,
             data: {
                 action: 'wppsn-add-phraseanet-image-in-media-library',
-                url: mediaInfos.preview.url,
+                url: mediaInfos.preview.thumb_url,
                 title: mediaInfos.title
             },
             success: function( resp ) {
