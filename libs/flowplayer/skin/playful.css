@@ -72,11 +72,13 @@
 .flowplayer.is-fullscreen .fp-unload,.flowplayer.is-fullscreen .fp-close{display:none !important}
 .flowplayer .fp-timeline{height:3px;position:relative;overflow:hidden;top:12px;height:11px;margin:0 199px 0 59px;}
 .no-volume.flowplayer .fp-timeline{margin-right:109px}
-.no-mute.flowplayer .fp-timeline{margin-right:59px}
+.no-mute.flowplayer .fp-timeline{margin-right:161px}
+.no-mute.no-volume.flowplayer .fp-timeline{margin-right:59px}
 .play-button.flowplayer .fp-timeline{margin-left:74px}
 .is-rtl.flowplayer .fp-timeline{margin:0 59px 0 199px;}
 .no-volume.is-rtl.flowplayer .fp-timeline{margin-left:109px}
-.no-mute.is-rtl.flowplayer .fp-timeline{margin-left:59px}
+.no-mute.is-rtl.flowplayer .fp-timeline{margin-left:161px}
+.no-mute.no-volume.is-rtl.flowplayer .fp-timeline{margin-left:59px}
 .play-button.is-rtl.flowplayer .fp-timeline{margin-right:74px}
 .is-long.flowplayer .fp-timeline{margin:0 229px 0 89px;}
 .no-volume.is-long.flowplayer .fp-timeline{margin-right:139px}
@@ -127,10 +129,12 @@
 .play-button.is-rtl.flowplayer .fp-elapsed{right:27px}
 .flowplayer .fp-remaining,.flowplayer .fp-duration{right:152px;color:#eee;}
 .no-volume.flowplayer .fp-remaining,.no-volume.flowplayer .fp-duration{right:62px}
-.no-mute.flowplayer .fp-remaining,.no-mute.flowplayer .fp-duration{right:12px}
+.no-mute.flowplayer .fp-remaining,.no-mute.flowplayer .fp-duration{right:114px}
+.no-mute.no-volume.flowplayer .fp-remaining,.no-mute.no-volume.flowplayer .fp-duration{right:12px}
 .is-rtl.flowplayer .fp-remaining,.is-rtl.flowplayer .fp-duration{right:auto;left:152px;}
 .no-volume.is-rtl.flowplayer .fp-remaining,.no-volume.is-rtl.flowplayer .fp-duration{left:62px}
-.no-mute.is-rtl.flowplayer .fp-remaining,.no-mute.is-rtl.flowplayer .fp-duration{left:12px}
+.no-mute.is-rtl.flowplayer .fp-remaining,.no-mute.is-rtl.flowplayer .fp-duration{left:114px}
+.no-mute.no-volume.is-rtl.flowplayer .fp-remaining,.no-mute.no-volume.is-rtl.flowplayer .fp-duration{left:12px}
 .flowplayer .fp-remaining{display:none}
 .flowplayer.color-light .fp-time{color:#222;text-shadow:0 0 1px #fff}
 .flowplayer.color-light .fp-remaining,.flowplayer.color-light .fp-duration{color:#666}

@@ -72,11 +72,13 @@
 .minimalist.is-fullscreen .fp-unload,.minimalist.is-fullscreen .fp-close{display:none !important}
 .minimalist .fp-timeline{height:3px;position:relative;overflow:hidden;top:5px;height:10px;margin:0 150px 0 45px;}
 .no-volume.minimalist .fp-timeline{margin-right:60px}
-.no-mute.minimalist .fp-timeline{margin-right:45px}
+.no-mute.minimalist .fp-timeline{margin-right:140px}
+.no-mute.no-volume.minimalist .fp-timeline{margin-right:45px}
 .play-button.minimalist .fp-timeline{margin-left:67px}
 .is-rtl.minimalist .fp-timeline{margin:0 45px 0 150px;}
 .no-volume.is-rtl.minimalist .fp-timeline{margin-left:60px}
-.no-mute.is-rtl.minimalist .fp-timeline{margin-left:45px}
+.no-mute.is-rtl.minimalist .fp-timeline{margin-left:140px}
+.no-mute.no-volume.is-rtl.minimalist .fp-timeline{margin-left:45px}
 .play-button.is-rtl.minimalist .fp-timeline{margin-right:67px}
 .is-long.minimalist .fp-timeline{margin:0 180px 0 75px;}
 .no-volume.is-long.minimalist .fp-timeline{margin-right:90px}
@@ -127,10 +129,12 @@
 .play-button.is-rtl.minimalist .fp-elapsed{right:27px}
 .minimalist .fp-remaining,.minimalist .fp-duration{right:110px;color:#eee;}
 .no-volume.minimalist .fp-remaining,.no-volume.minimalist .fp-duration{right:20px}
-.no-mute.minimalist .fp-remaining,.no-mute.minimalist .fp-duration{right:5px}
+.no-mute.minimalist .fp-remaining,.no-mute.minimalist .fp-duration{right:100px}
+.no-mute.no-volume.minimalist .fp-remaining,.no-mute.no-volume.minimalist .fp-duration{right:5px}
 .is-rtl.minimalist .fp-remaining,.is-rtl.minimalist .fp-duration{right:auto;left:110px;}
 .no-volume.is-rtl.minimalist .fp-remaining,.no-volume.is-rtl.minimalist .fp-duration{left:20px}
-.no-mute.is-rtl.minimalist .fp-remaining,.no-mute.is-rtl.minimalist .fp-duration{left:5px}
+.no-mute.is-rtl.minimalist .fp-remaining,.no-mute.is-rtl.minimalist .fp-duration{left:100px}
+.no-mute.no-volume.is-rtl.minimalist .fp-remaining,.no-mute.no-volume.is-rtl.minimalist .fp-duration{left:5px}
 .minimalist .fp-remaining{display:none}
 .minimalist.color-light .fp-time{color:#222;text-shadow:0 0 1px #fff}
 .minimalist.color-light .fp-remaining,.minimalist.color-light .fp-duration{color:#666}
@@ -285,11 +289,13 @@
 .functional.is-fullscreen .fp-unload,.functional.is-fullscreen .fp-close{display:none !important}
 .functional .fp-timeline{height:3px;position:relative;overflow:hidden;top:10px;height:10px;margin:0 165px 0 55px;}
 .no-volume.functional .fp-timeline{margin-right:75px}
-.no-mute.functional .fp-timeline{margin-right:55px}
+.no-mute.functional .fp-timeline{margin-right:155px}
+.no-mute.no-volume.functional .fp-timeline{margin-right:55px}
 .play-button.functional .fp-timeline{margin-left:72px}
 .is-rtl.functional .fp-timeline{margin:0 55px 0 165px;}
 .no-volume.is-rtl.functional .fp-timeline{margin-left:75px}
-.no-mute.is-rtl.functional .fp-timeline{margin-left:55px}
+.no-mute.is-rtl.functional .fp-timeline{margin-left:155px}
+.no-mute.no-volume.is-rtl.functional .fp-timeline{margin-left:55px}
 .play-button.is-rtl.functional .fp-timeline{margin-right:72px}
 .is-long.functional .fp-timeline{margin:0 195px 0 85px;}
 .no-volume.is-long.functional .fp-timeline{margin-right:105px}
@@ -340,10 +346,12 @@
 .play-button.is-rtl.functional .fp-elapsed{right:27px}
 .functional .fp-remaining,.functional .fp-duration{right:120px;color:#eee;}
 .no-volume.functional .fp-remaining,.no-volume.functional .fp-duration{right:30px}
-.no-mute.functional .fp-remaining,.no-mute.functional .fp-duration{right:10px}
+.no-mute.functional .fp-remaining,.no-mute.functional .fp-duration{right:110px}
+.no-mute.no-volume.functional .fp-remaining,.no-mute.no-volume.functional .fp-duration{right:10px}
 .is-rtl.functional .fp-remaining,.is-rtl.functional .fp-duration{right:auto;left:120px;}
 .no-volume.is-rtl.functional .fp-remaining,.no-volume.is-rtl.functional .fp-duration{left:30px}
-.no-mute.is-rtl.functional .fp-remaining,.no-mute.is-rtl.functional .fp-duration{left:10px}
+.no-mute.is-rtl.functional .fp-remaining,.no-mute.is-rtl.functional .fp-duration{left:110px}
+.no-mute.no-volume.is-rtl.functional .fp-remaining,.no-mute.no-volume.is-rtl.functional .fp-duration{left:10px}
 .functional .fp-remaining{display:none}
 .functional.color-light .fp-time{color:#222;text-shadow:0 0 1px #fff}
 .functional.color-light .fp-remaining,.functional.color-light .fp-duration{color:#666}
@@ -498,11 +506,13 @@
 .playful.is-fullscreen .fp-unload,.playful.is-fullscreen .fp-close{display:none !important}
 .playful .fp-timeline{height:3px;position:relative;overflow:hidden;top:12px;height:11px;margin:0 199px 0 59px;}
 .no-volume.playful .fp-timeline{margin-right:109px}
-.no-mute.playful .fp-timeline{margin-right:59px}
+.no-mute.playful .fp-timeline{margin-right:161px}
+.no-mute.no-volume.playful .fp-timeline{margin-right:59px}
 .play-button.playful .fp-timeline{margin-left:74px}
 .is-rtl.playful .fp-timeline{margin:0 59px 0 199px;}
 .no-volume.is-rtl.playful .fp-timeline{margin-left:109px}
-.no-mute.is-rtl.playful .fp-timeline{margin-left:59px}
+.no-mute.is-rtl.playful .fp-timeline{margin-left:161px}
+.no-mute.no-volume.is-rtl.playful .fp-timeline{margin-left:59px}
 .play-button.is-rtl.playful .fp-timeline{margin-right:74px}
 .is-long.playful .fp-timeline{margin:0 229px 0 89px;}
 .no-volume.is-long.playful .fp-timeline{margin-right:139px}
@@ -553,10 +563,12 @@
 .play-button.is-rtl.playful .fp-elapsed{right:27px}
 .playful .fp-remaining,.playful .fp-duration{right:152px;color:#eee;}
 .no-volume.playful .fp-remaining,.no-volume.playful .fp-duration{right:62px}
-.no-mute.playful .fp-remaining,.no-mute.playful .fp-duration{right:12px}
+.no-mute.playful .fp-remaining,.no-mute.playful .fp-duration{right:114px}
+.no-mute.no-volume.playful .fp-remaining,.no-mute.no-volume.playful .fp-duration{right:12px}
 .is-rtl.playful .fp-remaining,.is-rtl.playful .fp-duration{right:auto;left:152px;}
 .no-volume.is-rtl.playful .fp-remaining,.no-volume.is-rtl.playful .fp-duration{left:62px}
-.no-mute.is-rtl.playful .fp-remaining,.no-mute.is-rtl.playful .fp-duration{left:12px}
+.no-mute.is-rtl.playful .fp-remaining,.no-mute.is-rtl.playful .fp-duration{left:114px}
+.no-mute.no-volume.is-rtl.playful .fp-remaining,.no-mute.no-volume.is-rtl.playful .fp-duration{left:12px}
 .playful .fp-remaining{display:none}
 .playful.color-light .fp-time{color:#222;text-shadow:0 0 1px #fff}
 .playful.color-light .fp-remaining,.playful.color-light .fp-duration{color:#666}

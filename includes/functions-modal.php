@@ -169,9 +169,9 @@ function wppsn_get_media_preview( $record ) {
 			if ( $subDef != null ) {
 
 				$preview_infos = array(
-					'url'		=> $subDef->getPermalink()->getUrl(),
-					'width'		=> $subDef->getWidth(),
-					'height'	=> $subDef->getHeight()
+					'thumb_url'		=> $subDef->getPermalink()->getUrl(),
+					'width'			=> $subDef->getWidth(),
+					'height'		=> $subDef->getHeight()
 				);
 
 			}
@@ -195,7 +195,7 @@ function wppsn_get_media_preview( $record ) {
 				$subDefThumb = null;
 			}
 
-			$preview_infos['thumb'] = ( $subDefThumb != null ) ? $subDefThumb->getPermalink()->getUrl() : '';
+			$preview_infos['thumb_url'] = ( $subDefThumb != null ) ? $subDefThumb->getPermalink()->getUrl() : '';
 
 			// Try the Videos SubDefs for 'screen' devices
 			try {

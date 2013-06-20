@@ -1,0 +1,4 @@
+/* Plugin Menu icon */
+#toplevel_page_wppsn_settings_page .wp-menu-image {background:transparent url(../images/phraseanet-menu-icon.png) 5px -36px no-repeat}
+#toplevel_page_wppsn_settings_page:hover .wp-menu-image,
+#toplevel_page_wppsn_settings_page.wp-menu-open .wp-menu-image {background-position:5px 4px}
