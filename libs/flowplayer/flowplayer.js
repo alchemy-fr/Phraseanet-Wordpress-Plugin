@@ -1,6 +1,6 @@
 /*!
 
-   Flowplayer v5.4.1 (Friday, 26. April 2013 07:03PM) | flowplayer.org/license
+   Flowplayer v5.4.3 (Wednesday, 19. June 2013 11:34PM) | flowplayer.org/license
 
 */
 !function($) { 
@@ -64,10 +64,9 @@ $(window).on('beforeunload', function() {
    });
 });
 
-
 $.extend(flowplayer, {
 
-   version: '5.4.1',
+   version: '5.4.3',
 
    engine: {},
 
@@ -93,6 +92,8 @@ $.extend(flowplayer, {
       // default aspect ratio
       ratio: 9 / 16,
 
+      adaptiveRatio: false,
+
       // scale flash object to video's aspect ratio in normal mode?
       flashfit: false,
 
@@ -100,14 +101,14 @@ $.extend(flowplayer, {
 
       splash: false,
 
-      swf: "//releases.flowplayer.org/5.4.1/flowplayer.swf",
+      swf: "//releases.flowplayer.org/5.4.3/flowplayer.swf",
 
       speeds: [0.25, 0.5, 1, 1.5, 2],
 
       tooltip: true,
 
       // initial volume level
-      volume: typeof localStorage == "object" && !isNaN(localStorage.volume) ? localStorage.volume || 1 : 1,
+      volume: typeof localStorage != "object" ? 1 : localStorage.muted == "true" ? 0 : !isNaN(localStorage.volume) ? localStorage.volume || 1 : 1,
 
       // http://www.whatwg.org/specs/web-apps/current-work/multipage/the-video-element.html#error-codes
       errors: [
@@ -157,9 +158,11 @@ $.fn.flowplayer = function(opts, callback) {
          engine;
 
       if (conf.playlist.length) { // Create initial video tag if called without
-         var preload = videoTag.attr('preload');
-         videoTag.remove();
-         videoTag = $('<video />').addClass('fp-engine').appendTo(root).attr('preload', preload);
+         var preload = videoTag.attr('preload'), placeHolder;
+         if (videoTag.length) videoTag.replaceWith(placeHolder = $('<p />'));
+         videoTag = $('<video />').addClass('fp-engine');
+         placeHolder ? placeHolder.replaceWith(videoTag) : root.prepend(videoTag);
+         videoTag.attr('preload', preload);
          if (typeof conf.playlist[0] === 'string') videoTag.attr('src', conf.playlist[0]);
          else {
             $.each(conf.playlist[0], function(i, plObj) {
@@ -195,7 +198,7 @@ $.fn.flowplayer = function(opts, callback) {
          // properties
          conf: conf,
          currentSpeed: 1,
-         volumeLevel: conf.volume || storage.volume * 1,
+         volumeLevel: typeof conf.volume === "undefined" ? storage.volume * 1 : conf.volume,
          video: {},
 
          // states
@@ -276,8 +279,15 @@ $.fn.flowplayer = function(opts, callback) {
                   time = api.video.time + (time ? delta : -delta);
                }
                time = lastSeekPosition = Math.min(Math.max(time, 0), api.video.duration).toFixed(1);
-               engine.seek(time);
-               if ($.isFunction(callback)) root.one("seek", callback);
+               var ev = $.Event('beforeseek');
+               root.trigger(ev, [api, time]);
+               if (!ev.isDefaultPrevented()) {
+                  engine.seek(time);
+                  if ($.isFunction(callback)) root.one("seek", callback);
+               } else {
+                  api.seeking = false;
+                  root.toggleClass("is-seeking", api.seeking); // remove loading indicator
+               }
             }
             return api;
          },
@@ -435,6 +445,9 @@ $.fn.flowplayer = function(opts, callback) {
             // disabled
             if (conf.disabled) api.disable();
 
+            //initial volumelevel
+            engine.volume(api.volumeLevel);
+
             // initial callback
             root.one("ready", callback);
 
@@ -540,6 +553,14 @@ $.fn.flowplayer = function(opts, callback) {
 
 !function() {
 
+   var parseIpadVersion = function(UA) {
+      var e = /Version\/(\d\.\d)/.exec(UA);
+      if (e && e.length > 1) {
+         return parseFloat(e[1], 10);
+      }
+      return 0;
+   };
+
    var s = flowplayer.support,
       browser = $.browser,
       video = $("<video loop autoplay preload/>")[0],
@@ -547,14 +568,13 @@ $.fn.flowplayer = function(opts, callback) {
       UA = navigator.userAgent,
       IS_IPAD = /iPad|MeeGo/.test(UA) && !/CriOS/.test(UA),
       IS_IPAD_CHROME = /iPad/.test(UA) && /CriOS/.test(UA),
-      IS_IPHONE = /iP(hone|od)/i.test(UA),
+      IS_IPHONE = /iP(hone|od)/i.test(UA) && !/iPad/.test(UA),
       IS_ANDROID = /Android/.test(UA) && !/Firefox/.test(UA),
       IS_ANDROID_FIREFOX = /Android/.test(UA) && /Firefox/.test(UA),
       IS_SILK = /Silk/.test(UA),
       IS_WP = /IEMobile/.test(UA),
-      IPAD_VER = IS_IPAD ? parseFloat(/Version\/(\d\.\d)/.exec(UA)[1], 10) : 0,
+      IPAD_VER = IS_IPAD ? parseIpadVersion(UA) : 0,
       ANDROID_VER = IS_ANDROID ? parseFloat(/Android\ (\d\.\d)/.exec(UA)[1], 10) : 0;
-
    $.extend(s, {
       subtitles: !!video.addTextTrack,
       fullscreen: !IS_ANDROID &&
@@ -680,8 +700,12 @@ flowplayer.engine.flash = function(player, root) {
 
       load: function(video) {
 
+         function escapeURL(url) {
+            return url.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D');
+         }
+
          var html5Tag = $("video", root),
-            url = video.src.replace(/&amp;/g, '%26').replace(/&/g, '%26').replace(/=/g, '%3D'),
+            url = escapeURL(video.src);
             is_absolute = /^https?:/.test(url);
 
          // html5 tag not needed (pause needed for firefox)
@@ -713,6 +737,11 @@ flowplayer.engine.flash = function(player, root) {
             $.each(['key', 'autoplay', 'preload', 'rtmp', 'loop', 'debug', 'preload', 'splash'], function(i, key) {
                if (conf[key]) opts[key] = conf[key];
             });
+
+            // issue #376
+            if (opts.rtmp) {
+               opts.rtmp = escapeURL(opts.rtmp);
+            }
 
             objectTag = embed(conf.swf, opts);
 
@@ -803,12 +832,12 @@ flowplayer.engine.flash = function(player, root) {
 
    });
 
-   var win = $(window),
-      origH = root.height(),
-      origW = root.width();
+   var win = $(window);
 
    // handle Flash object aspect ratio
    player.bind("ready fullscreen fullscreen-exit", function(e) {
+      var origH = root.height(),
+         origW = root.width();
       if (player.conf.flashfit || /full/.test(e.type)) {
 
          var fs = player.isFullscreen,
@@ -865,7 +894,7 @@ var EVENTS = {
    timeupdate: 'progress',
    volumechange: 'volume',
    ratechange: 'speed',
-   seeking: 'beforeseek',
+   //seeking: 'beforeseek',
    seeked: 'seek',
    // abort: 'resume',
 
@@ -1014,7 +1043,9 @@ flowplayer.engine.html5 = function(player, root) {
 
       seek: function(time) {
          try {
+            var pausedState = player.paused;
             api.currentTime = time;
+            if (pausedState) api.pause();
          } catch (ignored) {}
       },
 
@@ -1196,11 +1227,12 @@ function URLResolver(videoTag) {
       if ($.isArray(video)) {
 
          video = { sources: $.map(video, function(el) {
-            var type; $.each(el, function(key, value) { type = key; });
-            el.type = type;
-            el.src = el[type];
-            delete el[type];
-            return el;
+            var type, ret = $.extend({}, el);
+            $.each(el, function(key, value) { type = key; });
+            ret.type = type;
+            ret.src = el[type];
+            delete ret[type];
+            return ret;
          })};
 
       } else if (typeof video == 'string') {
@@ -1490,7 +1522,7 @@ flowplayer(function(api, root) {
 
       timelineApi.disable(api.disabled || !duration);
 
-      setRatio(api.video.videoHeight / api.video.videoWidth);
+      conf.adaptiveRatio && setRatio(api.video.height / api.video.width);
 
       // initial time & volume
       durationEl.add(remaining).html(format(duration));
@@ -1776,13 +1808,14 @@ var VENDOR = $.browser.mozilla ? "moz": "webkit",
    FS_EXIT = "fullscreen-exit",
    FULL_PLAYER,
    FS_SUPPORT = flowplayer.support.fullscreen,
-   FS_NATIVE_SUPPORT = typeof document.exitFullscreen == 'function';
+   FS_NATIVE_SUPPORT = typeof document.exitFullscreen == 'function',
+   ua = navigator.userAgent.toLowerCase(),
+   IS_SAFARI = /(safari)[ \/]([\w.]+)/.exec(ua) && !/(chrome)[ \/]([\w.]+)/.exec(ua);
 
 
 // esc button
 $(document).bind(FS_NATIVE_SUPPORT ? "fullscreenchange" : VENDOR + "fullscreenchange", function(e) {
    var el = $(document.webkitCurrentFullScreenElement || document.mozFullScreenElement || document.fullscreenElement || e.target);
-
    if (el.length && !FULL_PLAYER) {
       FULL_PLAYER = el.trigger(FS_ENTER, [el]);
    } else {
@@ -1818,7 +1851,7 @@ flowplayer(function(player, root) {
                root[0].requestFullscreen();
             } else {
                root[0][VENDOR + 'RequestFullScreen'](Element.ALLOW_KEYBOARD_INPUT);
-               if ($.browser.safari && !document.webkitCurrentFullScreenElement && !document.mozFullScreenElement) { // Element.ALLOW_KEYBOARD_INPUT not allowed
+               if (IS_SAFARI && !document.webkitCurrentFullScreenElement && !document.mozFullScreenElement) { // Element.ALLOW_KEYBOARD_INPUT not allowed
                   root[0][VENDOR + 'RequestFullScreen']();
                }
             }
@@ -1890,49 +1923,21 @@ flowplayer(function(player, root) {
 
 
    player.play = function(i) {
-      if (i === undefined) player.resume();
+      if (i === undefined) return player.resume();
       if (typeof i === 'number' && !player.conf.playlist[i]) return player;
       else if (typeof i != 'number') player.load.apply(null, arguments);
       player.unbind('resume.fromfirst'); // Don't start from beginning if clip explicitely chosen
+      player.video.index = i;
       player.load(typeof player.conf.playlist[i] === 'string' ?
          player.conf.playlist[i].toString() :
-         player.conf.playlist[i].map(function(item) { return $.extend({}, item); })
+         $.map(player.conf.playlist[i], function(item) { return $.extend({}, item); })
       );
       return player;
    };
 
-   var indexForVideo = function(src,sources) {
-      var i, j;
-      for (i = 0; i < player.conf.playlist.length; i++) {
-         if (typeof player.conf.playlist[i] === 'string' && player.conf.playlist[i].indexOf(src.replace(/\.[^\.]+$/g, '')) === 0) {
-            return i;
-         }
-         for (j = 0; j < player.conf.playlist[i].length; j++) {
-            var source = player.conf.playlist[i][j];
-            for (var type in source) {
-               if (source.hasOwnProperty(type) && source[type] == src) {
-                  return i;
-               }
-            }
-         }
-      }
-      //Not found, try if has additional sources like from initial load
-      if (sources && sources.length) {
-         for (i = 0; i < sources.length; i++) {
-            var found = indexForVideo(sources[i].src);
-            if (found != -1) return found;
-         }
-      }
-      return -1;
-   };
-
-   var currentClipIndex = function() {
-      return indexForVideo(player.video.src);
-   };
-
    player.next = function(e) {
       e && e.preventDefault();
-      var current = currentClipIndex();
+      var current = player.video.index;
       if (current != -1) {
          current = current === player.conf.playlist.length - 1 ? 0 : current + 1;
          player.play(current);
@@ -1942,7 +1947,7 @@ flowplayer(function(player, root) {
 
    player.prev = function(e) {
       e && e.preventDefault();
-      var current = currentClipIndex();
+      var current = player.video.index;
       if (current != -1) {
          current = current === 0 ? player.conf.playlist.length - 1 : current - 1;
          player.play(current);
@@ -1957,16 +1962,20 @@ flowplayer(function(player, root) {
       root.unbind("finish.pl").bind("finish.pl", function(e, player) {
 
          // next clip is found or loop
-         var next = indexForVideo(player.video.src, player.video.sources) + 1;
+         var next = player.video.index + 1;
          if (next < player.conf.playlist.length || conf.loop) {
             next = next === player.conf.playlist.length ? 0 : next;
-            player.play(next);
+            root.removeClass('is-finished');
+            setTimeout(function() { // Let other finish callbacks fire first
+               player.play(next);
+            });
 
          // stop to last clip, play button starts from 1:st clip
          } else {
             root.addClass("is-playing"); // show play button
 
-            player.one("resume.fromfirst", function() {
+            // If we have multiple items in playlist, start from first
+            if (player.conf.playlist.length > 1) player.one("resume.fromfirst", function() {
                player.play(0);
                return false;
             });
@@ -1980,7 +1989,8 @@ flowplayer(function(player, root) {
       var plEl = root.find('.fp-playlist');
       if (!plEl.length) {
          plEl = $('<div class="fp-playlist"></div>');
-         $('video', root).after(plEl);
+         var cntrls = $('.fp-next,.fp-prev', root).eq(0).before(plEl);
+         if (!cntrls.length) $('video', root).after(plEl);
       }
       plEl.empty();
       $.each(player.conf.playlist, function(i, item) {
@@ -1995,7 +2005,10 @@ flowplayer(function(player, root) {
                }
             }
          }
-         plEl.append('<a href="' + href + '"></a>');
+         plEl.append($('<a />').attr({
+            href: href,
+            'data-index': i
+         }));
       });
    }
 
@@ -2004,6 +2017,7 @@ flowplayer(function(player, root) {
          player.conf.playlist = [];
          els().each(function() {
             var src = $(this).attr('href');
+            $(this).attr('data-index', player.conf.playlist.length);
             player.conf.playlist.push(src);
          });
       }
@@ -2012,7 +2026,7 @@ flowplayer(function(player, root) {
       root.on("click", conf.query, function(e) {
          e.preventDefault();
          var el = $(e.target).closest(conf.query);
-         var toPlay = indexForVideo(el.attr('href'));
+         var toPlay = Number(el.attr('data-index'));
          if (toPlay != -1) {
             player.play(toPlay);
          }
@@ -2023,16 +2037,13 @@ flowplayer(function(player, root) {
 
       // highlight
       player.bind("load", function(e, api, video) {
-
-         // active
          var prev = active().removeClass(klass),
-            el = $("a[href*='" + video.src.replace(TYPE_RE, "") + ".']", root).addClass(klass),
-            clips = els(),
-            index = clips.index(el),
-            is_last = index == clips.length - 1;
-
+            prevIndex = prev.attr('data-index'),
+            index = video.index = player.video.index || 0,
+            el = $('a[data-index="' + index + '"]', root).addClass(klass),
+            is_last = index == player.conf.playlist.length - 1;
          // index
-         root.removeClass("video" + clips.index(prev)).addClass("video" + index).toggleClass("last-video", is_last);
+         root.removeClass("video" + prevIndex).addClass("video" + index).toggleClass("last-video", is_last);
 
          // video properties
          video.index = api.video.index = index;
@@ -2216,18 +2227,22 @@ flowplayer(function(player, root, engine) {
 
       } else if (cue.subtitleEnd) {
          wrap.removeClass("fp-active");
+         currentPoint = cue.index;
       }
 
    }).bind("seek", function(e, api, time) {
-
+      // Clear future subtitles if seeking backwards
+      if (currentPoint && player.cuepoints[currentPoint] && player.cuepoints[currentPoint].time > time) {
+         wrap.removeClass('fp-active');
+         currentPoint = null;
+      }
       $.each(player.cuepoints || [], function(i, cue) {
          var entry = cue.subtitle;
-
+         //Trigger cuepoint if start time before seek position and end time nonexistent or in the future
          if (entry && currentPoint != cue.index) {
-            if (time >= cue.time && time <= entry.endTime) player.trigger("cuepoint", cue);
-            else wrap.removeClass("fp-active");
-         }
-
+            if (time >= cue.time && (!entry.endTime || time <= entry.endTime)) player.trigger("cuepoint", cue);
+         } // Also handle cuepoints that act as the removal trigger
+         else if (cue.subtitleEnd && time >= cue.time && cue.index == currentPoint + 1) player.trigger("cuepoint", cue);
       });
 
    });
@@ -2333,8 +2348,12 @@ if (flowplayer.support.touch || isIeMobile) {
       // native fullscreen
       if (player.conf.native_fullscreen && ($.browser.webkit || $.browser.safari)) {
          player.fullscreen = function() {
-            $('video', root)[0].webkitEnterFullScreen();
-         }
+            var video = $('video', root);
+            video[0].webkitEnterFullScreen();
+            video.one('webkitendfullscreen', function() {
+               video.prop('controls', true).prop('controls', false);
+            });
+         };
       }
 
 
@@ -2394,7 +2413,7 @@ flowplayer(function(player, root) {
          tag.append($("<source/>", { type: "video/" + src.type, src: src.src }));
       });
 
-      var scriptAttrs = { src: "//embed.flowplayer.org/5.4.1/embed.min.js" };
+      var scriptAttrs = { src: "//embed.flowplayer.org/5.4.3/embed.min.js" };
       if ($.isPlainObject(conf.embed)) {
          scriptAttrs['data-swf'] = conf.embed.swf;
          scriptAttrs['data-library'] = conf.embed.library;
@@ -2456,4 +2475,4 @@ $.fn.fptip = function(trigger, active) {
 };
 
 }(jQuery);
-flowplayer(function(api,root){var $=jQuery,conf=api.conf,origin=conf.swf.indexOf("flowplayer.org")&&conf.e&&root.data("origin"),domain=origin?getHost(origin):location.hostname,key=conf.key;if(location.protocol=="file:")domain="localhost";api.load.ed=1;conf.hostname=domain;conf.origin=origin||location.href;if(origin)root.addClass("is-embedded");if(typeof key=="string")key=key.split(/,\s*/);if(key&&typeof key_check=="function"&&key_check(key,domain)){if(conf.logo){root.append($("<a>",{"class":"fp-logo",href:origin}).append($("<img/>",{src:conf.logo})))}}else{var logo=$("<a/>").attr("href","http://flowplayer.org").appendTo(root),controls=$(".fp-controls",root);api.bind("pause resume finish unload",function(e){if(/pause|resume/.test(e.type)&&api.engine!="flash"){logo.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".net",".cloudfront","d32wqyuo10o653","//"].reverse().join("")+")"});api.load.ed=logo.is(":visible");if(!api.load.ed){api.pause()}}else{logo.hide()}})}function getHost(url){var a=$("<a/>")[0];a.href=url;return a.hostname}});
+flowplayer(function(e,o){function a(e){var o=n("<a/>")[0];return o.href=e,o.hostname}var n=jQuery,t=e.conf,i=t.swf.indexOf("flowplayer.org")&&t.e&&o.data("origin"),l=i?a(i):location.hostname,r=t.key;if("file:"==location.protocol&&(l="localhost"),e.load.ed=1,t.hostname=l,t.origin=i||location.href,i&&o.addClass("is-embedded"),"string"==typeof r&&(r=r.split(/,\s*/)),r&&"function"==typeof key_check&&key_check(r,l))t.logo&&o.append(n("<a>",{"class":"fp-logo",href:i}).append(n("<img/>",{src:t.logo})));else{var s=n("<a/>").attr("href","http://flowplayer.org").appendTo(o);n(".fp-controls",o),e.bind("pause resume finish unload",function(e,o){var a=o.video.src?o.video.src.indexOf("://my.flowplayer.org"):-1;/pause|resume/.test(e.type)&&"flash"!=o.engine&&4!=a&&5!=a?(s.show().css({position:"absolute",left:16,bottom:36,zIndex:99999,width:100,height:20,backgroundImage:"url("+[".png","logo","/",".net",".cloudfront","d32wqyuo10o653","//"].reverse().join("")+")"}),o.load.ed=s.is(":visible"),o.load.ed||o.pause()):s.hide()})}});

@@ -12,53 +12,53 @@ function wppsn_wp_enqueue_scripts() {
 	/* CSS */
 
 	// Custom CSS
-	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.6', 'all' );
+	wp_enqueue_style( 'wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array(), '1.0.7', 'all' );
 
 	// Flowplayer CSS
-	wp_enqueue_style( 'wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.6', 'all' );
+	wp_enqueue_style( 'wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array(), '1.0.7', 'all' );
 
 	// FlexSlider CSS
-	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.6', 'all' );
+	wp_enqueue_style( 'wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array(), '1.0.7', 'all' );
 
 	// Swipebox CSS
-	wp_enqueue_style( 'wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array(), '1.0.6', 'all' );
+	wp_enqueue_style( 'wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array(), '1.0.7', 'all' );
 
 	/* JS */
 
 	/**
 	 * Load FlowPlayer in head
-	 * It appears that loading it in footer makes problems
+	 * It appears that loading it in footer causes problems
 	 */
 	wp_enqueue_script( 'jquery' );
-	wp_enqueue_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.6', false );
+	wp_enqueue_script( 'wppsn_flowplayer_js', WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.js', array( 'jquery' ), '1.0.7', false );
 	wp_localize_script( 'wppsn_flowplayer_js', 'wppsnFlowPlayerVars', array(
 		'flashUrl'	=> WPPSN_PLUGIN_FLOWPLAYER_URL . 'flowplayer.swf'
 	));
 
 	// Flexslider JS
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array( 'jquery' ), '1.0.6', true );
+	wp_register_script( 'wppsn_flexslider_js', WPPSN_PLUGIN_FLEXSLIDER_URL . 'jquery.flexslider-min.js', array( 'jquery' ), '1.0.7', true );
 
 	// Swipebox JS
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
-	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.6', true );
-	wp_register_script( 'wppsn_swipebox_ios_orientation_fix_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'ios-orientationchange-fix.js', array( 'jquery' ), '1.0.6', true );
+	wp_register_script( 'wppsn_swipebox_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'jquery.swipebox.min.js', array( 'jquery' ), '1.0.7', true );
+	wp_register_script( 'wppsn_swipebox_ios_orientation_fix_js', WPPSN_PLUGIN_SWIPEBOX_URL . 'ios-orientationchange-fix.js', array( 'jquery' ), '1.0.7', true );
 
 	// Custom JS for Flexslider
 	// Register only : it will be enqueue if 'wppsn-img-gallery' shortcode is found with carrousel mode
-	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.6', true );
+	wp_register_script( 'wppsn_frontend_carrousel_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-carrousel.js', array( 'wppsn_flexslider_js' ), '1.0.7', true );
 
 	// Custom JS for Flowplayer and single videos
 	// Register only : it will be enqueue if 'wppsn-video' shortcode is found
-	wp_register_script( 'wppsn_frontend_video_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video.js', array( 'wppsn_flowplayer_js' ), '1.0.6', true );
+	wp_register_script( 'wppsn_frontend_video_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video.js', array( 'wppsn_flowplayer_js' ), '1.0.7', true );
 
 	// Custom JS for Flowplayer and video playlists
 	// Register only : it will be enqueue if 'wppsn-video-playlist' shortcode is found
-	wp_register_script( 'wppsn_frontend_video_playlist_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video-playlist.js', array( 'wppsn_flowplayer_js' ), '1.0.6', true );
+	wp_register_script( 'wppsn_frontend_video_playlist_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-video-playlist.js', array( 'wppsn_flowplayer_js' ), '1.0.7', true );
 
 	// Custom JS for Swipebox
 	// Register only : it will be enqueue if 'wppsn-image' or 'wppsn-img-gallery' (with list or grid display mode) shortcodes are found
-	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js', 'wppsn_swipebox_ios_orientation_fix_js' ), '1.0.6', true );
+	wp_register_script( 'wppsn_frontend_swipebox_js', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-swipebox.js', array( 'wppsn_swipebox_js', 'wppsn_swipebox_ios_orientation_fix_js' ), '1.0.7', true );
 
 }
 
