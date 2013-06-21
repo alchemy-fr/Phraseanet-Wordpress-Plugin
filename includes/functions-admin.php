@@ -37,10 +37,13 @@ add_action( 'admin_init', 'wppsn_admin_init' );
  */
 function wppsn_admin_enqueue_scripts( $hook ) {
 
+    // Admin CSS
+    wp_enqueue_style( 'wppsn-admin-css', WPPSN_PLUGIN_CSS_URL . 'admin.css', array(), '1.0.0', 'all' );
+
     // Some i18n and global vars
     wp_localize_script( 'jquery', 'wppsnInfosWysiwyg', array(
         'buttonText'                 => __( 'Insert a Phraseanet Content', 'wp-phraseanet' ),    // Text of the WYSIWYG button
-        'buttonUrl'                  => WPPSN_PLUGIN_IMAGES_URL . 'phraseanet_button.png',       // Icon of the WYSIWYG button
+        'buttonUrl'                  => WPPSN_PLUGIN_IMAGES_URL . 'phraseanet-button.png',       // Icon of the WYSIWYG button
         'buttonModalContentFileUrl'  => WPPSN_PLUGIN_TEMPLATES_URL . 'tpl-modal-container.php'   // File called in the modal window
     ));
 
@@ -53,7 +56,22 @@ add_action( 'admin_enqueue_scripts', 'wppsn_admin_enqueue_scripts' );
  * Add plugin option page in Main Settings Menu
  */
 function wppsn_admin_menu() {
-    add_options_page( __( 'WP Phraseanet Settings', 'wp-phraseanet' ), __( 'WP Phraseanet', 'wp-phraseanet' ), 'manage_options', 'wppsn_settings_page', 'wppsn_settings_page_content' );
+
+    // Top Level menu
+    add_menu_page( __( 'WP Phraseanet - Settings', 'wp-phraseanet' ), WPPSN_PLUGIN_MENU_NAME, 'publish_posts', 'wppsn_settings_page', 'wppsn_settings_page_content', 'div', 100);
+    
+    // Submenus
+    add_submenu_page( 'wppsn_settings_page', __( 'WP Phraseanet - Help - Credits', 'wp-phraseanet' ), __( 'Help - Credits', 'wp-phraseanet' ), 'publish_posts', 'wppsn_help_credits_page', 'wppsn_help_credits_page_content' );
+    
+    // Fix the title of the 1st submenu which is the same link than the top level but not the same text
+    global $submenu;
+    
+    if ( isset($submenu['wppsn_settings_page']) ) {
+        $submenu['wppsn_settings_page'][0][0] = __( 'Settings', 'lm-maps-manager' );
+    }
+
+
+    // add_options_page( __( 'WP Phraseanet Settings', 'wp-phraseanet' ), __( 'WP Phraseanet', 'wp-phraseanet' ), 'manage_options', 'wppsn_settings_page', 'wppsn_settings_page_content' );
 }
 
 add_action( 'admin_menu', 'wppsn_admin_menu' );
@@ -64,6 +82,14 @@ add_action( 'admin_menu', 'wppsn_admin_menu' );
  */
 function wppsn_settings_page_content() {
     require_once( WPPSN_PLUGIN_TEMPLATES_PATH . 'tpl-page-settings.php' );
+}
+
+
+/**
+ * Help - Credits page Content
+ */
+function wppsn_help_credits_page_content() {
+    require_once( WPPSN_PLUGIN_TEMPLATES_PATH . 'tpl-page-help-credits.php' );
 }
 
 

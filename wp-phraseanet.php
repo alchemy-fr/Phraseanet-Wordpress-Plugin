@@ -73,3 +73,22 @@ function wppsn_set_default_options() {
 	add_option( 'wppsn_options', $default_options );
 
 }
+
+
+/**
+ * In plugin list, add links to settings and help pages
+ * @param  array 	$links 	Original links array
+ * @param  string 	$file  	Current plugin file loading
+ * @return array        	Array of links
+ */
+function wppsn_add_plugin_settings_link( $links, $file ) {
+	if ( $file == plugin_basename( plugin_basename( __FILE__ ) ) ) {
+	 	$links[] = '<a href="' . admin_url() . 'admin.php?page=wppsn_settings_page">' . __( 'Settings' ).'</a>';
+	 	$links[] = '<a href="' . admin_url() . 'admin.php?page=wppsn_help_credits_page">' . __( 'Help' ).'</a>';
+	}
+	
+	return $links;
+}
+
+add_filter( 'plugin_action_links', 'wppsn_add_plugin_settings_link', 10, 2 );
+

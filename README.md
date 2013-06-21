@@ -18,16 +18,18 @@ This plugin creates the possibility to add media content from a Phraseanet Insta
  - Download the plugin on [Phraseanet.com](https://www.phraseanet.com/download/)
  - Upload it to Wordpress Admin using the Plugin section
  - Enable the plugin in the Wordpress Admin using the Plugin section
- - Configure the plugin in the new Wordpress Settings `Phraseanet-WP` tab
+ - Configure the plugin in the new Wordpress Settings menu `WP Phraseanet`
 
 ### Manual installation (developer)
 
 You need [Composer](http://getcomposer.org/) before continuing.
 
-```
+```bash
+cd your-wordpress-root/wp-content/plugins/
 git clone https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin.git
 cd Phraseanet-Wordpress-Plugin
 composer install --dev
+composer update
 ```
 	
 ## Plugin Activation and Configuration
