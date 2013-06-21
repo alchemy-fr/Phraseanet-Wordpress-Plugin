@@ -1,8 +1,11 @@
 CHANGELOG
 ---------
 
-* 0.1.3 (XX-XX-XXXX)
+* 0.1.3 (XX-XX-20313)
 
+  * Update to SwipeBox 1.1.2
+  * Update to Flowplayer 5.4.3
+  * User interface enhancements
   * Add substitution images for each record types
   * Add icons for each media type
 
