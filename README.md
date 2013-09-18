@@ -4,6 +4,7 @@ This plugin creates the possibility to add media content from a Phraseanet Insta
 
 ### Requirements
 * PHP 5.3.0 and higher
+* php-curl extension
 * Wordpress 3.3.2 and higher
 
 ### Browser compatibility
