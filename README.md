@@ -34,6 +34,9 @@ composer update
 	
 ## Plugin Activation and Configuration
 Once the plugin is installed, activate it. You must then configure it in the Settings > WP Phraseanet menu.
+You need to set a new application in your phraseanet instance.
+
+https://docs.phraseanet.com/3.8/en/Devel/ApplicationDeveloper.html
 
 ## Development
 [Alchemy](http://www.alchemy.fr/) and [Labomedia](http://labomedia.org)
