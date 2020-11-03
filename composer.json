@@ -4,7 +4,7 @@
     "description": "A wordpress plugin for Phraseanet",
     "license": "GPL-3.0",
     "require": {
-        "php"                      : ">=5.3.3",
+        "php"                      : ">7.4.0",
         "phraseanet/php-sdk"       : "~0.2.2"
     },
     "autoload": {
