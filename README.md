@@ -3,7 +3,7 @@
 This plugin creates the possibility to add media content from a Phraseanet Instance directly into the Wywiwyg editor (tinyMCE).
 
 ### Requirements
-* PHP 5.3.0 and higher
+* PHP 7.4 and higher
 * Wordpress 5.5 and higher
 
 ### Browser compatibility
