@@ -17,10 +17,12 @@
 			var modalW = ( wWidth > maxModalWidth ) ? maxModalWidth : wWidth - 40;
 			var modalH = ( wHeight > maxModalHeight ) ? maxModalHeight : wHeight - 80;
 
+
 			// Register commands
 			ed.addCommand( 'mcewppsn', function() {
 				ed.windowManager.open(
 					{
+
 						file : wppsnInfosWysiwyg.buttonModalContentFileUrl, // content of the modal window (php file here)
 						width : modalW,
 						height : modalH,
@@ -38,7 +40,9 @@
 				{
 					title : wppsnInfosWysiwyg.buttonText,
 					cmd : 'mcewppsn',
-					image: wppsnInfosWysiwyg.buttonUrl
+					image: wppsnInfosWysiwyg.buttonUrl,
+					classes: 'phrase_icons',
+					id: 'phrase_icon'
 				}
 			);
 
