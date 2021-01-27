@@ -3,10 +3,10 @@
  * Content of the WYSIWYG Modal window
  */
 ?><!DOCTYPE html>
-<html>
+<html lang="">
 	<head>
 		<meta charset="utf-8">
-		<title>WP Phraseanet</title>
+		<title>WP Phraseanet 2</title>
 
 		
 		<?php /* Core WP CSS */ ?>
@@ -38,7 +38,8 @@
 
 	</head>
 	<body class="wp-core-ui media-modal media-frame">
-			
+
+    <p>Loading....</p>
 		
 
 	</body>

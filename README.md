@@ -3,8 +3,8 @@
 This plugin creates the possibility to add media content from a Phraseanet Instance directly into the Wywiwyg editor (tinyMCE).
 
 ### Requirements
-* PHP 5.3.0 and higher (with curl and openssl extensions)
-* Wordpress 3.3.2 and higher
+* PHP 7.0.33
+* Wordpress 5.5 and higher
 
 ### Browser compatibility
 * Chrome/Chromium 20+
@@ -34,11 +34,6 @@ composer update
 	
 ## Plugin Activation and Configuration
 Once the plugin is installed, activate it. You must then configure it in the Settings > WP Phraseanet menu.
-
-You need to set a new application in your Phraseanet instance.
-
-More info here :
-https://docs.phraseanet.com/3.8/en/Devel/ApplicationDeveloper.html
 
 ## Development
 [Alchemy](http://www.alchemy.fr/) and [Labomedia](http://labomedia.org)

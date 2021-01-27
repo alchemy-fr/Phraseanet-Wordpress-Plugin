@@ -1,4 +1,18 @@
 /* Plugin Menu icon */
-#toplevel_page_wppsn_settings_page .wp-menu-image {background:transparent url(../images/phraseanet-menu-icon.png) 5px -36px no-repeat}
+#toplevel_page_wppsn_settings_page .wp-menu-image {
+    background: transparent url(../images/phrasea-logo_sm.png) 5px 4px no-repeat
+}
+
 #toplevel_page_wppsn_settings_page:hover .wp-menu-image,
-#toplevel_page_wppsn_settings_page.wp-menu-open .wp-menu-image {background-position:5px 4px}
+#toplevel_page_wppsn_settings_page.wp-menu-open .wp-menu-image {
+    background-position: 5px 4px
+}
+
+
+#phrase_icon {
+    border-top: 1px solid orange;
+    border-left: 1px solid orangered ;
+    border-right: 1px solid greenyellow;
+    border-bottom: 1px solid blueviolet;
+
+}
