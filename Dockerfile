@@ -9,7 +9,9 @@ RUN apk add --no-cache \
 # Ghostscript is required for rendering PDF previews
 		ghostscript \
 # Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-		imagemagick
+		imagemagick \
+# imagick package php7-pecl-imagick (3.4.4-r7) @note this is an alternate of pecl install imagick;
+		php7-imagick
 
 # install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 RUN set -ex; \
@@ -34,8 +36,8 @@ RUN set -ex; \
 		mysqli \
 		zip \
 	; \
-	pecl install imagick-3.4.4; \
-	docker-php-ext-enable imagick; \
+	#pecl install imagick-3.4.4; \
+	#docker-php-ext-enable imagick; \
 	\
 	runDeps="$( \
 		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
