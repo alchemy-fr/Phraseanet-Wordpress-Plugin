@@ -94,7 +94,7 @@ function wppsn_shortcode_single_image( $atts ) {
 
 	// Download link ?
 	if ( $download == 1 ) {
-		$downloadLink = '<a href="' . $url . ( ( false === strpos( '?', $url ) ) ? '?download' : '&download' ) . '">' . __( 'Download', 'wp-phraseanet' ) . '</a>';
+		$downloadLink = '<a href="' . $url . ( ( false === strpos( '?', $url ) ) ? '?&download=1' : '&download' ) . '">' . __( 'Download', 'wp-phraseanet' ) . '</a>';
 	}
 
 	// Encapsulate the image in a div for responsive design
