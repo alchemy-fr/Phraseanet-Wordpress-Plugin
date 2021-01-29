@@ -21,7 +21,7 @@ function wppsn_admin_init() {
 
 
 
-		add_filter( 'mce_buttons_3', 'wppsn_mce_buttons' );
+		add_filter( 'mce_buttons', 'wppsn_mce_buttons' );
 
 
     }
