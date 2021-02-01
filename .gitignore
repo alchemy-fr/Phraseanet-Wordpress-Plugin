@@ -1,5 +1,27 @@
+.vagrant*
+bin
+docker/docker
+.*.swp
+a.out
+*.orig
+build_src
+.flymake*
+.idea
+.DS_Store
+docs/_build
+docs/_static
+docs/_templates
+.gopath/
+.dotcloud
+*.test
+bundles/
+.hg/
+.git/
+vendor/pkg/
+pyenv
+Vagrantfile
+.vscode
+ssh/id_rsa
+.env
+dist/
 node_modules
-
-## Uncomment line below if you prefer to
-## keep compiled files out of version control
-# dist/
