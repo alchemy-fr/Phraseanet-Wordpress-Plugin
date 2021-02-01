@@ -34,6 +34,9 @@ services:
     depends_on:
       - mysql
     restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: root
