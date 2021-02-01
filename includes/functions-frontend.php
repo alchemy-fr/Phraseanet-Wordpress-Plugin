@@ -94,7 +94,7 @@ function wppsn_shortcode_single_image( $atts ) {
 
 	// Download link ?
 	if ( $download == 1 ) {
-		$downloadLink = '<a href="' . $url . ( ( false === strpos( '?', $url ) ) ? '?&download=1' : '&download' ) . '">' . __( 'Download', 'wp-phraseanet' ) . '</a>';
+		$downloadLink = '<a href="' . $url . ( ( false === strpos( '?', $url ) ) ? '&download=1' : '&download' ) . '">' . __( 'Download', 'wp-phraseanet' ) . '</a>';
 	}
 
 	// Encapsulate the image in a div for responsive design
@@ -218,7 +218,9 @@ function wppsn_shortcode_image_gallery( $atts ) {
 								float: left;
 								margin-top: 10px;
 								text-align: center;
-								width: 33%;
+								
+								position: relative;
+								width: 40%;
 							}
 							#' . $galleryID . ' img {
 								border: 2px solid #cfcfcf;
@@ -226,9 +228,56 @@ function wppsn_shortcode_image_gallery( $atts ) {
 							#' . $galleryID . ' .gallery-caption {
 								margin-left: 0;
 							}
+
+							  .image {
+								opacity: 1;
+								display: block;
+								width: 100%;
+								height: auto;
+								transition: .5s ease;
+								backface-visibility: hidden;
+							  }
+							  
+							  .middle {
+								transition: .5s ease;
+								opacity: 0;
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								transform: translate(-50%, -50%);
+								-ms-transform: translate(-50%, -50%);
+								text-align: center;
+							  }
+							  
+							  .gallery-item:hover .image {
+								opacity: 0.3;
+							  }
+							  
+							  .gallery-item:hover .middle {
+								opacity: 1;
+							  }
+							
+							  .text {
+								background-color: #06060638;
+								color: white;
+								font-size: 16px;
+								padding: 16px 32px;
+								
+							  };
+							  a:link {
+								color: black;
+							  }
+
+							  a:hover {
+								color: white;
+								text-decoration: none;
+							  }
+							  
+
+
 						</style>';
 
-			$output .= '<div id="' . $galleryID . '" class="wppsn-gallery gallery">';
+			$output .= '<div  id="' . $galleryID . '" class="wppsn-gallery gallery">';
 
 			foreach( $allTitles as $i => $t ) {
 
@@ -238,12 +287,26 @@ function wppsn_shortcode_image_gallery( $atts ) {
 				$thumb = trim( $allThumbs[$i] );
 				$url = trim( $allUrls[$i] );
 
-				$output .= '<dl class="gallery-item">
-								<dt class="gallery-icon">
-									<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
-										<img src="' . $thumb . '" class="attachment-thumbnail" alt="' . $alt . '">
-									</a>
-								</dt>';
+				// $output .= '<dl style="background-color:red" class="gallery-item">
+				// 				<dt class="gallery-icon">
+				// 					<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
+				// 						<img src="' . $thumb . '" class="attachment-thumbnail" alt="' . $alt . '">
+				// 					</a>
+									
+				// 				</dt>';
+
+	  $output .= "<div class='gallery-item'>
+  <img src='$thumb' alt='Avatar' class='image' >
+  <div class='middle'>
+  
+  <div class='text'>
+  
+  
+  <a href='$url' target='_blank'>View</a> 
+  <br>
+  <a href='$url&download=1'>Download</a>
+ 
+  </div></div></div>";
 
 				// Legend ?
 				if ( $legend != '' ) {
