@@ -76,16 +76,22 @@ Mysql's my.cnf in located in the mysql dir
 
 
 > SITE_TITLE=Phraseanet for worpdress
+> 
 > WP_ADMIN_USERNAME=admin
+> 
 > WP_ADMIN_PASSWORD=admin123
+> 
 > WP_ADMIN_EMAIL=admin@admin.com
 
 
 ##### phraseanet settings
 
 > PHRASEANET_BO_URL=YOUR PHRASEANET URL
+> 
 > PHRASEANET_BO_TOKEN=PHRASEANET TOKEN
+> 
 > PHRASEANET_BO_CLIENT_ID=PHRASEANET CLIENT ID
+> 
 > PHRASEANET_BO_SECRET=PHRASEANET SECRET
 
 
