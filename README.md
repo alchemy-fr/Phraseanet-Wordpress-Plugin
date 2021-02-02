@@ -35,8 +35,109 @@ composer update
 ## Plugin Activation and Configuration
 Once the plugin is installed, activate it. You must then configure it in the Settings > WP Phraseanet menu.
 
+
+
+
+
+
+## Docker
+
+
+### Requirements
+
+* Docker
+* Docker-composer
+
+### Configuration
+
+#### env
+
+Rename.env.example to .env file and edit the configuration
+
+
+#### nginx-conf
+
+nginx-conf is locted in the nginx-conf dir
+
+#### mysql cnf (optional)
+
+Mysql's my.cnf in located in the mysql dir
+
+#### ENV configuration
+
+##### Mysql settings
+
+> MYSQL_ROOT_PASSWORD=password
+> 
+> MYSQL_DATABASE=drupal
+
+
+##### Wordpress settings
+
+
+> SITE_TITLE=Phraseanet for worpdress
+> 
+> WP_ADMIN_USERNAME=admin
+> 
+> WP_ADMIN_PASSWORD=admin123
+> 
+> WP_ADMIN_EMAIL=admin@admin.com
+
+
+##### phraseanet settings
+
+> PHRASEANET_BO_URL=YOUR PHRASEANET URL
+> 
+> PHRASEANET_BO_TOKEN=PHRASEANET TOKEN
+> 
+> PHRASEANET_BO_CLIENT_ID=PHRASEANET CLIENT ID
+> 
+> PHRASEANET_BO_SECRET=PHRASEANET SECRET
+
+
+#### Installation
+
+RUN `docker-compose` up or `docker-compose -d up`
+
+This will auto install the Wordpress and phraseanet plugin
+
+
+
+##### Containers
+
+* mysql - database
+* gateway - nginx reverse proxy
+* wordpress - main application
+
+##### Volumes
+
+* DB
+* WPDATA
+
+##### Images
+
+* Mysql 
+* Php-alpine 
+* Nginx
+
+
+
+
+### Development mode
+
+Run `composer install`
+
+Run `docker-compose -f docker-composer-override.yml up `
+
+
+
+
+
+
+
 ## Development
 [Alchemy](http://www.alchemy.fr/) and [Labomedia](http://labomedia.org)
+
 
 ## License
 This project is licensed under the [GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).

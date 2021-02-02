@@ -25,3 +25,4 @@ ssh/id_rsa
 .env
 dist/
 node_modules
+vendor/*

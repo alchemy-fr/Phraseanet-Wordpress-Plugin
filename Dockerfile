@@ -9,7 +9,7 @@ RUN apk add --no-cache \
 # Ghostscript is required for rendering PDF previews
 		ghostscript \
 # Alpine package for "imagemagick" contains ~120 .so files, see: https://github.com/docker-library/wordpress/pull/497
-		imagemagick \
+		imagemagick
 # imagick package php7-pecl-imagick (3.4.4-r7) @note this is an alternate of pecl install imagick;
 		#php7-imagick
 # install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
@@ -118,6 +118,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chmod +x wp-cli.phar
 
 RUN mv wp-cli.phar /usr/local/bin/wp
+
+RUN apk add --no-cache bash
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
