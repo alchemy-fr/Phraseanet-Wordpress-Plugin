@@ -36,10 +36,6 @@ composer update
 Once the plugin is installed, activate it. You must then configure it in the Settings > WP Phraseanet menu.
 
 
-
-
-
-
 ## Docker
 
 
@@ -86,12 +82,17 @@ Mysql's my.cnf in located in the mysql dir
 
 ##### phraseanet settings
 
+> PHRASEANET_PLUGIN_INSTALL=one
+> 
+>  (one) plugin is install only at first launch and (always) plugin is install at each entry point execution.
+
+> 
 > PHRASEANET_BO_URL=YOUR PHRASEANET URL
 > 
 > PHRASEANET_BO_TOKEN=PHRASEANET TOKEN
 > 
 > PHRASEANET_BO_CLIENT_ID=PHRASEANET CLIENT ID
-> 
+> 	
 > PHRASEANET_BO_SECRET=PHRASEANET SECRET
 
 
@@ -99,7 +100,7 @@ Mysql's my.cnf in located in the mysql dir
 
 RUN `docker-compose` up or `docker-compose -d up`
 
-This will auto install the Wordpress and phraseanet plugin
+This will auto install the WordPress and phraseanet plugin
 
 
 
@@ -125,14 +126,24 @@ This will auto install the Wordpress and phraseanet plugin
 
 ### Development mode
 
-Run `composer install`
-
-Run `docker-compose -f docker-composer-override.yml up `
 
 
+#### Method #1
+
+Rename example.docker-compose.override.yml to docker-compose.override.yml and Run `docker-compose up `
+
+#### Method #2
+
+Without renaming the file you can Run ``docker-compose -f example.docker-compose.override.yml up`` With the -f option of Docker Compose, you can also define multiple override files, where each file extends the configuration of the previous one.
+
+#### Code
+
+This will attach the current code to /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/ with composer install --dev
 
 
+#### docker exec
 
+Run ``docker exec -it wordpress bash`` This will create a new Bash session in the wordpress container 
 
 
 ## Development

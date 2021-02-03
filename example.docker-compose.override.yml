@@ -15,6 +15,7 @@ services:
             test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
             timeout: 20s
             retries: 10  
+     
   gateway:
     container_name: gateway
     image: 'nginx:1.17.4-alpine'
@@ -26,7 +27,9 @@ services:
     volumes:
       - WPDATA:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
-    
+      - type: bind
+        source: ./
+        target: /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/
   wordpress:
     container_name: wordpress
     build:
@@ -50,6 +53,8 @@ services:
       WP_ADMIN_USERNAME: ${WP_ADMIN_USERNAME}
       WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      PHRASEANET_PLUGIN_INSTALL: ${PHRASEANET_PLUGIN_INSTALL}
+      MODE: 'dev' 
     volumes:
       - WPDATA:/var/www/html
       - type: bind

@@ -273,29 +273,72 @@ EOPHP
 		unset "$e"
 	done
 
+
+
 if ! test -f "/var/www/html/installed"; then
 
-(cd /var/www/html/; wp core install --url='http://127.0.0.1:8080' --title="${SITE_TITLE}" --admin_user="${WP_ADMIN_USERNAME}" --admin_password="${WP_ADMIN_PASSWORD}" --admin_email="${WP_ADMIN_EMAIL}" --allow-root)
+	(cd /var/www/html/; wp core install --url='http://127.0.0.1:8080' --title="${SITE_TITLE}" --admin_user="${WP_ADMIN_USERNAME}" --admin_password="${WP_ADMIN_PASSWORD}" --admin_email="${WP_ADMIN_EMAIL}" --allow-root)
 
-(cd /var/www/html/wp-content/plugins;  git clone "https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin.git")
 
-(cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; rm composer.lock)
+	(cd /var/www/html/; touch installed)
 
-(cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; composer install)
+fi
+
+
+
+
+fi
+
+
+
+if [ "$MODE" != "dev" ] 
+	then
+
+    	if [ "$PHRASEANET_PLUGIN_INSTALL" = "one" ] 
+		
+			then
+
+        		if ! test -f "/var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/composer.lock"; then
+
+            	(cd /var/www/html/wp-content/plugins;  git clone "https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin.git")
+
+            	(cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; rm composer.lock)
+
+        fi
+
+    elif [ "$PHRASEANET_PLUGIN_INSTALL" = "always" ]
+	
+	 then
+
+		if  test -f "/var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/composer.lock"; then
+        (cd /var/www/html/wp-content/plugins/; rm -r Phraseanet-Wordpress-Plugin/)
+		
+		fi
+        
+		(cd /var/www/html/wp-content/plugins;  git clone "https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin.git")
+
+        (cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; rm composer.lock)
+
+
+    fi
+
+
+fi 
+
+if [ "$MODE" != "dev" ] 
+	then
+
+		(cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; composer install)
+
+else
+		(cd /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/; composer install --dev)
+
+fi
+
 
 (cd /var/www/html/; wp plugin activate Phraseanet-Wordpress-Plugin  --allow-root)
 
 (cd /var/www/html/; wp option update wppsn_options --format=json  '{"client_base_url": "'"${PHRASEANET_BO_URL}"'","client_id": "'"${PHRASEANET_BO_CLIENT_ID}"'", "client_secret": "'"${PHRASEANET_BO_SECRET}"'", "client_token": "'"${PHRASEANET_BO_TOKEN}"'"}'   --allow-root)
-
-(cd /var/www/html/; touch installed)
-
-fi
-
-
-fi
-
-
-
 
 
 exec "$@"	
