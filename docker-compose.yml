@@ -50,6 +50,8 @@ services:
       WP_ADMIN_USERNAME: ${WP_ADMIN_USERNAME}
       WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      PHRASEANET_PLUGIN_INSTALL: ${PHRASEANET_PLUGIN_INSTALL}
+      MODE: 'production'
     volumes:
       - WPDATA:/var/www/html
 
