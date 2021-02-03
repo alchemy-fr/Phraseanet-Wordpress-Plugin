@@ -291,11 +291,13 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				<p>
 					<a href="" class="create-gallery-step1-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
 				</p>
+				<p>With download link <input type="checkbox" name="select-all" id="select-all"  /> </p>
 				
 				<h2><?php _e( 'Images informations', 'wp-phraseanet' ); ?></h2>
 
 				<p class="wppsn-note">
 					<?php _e( 'Fill the fields of each image to allow better Search Engine Optimisation.', 'wp-phraseanet' ); ?>
+					<br>
 				</p>
 
 				<div id="wppsn-img-gallery-list-media-fields"></div>
@@ -310,6 +312,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				
 				<p>
 					<a href="" class="create-gallery-step2-close button">&lt; <?php _e( 'Back', 'wp-phraseanet'); ?></a>
+
+			
 				</p>
 				
 				<h2><?php _e( 'Display settings', 'wp-phraseanet' ); ?></h2>
@@ -469,3 +473,24 @@ else :
 	<p id="plugin-not-set"><?php _e( 'The Phraseanet Plugin must be configured in the Settings section before using it.', 'wp-phraseanet' ); ?></p>
 <?php
 endif;
+?>
+<script>
+
+jQuery("#select-all").click(function (event) {
+   
+    if (this.checked) {
+      // Iterate each checkbox
+      jQuery(":checkbox").each(function () {
+		this.checked = true;
+		this.value = 'on'
+      });
+    } else {
+      jQuery(":checkbox").each(function () {
+		this.checked = false;
+		this.value = 'off'
+      });
+    }
+  });
+
+
+</script>

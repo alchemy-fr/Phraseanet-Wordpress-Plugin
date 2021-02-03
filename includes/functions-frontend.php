@@ -64,6 +64,23 @@ function wppsn_wp_enqueue_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'wppsn_wp_enqueue_scripts' );
 
+add_action('wp_enqueue_scripts', 'image_model');
+
+function image_model() {
+    wp_enqueue_script(
+        'image_model',
+		WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-modal.js'
+    );
+}
+
+add_action('wp_enqueue_scripts', 'image_model_css');
+
+function image_model_css() {
+    wp_enqueue_style(
+        'image_model_css',
+		WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend-modal.css'
+    );
+}
 
 /**
  * Define the shortcode 'wppsn-image'
@@ -77,6 +94,8 @@ function wppsn_shortcode_single_image( $atts ) {
 
 	// Add Swipebox JS to the footer
 	wp_enqueue_script( 'wppsn_frontend_swipebox_js' );
+	
+
 
 	extract( shortcode_atts( array(
 	    'title'				=> '',
@@ -98,10 +117,19 @@ function wppsn_shortcode_single_image( $atts ) {
 	}
 
 	// Encapsulate the image in a div for responsive design
+	// $output .= '<div class="wppsn-image wp-caption">
+	// 				<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
+	// 					<img class="wp-image-" src="' . $url . '" alt="' . $alt . '">
+	// 				</a>'
+					
+	// 				;
+
 	$output .= '<div class="wppsn-image wp-caption">
-					<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
-						<img class="wp-image-" src="' . $url . '" alt="' . $alt . '">
-					</a>';
+
+		<img class="single_image wp-image-" src="' . $url . '" alt="' . $alt . '" name="'.$title.'" id="'.$url.'" onclick="openModel(this)"  style="cursor: pointer;" >
+	'
+	
+	;
 
 	if ( $legend != '' || $downloadLink != '' ) {
 		$output .= '	<p class="wp-caption-text">' . $legend . ( ( $legend != '' ) ? ' - ' : '' ) . $downloadLink . '</p>';
@@ -189,7 +217,8 @@ function wppsn_shortcode_image_gallery( $atts ) {
 	    'alts'				=> '',
 	    'legends'			=> '',
 	    'thumbs'			=> '',
-	    'urls'				=> ''
+		'urls'				=> '',
+		'download'			=> '',
 	  ), $atts ) );
 
 	// Explode Strings to Arrays
@@ -198,6 +227,7 @@ function wppsn_shortcode_image_gallery( $atts ) {
 	$allLegends = explode( '||', $legends );
 	$allThumbs = explode( '||', $thumbs );
 	$allUrls = explode( '||', $urls );
+	$allDownlods = explode( '||', $download );
 
 	switch( $display ) {
 
@@ -273,11 +303,12 @@ function wppsn_shortcode_image_gallery( $atts ) {
 								text-decoration: none;
 							  }
 							  
-
+						
 
 						</style>';
 
 			$output .= '<div  id="' . $galleryID . '" class="wppsn-gallery gallery">';
+
 
 			foreach( $allTitles as $i => $t ) {
 
@@ -286,14 +317,16 @@ function wppsn_shortcode_image_gallery( $atts ) {
 				$legend = trim( $allLegends[$i] );
 				$thumb = trim( $allThumbs[$i] );
 				$url = trim( $allUrls[$i] );
+				$download  =  trim($allDownlods[$i]);
+				
 
-				// $output .= '<dl style="background-color:red" class="gallery-item">
-				// 				<dt class="gallery-icon">
-				// 					<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
-				// 						<img src="' . $thumb . '" class="attachment-thumbnail" alt="' . $alt . '">
-				// 					</a>
-									
-				// 				</dt>';
+				$download_url = '';
+				if($download=='on'){
+
+					$download_url = "<a href='$url&download=1'>Download</a>";
+				}
+
+
 
 	  $output .= "<div class='gallery-item'>
   <img src='$thumb' alt='Avatar' class='image' >
@@ -302,11 +335,14 @@ function wppsn_shortcode_image_gallery( $atts ) {
   <div class='text'>
   
   
-  <a href='$url' target='_blank'>View</a> 
+  <a href='javascript:void(0)' id='$url' name='$title' onclick='openModel(this)' >View</a> 
   <br>
-  <a href='$url&download=1'>Download</a>
- 
-  </div></div></div>";
+
+  $download_url
+
+  </div></div></div><div id='myModal' class='modal'><span class='close'>&times;</span><img class='modal-content' id='img01'><div id='caption'></div></div>
+  
+ ";
 
 				// Legend ?
 				if ( $legend != '' ) {
