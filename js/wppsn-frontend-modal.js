@@ -1,19 +1,40 @@
 function openModel(img) {
   console.log(img);
-  var modal = document.getElementById("myModal");
+  img = document.getElementById(img);
 
-  var modalImg = document.getElementById("img01");
-  var captionText = document.getElementById("caption");
+  let modal = document.getElementById("myModal_" + img.id);
+
+  let modalImg = document.getElementById("img_" + img.id);
+
+  let captionText = document.getElementById("caption_" + img.id);
 
   modal.style.display = "block";
-  modalImg.src = img.id;
+  modalImg.src = img.rel ? img.rel : img.src;
   captionText.innerHTML = img.name;
 
   // Get the <span> element that closes the modal
-  var span = document.getElementsByClassName("close")[0];
+  let spans = document.getElementsByClassName("close");
 
   // When the user clicks on <span> (x), close the modal
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
+
+  for (let i = 0; i < spans.length; i++) {
+    spans[i].onclick = function () {
+      modal.style.display = "none";
+    };
+  }
+}
+
+function plusSlides(slide, slide_to) {
+  document.getElementById("myModal_" + slide).style.display = "none";
+  if (slide_to == 1) {
+    //Next
+    slide = parseInt(slide) + 1;
+  } else {
+    //Prev
+    if (slide != 1) {
+      slide = parseInt(slide) - 1;
+    }
+  }
+  slide = !document.getElementById(slide) ? 1 : slide; //loop if there is no next id
+  openModel(slide);
 }

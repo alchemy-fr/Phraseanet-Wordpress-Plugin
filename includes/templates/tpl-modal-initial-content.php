@@ -78,7 +78,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</label>
 					<label>
 						<input type="radio" name="wppsn-single-media-search-type" class="wppsn-search-type" value="1">
-						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
+						<span><?php _e( 'Stories', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
@@ -235,7 +235,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</label>
 					<label>
 						<input type="radio" name="wppsn-img-gallery-search-type" class="wppsn-search-type" value="1">
-						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
+						<span><?php _e( 'Stories', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
@@ -378,7 +378,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					</label>
 					<label>
 						<input type="radio" name="wppsn-video-playlist-search-type" class="wppsn-search-type" value="1">
-						<span><?php _e( 'Coverages', 'wp-phraseanet' ); ?></span>
+						<span><?php _e( 'Stories', 'wp-phraseanet' ); ?></span>
 					</label>
 
 					<p class="clearfix">
