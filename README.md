@@ -78,6 +78,8 @@ Mysql's my.cnf in located in the mysql dir
 > WP_ADMIN_PASSWORD=admin123
 > 
 > WP_ADMIN_EMAIL=admin@admin.com
+> 
+> WP_UPDATE=auto #auto -> auto update if available and #never -> don't update keep the current version
 
 
 ##### phraseanet settings

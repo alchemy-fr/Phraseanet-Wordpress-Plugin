@@ -52,6 +52,7 @@ services:
       WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
       PHRASEANET_PLUGIN_INSTALL: ${PHRASEANET_PLUGIN_INSTALL}
       MODE: 'production'
+      WP_UPDATE: ${WP_UPDATE}
     volumes:
       - WPDATA:/var/www/html
 
