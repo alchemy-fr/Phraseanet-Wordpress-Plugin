@@ -340,5 +340,11 @@ fi
 
 (cd /var/www/html/; wp option update wppsn_options --format=json  '{"client_base_url": "'"${PHRASEANET_BO_URL}"'","client_id": "'"${PHRASEANET_BO_CLIENT_ID}"'", "client_secret": "'"${PHRASEANET_BO_SECRET}"'", "client_token": "'"${PHRASEANET_BO_TOKEN}"'"}'   --allow-root)
 
+if [ "$WP_UPDATE" == 'auto'  ]
+then 
+
+(cd /var/www/html/; wp core update --allow-root )
+
+fi
 
 exec "$@"	
