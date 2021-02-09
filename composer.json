@@ -5,7 +5,7 @@
     "license": "GPL-3.0",
     "require": {
         "php"                      : "^7.0",
-        "phraseanet/php-sdk"       : "~0.2.2"
+        "phraseanet/php-sdk"       : "dev-PHRAS-3225_bump-php-sdk-libs_MASTER"
     },
     "autoload": {
         "psr-0": {
