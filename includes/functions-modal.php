@@ -8,15 +8,10 @@
  * Phraseanet Requirements
  */
 require_once( WPPSN_PLUGIN_VENDOR_PATH . 'autoload.php' );
-
-use PhraseanetSDK\EntityManager;
-use PhraseanetSDK\Client;
-use PhraseanetSDK\HttpAdapter\Guzzle as GuzzleAdapter;
 use PhraseanetSDK\Exception\ExceptionInterface;
 use PhraseanetSDK\Exception\RuntimeException;
 use PhraseanetSDK\Exception\NotFoundException;
 use PhraseanetSDK\Exception\UnauthorizedException;
-
 
 /**
  * (AJAX) Get the Initial HTML content of the Modal
@@ -55,16 +50,20 @@ function wppsn_ajax_get_media_list() {
 		'recordType'	=> $record_type
 	);
 
-	// Create connection to the Phraseanet DB
-	$HttpAdapter = GuzzleAdapter::create();
-	$HttpAdapter->setBaseUrl( $wppsn_options['client_base_url'] );
 
-	$client = new Client( $wppsn_options['client_id'], $wppsn_options['client_secret'], $HttpAdapter );
-	$client->setAccessToken( $wppsn_options['client_token'] );
+$guzzleAdapter = PhraseanetSDK\Http\GuzzleAdapter::create($wppsn_options['client_base_url'], []);
 
-	$em = new EntityManager( $client );
+$guzzleAdapter->setExtended(TRUE);
 
+$connectedGuzzleAdapter = new PhraseanetSDK\Http\ConnectedGuzzleAdapter($wppsn_options['client_token'], $guzzleAdapter);
+
+$api_adapter = new PhraseanetSDK\Http\APIGuzzleAdapter($connectedGuzzleAdapter);
+
+$em = new PhraseanetSDK\EntityManager($api_adapter);
+
+	
 	$recordRepository = $em->getRepository( 'Record' );
+
 
 	try {
 		$query = $recordRepository->search( array(
@@ -92,10 +91,13 @@ function wppsn_ajax_get_media_list() {
 		$output['sMsg'] = __( 'Error. Something went wrong with the Phraseanet SDK.', 'wp-phraseanet' );
 	}
 
+
+
 	// If no error
 	if ( $output['s'] != 'error' ) {
 
-		$results = $query->getResults();
+		$results = $query->getResults()->getRecords();
+
 
 		// Is there some results ?
 		if ( count( $results ) > 0 ) {
@@ -115,10 +117,12 @@ function wppsn_ajax_get_media_list() {
 			foreach( $results as $record ) {
 				$mediaThumb = $record->getThumbnail();
 
+
 				$mediaList[] = array(
 					'id' 			=> $record->getRecordId(),
 					'title'			=> $record->getTitle(),
 					'thumb'			=> ( $mediaThumb != null ) ? $mediaThumb->getPermalink()->getUrl() : WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-' . $record->getPhraseaType() . '.png',
+					'download'      => getUrl($record),
 					'phraseaType'	=> $record->getPhraseaType(),
 					'preview'		=> wppsn_get_media_preview( $record )
 				);
@@ -146,6 +150,26 @@ function wppsn_ajax_get_media_list() {
 add_action( 'wp_ajax_wppsn-get-media-list', 'wppsn_ajax_get_media_list' );
 
 
+function getUrl($record){
+
+	$url = '';
+	
+	
+	foreach ($record->getSubdefs() as $i=>$subdef) {
+
+        if ($i==0) {
+                $url = $subdef->getPermalink()->getUrl();
+          break;  
+		}
+
+    }
+
+	return $url;
+
+}
+
+
+
 /**
  * Get the Media Preview infos
  * @param  [Object] $record Phraseanet Record
@@ -168,12 +192,16 @@ function wppsn_get_media_preview( $record ) {
 
 			if ( $subDef != null ) {
 
-				$preview_infos = array(
-					'thumb_url'		=> $subDef->getPermalink()->getUrl(),
-					'width'			=> $subDef->getWidth(),
-					'height'		=> $subDef->getHeight()
-				);
-
+				
+				
+                foreach ($subDef as $i=> $sub) {
+					
+                    $preview_infos = array(
+                    'thumb_url'		=> $sub->getPermalink()->getUrl(),
+                    'width'			=> $sub->getWidth(),
+                    'height'		=> $sub->getHeight()
+                );
+                }
 			}
 			// No preview
 			else {
@@ -219,7 +247,10 @@ function wppsn_get_media_preview( $record ) {
 			else {
 
 				if ( $subDef != null ) {
-					$preview_infos['mp4'] = $subDef->getPermalink()->getUrl();
+
+                    foreach ($subDef as $sub) {
+                        $preview_infos['mp4'] = $sub->getPermalink()->getUrl();
+                    }
 				}
 				// No preview
 				else {
@@ -412,3 +443,35 @@ function wppsn_add_phraseanet_image_in_media_library() {
 }
 
 add_action( 'wp_ajax_wppsn-add-phraseanet-image-in-media-library', 'wppsn_add_phraseanet_image_in_media_library' );
+
+
+//  function prepareFacets($collection) {
+//     $rawCollection = $collection->getRawData();
+//     if (isset($rawCollection->facets)) {
+//       $rawFacets = &$rawCollection->facets;
+//     } else {
+//       $rawFacets = [];
+//     }
+
+//     $facets = $this->configSettings->get('query_and_settings.facets');
+//     $facets = unserialize($facets);
+//     $facets = empty($facets) ? [] : $facets;
+//     $facetsToLeave = $this->getFacetsToLeave($facets);
+//     foreach ($rawFacets as $key => &$rawFacet) {
+//       if (!array_key_exists($rawFacet->name, $facetsToLeave)) {
+//         unset($rawFacets[$key]);
+//       }
+//     }
+//     $rawCollection->facets = array_values($rawFacets);
+//     return $rawCollection;
+//   }
+
+//   function getFacetsToLeave($facets) {
+//     $result = [];
+//     foreach ($facets as $facet) {
+//       if ($facet->checked) {
+//         $result[$facet->name] = true;
+//       }
+//     }
+//     return $result;
+//   }

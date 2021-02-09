@@ -1617,7 +1617,9 @@ var wppsnGlobals = {
           '" ';
 
         // Url
-        output += 'url="' + mediaInfos.preview.thumb_url + '"';
+        output += 'url="' + mediaInfos.thumb + '"';
+
+        output += ' full_url="' + mediaInfos.download + '"';
 
         // Close Shortcode
         output += "]";
@@ -1721,7 +1723,7 @@ var wppsnGlobals = {
           .replace(/\]/g, "")
       );
       allThumbs.push(currentMediaInfos.thumb);
-      allUrls.push(currentMediaInfos.preview.thumb_url);
+      allUrls.push(currentMediaInfos.download);
     });
 
     // Build the shortcode

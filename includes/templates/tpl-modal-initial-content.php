@@ -35,13 +35,23 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	var wppsnCanSetFeaturedImageAutomatically = <?php echo ( version_compare( get_bloginfo( 'version' ), '3.5.0' ) != -1 ) ? 'true' : 'false'; ?>;
 	</script>
 
+
 	<div id="wppsn-sidebar">
 
-		<div id="wppsn-menu">
-			<a href="" id="wppsn-menu-medias" class="wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
-			<a href="" id="wppsn-menu-images" class="wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
-			<a href="" id="wppsn-menu-videos" class="wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
+
+	<div id="wppsn-menu"> 
+
+	Facets here
+
+	
+	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 150px; grid-row: 1 / span 2;display: inline-flex;">
+			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
+			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
+			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
+	
 		</div>
+	
+	</div>
 
 		<div id="wppsn-credits">
 			<span>Crédits</span>
@@ -49,15 +59,29 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 			<a href="http://labomedia.org" target="_blank"><img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'credits-labomedia.png'; ?>" alt=""></a>
 		</div>
 
+	
+	
+	
 	</div>
 
-	<div id="wppsn-main">
+
+	
+	<div id="wppsn-main" style="margin-top: 4%;">
+
+
 
 		<div id="wppsn-pan-medias" class="wppsn-main-pan">
 
-			<div class="wppsn-main-pan-header">
+		
 
-				<h1><?php _e( 'Insert a Media', 'wp-phraseanet' ); ?></h1>
+			<div class="wppsn-main-pan-header">
+			
+			
+
+
+			<h1><?php _e( 'Insert a Media', 'wp-phraseanet' ); ?></h1>
+			
+				
 
 				<h2 class="wppsn-main-pan-tabs">
 					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>

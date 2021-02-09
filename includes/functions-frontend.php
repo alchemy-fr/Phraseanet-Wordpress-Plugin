@@ -12,16 +12,16 @@ function wppsn_wp_enqueue_scripts()
     /* CSS */
 
     // Custom CSS
-    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '1.0.7', 'all');
+    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '1.0.8', 'all');
 
     // Flowplayer CSS
-    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '1.0.7', 'all');
+    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '1.0.8', 'all');
 
     // FlexSlider CSS
-    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '1.0.7', 'all');
+    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '1.0.8', 'all');
 
     // Swipebox CSS
-    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '1.0.7', 'all');
+    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '1.0.8', 'all');
 
     /* JS */
 
@@ -114,7 +114,8 @@ function wppsn_shortcode_single_image($atts)
         'alt' => '',
         'legend' => '',
         'download' => 0,
-        'url' => ''
+        'url' => '',
+        'full_url'=>'',
     ) , $atts));
 
     $title = trim($title);
@@ -122,17 +123,19 @@ function wppsn_shortcode_single_image($atts)
     $legend = trim($legend);
     $url = trim($url);
 	$downloadLink = '';
-	$id = md5($url);
+    $id = md5($url);
+    $full_url = trim($full_url);
 
+    //var_dump($url);
     // Download link ?
     if ($download == 1)
     {
-        $downloadLink = '<a href="' . $url . ((false === strpos('?', $url)) ? '&download=1' : '&download') . '">' . __('Download', 'wp-phraseanet') . '</a>';
+        $downloadLink = '<a href="' . $full_url . ((false === strpos('?', $full_url)) ? '&download=1' : '&download') . '">' . __('Download', 'wp-phraseanet') . '</a>';
     }
 
     $output .= '<div class="wppsn-image wp-caption">
 
-		<img class="single_image wp-image-" src="' . $url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;" >
+		<img class="single_image wp-image-" src="' . $full_url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;" >
 	'
 ;
 
@@ -226,6 +229,7 @@ function wppsn_shortcode_image_gallery($atts)
         'thumbs' => '',
         'urls' => '',
         'download' => '',
+        'full_url'=> ''
     ) , $atts));
 
     // Explode Strings to Arrays
@@ -235,7 +239,7 @@ function wppsn_shortcode_image_gallery($atts)
     $allThumbs = explode('||', $thumbs);
     $allUrls = explode('||', $urls);
     $allDownlods = explode('||', $download);
-
+       
     switch ($display)
     {
 
@@ -328,7 +332,7 @@ function wppsn_shortcode_image_gallery($atts)
                 $thumb = trim($allThumbs[$i]);
                 $url = trim($allUrls[$i]);
                 $download = trim($allDownlods[$i]);
-
+   
                 $download_url = '';
                 if ($download == 'on')
                 {
@@ -340,7 +344,7 @@ function wppsn_shortcode_image_gallery($atts)
                 $nav = "<a class='prev' onclick='plusSlides($slideIndex,0)'>&#10094;</a><a class='next' onclick='plusSlides($slideIndex,1)'>&#10095;</a>";
 
                 $output .= "<div class='gallery-item'>
-  <img src='$thumb' alt='Avatar' class='image' >
+  <img src='$url' alt='Avatar' class='image' >
   <div class='middle'>
   
   <div class='text'>
@@ -458,18 +462,27 @@ function wppsn_shortcode_image_gallery($atts)
                 $alt = trim($allAlts[$i]);
                 $legend = trim($allLegends[$i]);
                 $url = trim($allUrls[$i]);
+                $id = md5($url);
+                $download = trim($allDownlods[$i]);
+
+                $downloadLink = "<a href='$url&download=1'>Download</a>";
 
                 $output .= '<div class="wppsn-image wp-caption">
-								<a href="' . $url . '" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
-									<img class="wp-image-" src="' . $url . '" alt="' . $alt . '">
+								<a href="javascript:void(0)" title="' . $title . '" class="wppsn-image-post-' . $post->ID . '">
+									<img class="wp-image-" src="' . $url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;" >
 								</a>';
 
-                if ($legend != '')
-                {
-                    $output .= '	<p class="wp-caption-text">' . $legend . '</p>';
-                }
 
-                $output .= '</div>';
+                                if ($legend != '' || $download == 'on')
+                                {
+                                    $output .= '	<p class="wp-caption-text">' . $legend . (($legend != '') ? ' - ' : '') . $downloadLink . '</p>';
+                                }
+                           
+
+                $output .= "</div> <div id='myModal_$id' class='modal'><span class='close'>&times;</span><img class='modal-content' id='img_$id'><div id='caption_$id' class='caption' ></div></div>";
+
+        
+        
 
             }
 
