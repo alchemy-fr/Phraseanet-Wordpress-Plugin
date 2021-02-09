@@ -12,16 +12,16 @@ function wppsn_wp_enqueue_scripts()
     /* CSS */
 
     // Custom CSS
-    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '1.0.8', 'all');
+    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '1.0.9', 'all');
 
     // Flowplayer CSS
-    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '1.0.8', 'all');
+    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '1.0.9', 'all');
 
     // FlexSlider CSS
-    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '1.0.8', 'all');
+    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '1.0.9', 'all');
 
     // Swipebox CSS
-    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '1.0.8', 'all');
+    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '1.0.9', 'all');
 
     /* JS */
 
