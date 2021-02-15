@@ -12,16 +12,16 @@ function wppsn_wp_enqueue_scripts()
     /* CSS */
 
     // Custom CSS
-    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '1.0.9', 'all');
+    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '2.0.0', 'all');
 
     // Flowplayer CSS
-    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '1.0.9', 'all');
+    wp_enqueue_style('wppsn_flowplayer_css', WPPSN_PLUGIN_FLOWPLAYER_URL . 'skin/minimalist.css', array() , '2.0.0', 'all');
 
     // FlexSlider CSS
-    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '1.0.9', 'all');
+    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '2.0.0', 'all');
 
     // Swipebox CSS
-    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '1.0.9', 'all');
+    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '2.0.0', 'all');
 
     /* JS */
 
@@ -289,7 +289,13 @@ function wppsn_shortcode_image_gallery($atts)
 								transform: translate(-50%, -50%);
 								-ms-transform: translate(-50%, -50%);
 								text-align: center;
-							  }
+                              }
+                              
+                              .middle2{
+                                width: 100%;
+                                padding: 1px 1px 1px 1px;
+                                text-align: center;
+                              }
 							  
 							  .gallery-item:hover .image {
 								opacity: 0.3;
@@ -345,7 +351,7 @@ function wppsn_shortcode_image_gallery($atts)
 
                 $output .= "<div class='gallery-item'>
   <img src='$url' alt='Avatar' class='image' >
-  <div class='middle'>
+  <div id='middle_text' class='middle'>
   
   <div class='text'>
   

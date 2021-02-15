@@ -2,6 +2,168 @@
  * All the modal behavior
  */
 
+async function addFacet(e) {
+  let facets_list = await localStorage.getItem("facets");
+
+  if (facets_list == undefined || facets_list.length < 3) {
+    var obj = [{ id: this.id, name: this.name, parent: this.rel }];
+
+    await localStorage.setItem("facets", JSON.stringify(obj));
+  } else {
+    let json_to_array = JSON.parse(facets_list);
+
+    for (let i = 0; i < json_to_array.length; i++) {
+      let id = json_to_array[i].id;
+
+      if (id == this.id) {
+        json_to_array.splice(i, 1);
+        await json_to_array.push({
+          id: this.id,
+          name: this.name,
+          parent: this.rel,
+        });
+      } else {
+        await json_to_array.push({
+          id: this.id,
+          name: this.name,
+          parent: this.rel,
+        });
+        console.log(this.id);
+        console.log(id);
+      }
+    }
+
+    localStorage.setItem("facets", JSON.stringify(json_to_array));
+  }
+}
+
+function toggle(e) {
+  let st = document.getElementById(this.id + "_view").style;
+  st.display = st.display == "none" ? "block" : "none";
+}
+
+function removeFacet(e) {
+  console.log("yo");
+  console.log(this.name);
+
+  let facets_list = localStorage.getItem("facets");
+
+  if (facets_list != undefined) {
+    let json_to_array = JSON.parse(facets_list);
+
+    for (let i = 0; i < json_to_array.length; i++) {
+      let id = json_to_array[i].id;
+
+      if (id == this.name) {
+        json_to_array.splice(i, 1);
+      }
+    }
+    localStorage.setItem("facets", JSON.stringify(json_to_array));
+  }
+}
+async function initFacets() {
+  let location = window.location.href;
+  let location_index = location.indexOf("/wp-admin");
+  let loc = location.substring(0, location_index);
+  await fetch(loc + "/wp-admin/admin-ajax.php?action=get_facets_list")
+    .then((data) => {
+      data
+        .json()
+        .then((json) => {
+          var output = document.createElement("UL");
+          output.className = "listBox";
+          //output.setAttribute(class,"list-group")
+          for (var k in json) {
+            var li = document.createElement("li");
+
+            var a = document.createElement("p");
+            var linkText = document.createTextNode(k);
+            a.appendChild(linkText);
+            a.id = k;
+            a.addEventListener("click", toggle);
+            a.style =
+              "background-color: #5ea0ba;color: white;font-size: 16px;padding-left: 7px;padding-top: 7px;padding-bottom: 7px;cursor: pointer;border-radius: 2%;";
+
+            li.appendChild(a);
+            li.className = "list-item";
+
+            let subListWraper = document.createElement("div");
+            subListWraper.id = k + "_view";
+            subListWraper.style =
+              "display:none;text-align: left;margin-left: -27%;";
+
+            for (let i in json[k]) {
+              if (json[k][i][0] != undefined) {
+                var ul = document.createElement("ul");
+
+                var li2 = document.createElement("li");
+                li2.style = "list-style-type: none;";
+                var a = document.createElement("a");
+                var linkText = document.createTextNode(json[k][i][0]);
+                a.appendChild(linkText);
+                a.title = json[k][i][0];
+                a.name = json[k][i][0];
+                a.id = json[k][i][1];
+                a.href = "";
+                a.rel = k;
+                a.style = "font-size:11px;";
+                a.addEventListener("click", addFacet);
+                li2.appendChild(a);
+                li2.setAttribute("id", json[k][i][1]);
+                li2.setAttribute("name", json[k][i][0]);
+
+                var icon = document.createElement("a");
+                icon.className = "btnClose";
+                icon.style = "display:none";
+                icon.id = "btn_" + json[k][i][1];
+                icon.name = json[k][i][1];
+                icon.appendChild(document.createTextNode("X"));
+                icon.href = "";
+
+                icon.addEventListener("click", removeFacet);
+                li2.appendChild(icon);
+                ul.appendChild(li2);
+
+                subListWraper.appendChild(ul);
+                li.appendChild(subListWraper);
+              }
+            }
+
+            output.appendChild(li);
+          }
+
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("load_facets").appendChild(output);
+
+          let facets_list = localStorage.getItem("facets");
+
+          if (facets_list != undefined) {
+            let json_to_array = JSON.parse(facets_list);
+
+            for (let i = 0; i < json_to_array.length; i++) {
+              let id = json_to_array[i].id;
+
+              let btn_id = document.getElementById("btn_" + id);
+
+              if (btn_id != null) {
+                btn_id.style = "display:block";
+
+                document.getElementById(
+                  json_to_array[i].parent + "_view"
+                ).style.display = "block";
+              }
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 /**
  * Global var used for storing constant values
  */
@@ -41,6 +203,7 @@ var wppsnGlobals = {
         // If plugin is completely configured (the interface is shown, else an error paragraph is shown)
         if (this.bodyElt.find("#wppsn-sidebar").length > 0) {
           this.prepareInitialContent();
+          initFacets();
         }
       },
       dataType: "html",
@@ -572,9 +735,40 @@ var wppsnGlobals = {
           break;
       }
 
+      facets = localStorage.getItem("facets");
+      facets = JSON.parse(facets);
+
+      let search = currentMainPan.find(".wppsn-search-field").val() || "";
+
+      if (facets != undefined || facets != null) {
+        let c = 0;
+        let l = facets.length;
+
+        console.log(typeof facets);
+        console.log(facets);
+        console.log(l);
+
+        for (let i = 0; i < l; i++) {
+          console.log(facets[i].id);
+
+          if (i == 0) {
+            if (search == "") {
+              search = facets[i].id;
+            } else {
+              search += " AND " + facets[i].id;
+            }
+          } else {
+            search += " AND " + facets[i].id;
+          }
+        }
+      }
+
+      console.log(search);
+
       // Current Filters (search query, search type, record type and page of pagination)
       var mediaFilters = {
-        searchQuery: currentMainPan.find(".wppsn-search-field").val() || "",
+        searchQuery: search,
+
         searchType:
           currentMainPan.find(".wppsn-search-type:checked").val() || 0,
         recordType: currentRecordType,
@@ -1065,6 +1259,8 @@ var wppsnGlobals = {
             '<div class="wppsn-video-player color-light"></div>'
           );
           var playerVideo = jQuery("<video autoplay></video>");
+
+          // console.log(mediaInfos);
 
           if (typeof mediaInfos.preview.mp4 != "undefined") {
             playerVideo.append(
@@ -1642,14 +1838,17 @@ var wppsnGlobals = {
           '" ';
 
         // Video files
-        output += 'mp4="' + mediaInfos.preview.mp4 + '" ';
+        //output += 'mp4_preview="' + mediaInfos.preview.mp4 + '" ';
+        output += 'mp4="' + mediaInfos.download + '" ';
 
         if (typeof mediaInfos.preview.webm != "undefined") {
           output += 'webm="' + mediaInfos.preview.webm + '" ';
+          //output += 'webm="' + mediaInfos.download + '" ';
         }
 
         if (typeof mediaInfos.preview.ogg != "undefined") {
           output += 'ogg="' + mediaInfos.preview.ogg + '" ';
+          //output += 'ogg="' + mediaInfos.download + '" ';
         }
 
         // Poster
@@ -1776,7 +1975,7 @@ var wppsnGlobals = {
           .replace(/\[/g, "")
           .replace(/\]/g, "")
       );
-      allUrls.push(currentMediaInfos.preview.mp4);
+      allUrls.push(currentMediaInfos.download);
     });
 
     // Titles

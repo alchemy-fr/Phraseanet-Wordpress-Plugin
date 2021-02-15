@@ -14,6 +14,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 	?>
 
+
 	<script type="text/javascript">
 	/**
 	 * Internationalisation for the Modal JS
@@ -41,15 +42,31 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 	<div id="wppsn-menu"> 
 
-	Facets here
+
 
 	
-	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 150px; grid-row: 1 / span 2;display: inline-flex;">
+	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 245px; grid-row: 1 / span 2;display: inline-flex;">
 			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
 			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
 			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
 	
+		
 		</div>
+	
+	
+		<div id="select_facets">
+	
+		</div>
+
+<div data-role="main" class="ui-content">
+		<div id="load_facets" data-role="collapsible">
+
+		<div id="loading" class="wppsn-media-list list-loading"></div>
+
+		</div>
+
+</div>
+
 	
 	</div>
 
