@@ -74,7 +74,8 @@ html, body {
     right:0;
     bottom:0;
     left:0;
-    height:100px;
+	height:100px;
+	width: 146%;
     font-size:12px;
     line-height:20px;
     background-color:#ddd;
@@ -105,7 +106,7 @@ html, body {
     top:0;
     right:0;
     bottom:0;
-    left:155px;
+    left:230px;
     width:auto;
     height:auto;
     min-width:509px;
@@ -886,4 +887,39 @@ html, body {
 
 .clearfix:after {
     clear: both;
+}
+
+.list-item{
+	font-size: 11px;
+	list-style-type:none;
+}
+
+.btnClose{
+	
+	float: right !important;;
+    font-size: -11px !important;;
+    margin-right: 5px !important;;
+    background-color: #da0f0f !important;;
+    color: white !important;;
+    width: 8% !important;;
+    /* height: 10%; */
+    /* padding-left: 0%; */
+    border-radius: 22% !important;;
+    border: darkred !important;;
+    cursor: pointer !important;;
+    /* padding-top: 3%; */
+    /* padding-bottom: 3%; */
+	text-align: center!important;;
+	padding: 0 !important;
+}
+
+
+.listBox{
+	height: 839px;
+    overflow-x: hidden;
+    width: 136%;
+    overflow-wrap: inherit;
+    overflow-y: scroll;
+	margin-left: -21px;
+	list-style-type:none;
 }
