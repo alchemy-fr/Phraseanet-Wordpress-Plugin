@@ -1,4 +1,5 @@
 <?php
+session_start(0);
 /**
  * Functions used in the modal
  */
@@ -8,15 +9,10 @@
  * Phraseanet Requirements
  */
 require_once( WPPSN_PLUGIN_VENDOR_PATH . 'autoload.php' );
-
-use PhraseanetSDK\EntityManager;
-use PhraseanetSDK\Client;
-use PhraseanetSDK\HttpAdapter\Guzzle as GuzzleAdapter;
 use PhraseanetSDK\Exception\ExceptionInterface;
 use PhraseanetSDK\Exception\RuntimeException;
 use PhraseanetSDK\Exception\NotFoundException;
 use PhraseanetSDK\Exception\UnauthorizedException;
-
 
 /**
  * (AJAX) Get the Initial HTML content of the Modal
@@ -39,7 +35,9 @@ add_action( 'wp_ajax_wppsn-get-modal-initial-content', 'wppsn_ajax_get_modal_ini
  */
 function wppsn_ajax_get_media_list() {
 
-	$search_query 	= $_GET['params']['searchQuery'];
+	$search_query 	= stripslashes($_GET['params']['searchQuery']);
+	// var_dump($search_query);
+	// exit(0);
 	$search_type  	= $_GET['params']['searchType'];
 	$record_type	= $_GET['params']['recordType'];
 	$current_page 	= ( $_GET['params']['pageNb'] < 1 ) ? 1 : $_GET['params']['pageNb'];
@@ -55,26 +53,38 @@ function wppsn_ajax_get_media_list() {
 		'recordType'	=> $record_type
 	);
 
-	// Create connection to the Phraseanet DB
-	$HttpAdapter = GuzzleAdapter::create();
-	$HttpAdapter->setBaseUrl( $wppsn_options['client_base_url'] );
 
-	$client = new Client( $wppsn_options['client_id'], $wppsn_options['client_secret'], $HttpAdapter );
-	$client->setAccessToken( $wppsn_options['client_token'] );
+$guzzleAdapter = PhraseanetSDK\Http\GuzzleAdapter::create($wppsn_options['client_base_url'], []);
 
-	$em = new EntityManager( $client );
+$guzzleAdapter->setExtended(TRUE);
 
-	$recordRepository = $em->getRepository( 'Record' );
+$connectedGuzzleAdapter = new PhraseanetSDK\Http\ConnectedGuzzleAdapter($wppsn_options['client_token'], $guzzleAdapter);
+
+$api_adapter = new PhraseanetSDK\Http\APIGuzzleAdapter($connectedGuzzleAdapter);
+
+$em = new PhraseanetSDK\EntityManager($api_adapter);
+
+	
+ $recordRepository = $em->getRepository( 'Record' );
+
+ 
+ $params = [
+	// We use base ids as collectioon ids due to phraseanet implementation
+	// Bases field actually points to collections
+	'bases' => array(),
+	'offset_start' => '0',
+	'per_page' => '50',
+  ];
+
+
+  $params['query'] = "$search_query";
+ 
 
 	try {
-		$query = $recordRepository->search( array(
-		    'query' 		=> $search_query,
-		    'bases' 		=> array(),
-		    'offset_start' 	=> $current_page * WPPSN_MODAL_LIST_MEDIA_PER_PAGE - WPPSN_MODAL_LIST_MEDIA_PER_PAGE,
-		    'per_page' 		=> WPPSN_MODAL_LIST_MEDIA_PER_PAGE,
-		    'record_type' 	=> $record_type,
-		    'search_type'	=> $search_type
-		));
+		$query = $recordRepository->search($params);
+		
+	
+	
 	} catch( RuntimeException $e ) {
 		$output['s'] = 'error';
 		$output['sMsg'] = __( 'Error. You should check the Phraseanet Base URL in the plugin settings.', 'wp-phraseanet' );
@@ -85,6 +95,7 @@ function wppsn_ajax_get_media_list() {
 		$output['s'] = 'error';
 		$output['sMsg'] = __( 'Error. You should check the Oauth Token in the plugin settings.', 'wp-phraseanet' );
 	} catch( ExceptionInterface $e ) {
+		var_dump($e);
 		$output['s'] = 'error';
 		$output['sMsg'] = __( 'Error. There was a Exception thrown by the Phraseanet SDK.', 'wp-phraseanet' );
 	} catch( \Exception $e ) {
@@ -92,10 +103,17 @@ function wppsn_ajax_get_media_list() {
 		$output['sMsg'] = __( 'Error. Something went wrong with the Phraseanet SDK.', 'wp-phraseanet' );
 	}
 
+
+
 	// If no error
 	if ( $output['s'] != 'error' ) {
 
-		$results = $query->getResults();
+		
+
+		$results = $query->getResults()->getRecords();
+
+
+
 
 		// Is there some results ?
 		if ( count( $results ) > 0 ) {
@@ -115,10 +133,12 @@ function wppsn_ajax_get_media_list() {
 			foreach( $results as $record ) {
 				$mediaThumb = $record->getThumbnail();
 
+
 				$mediaList[] = array(
 					'id' 			=> $record->getRecordId(),
 					'title'			=> $record->getTitle(),
 					'thumb'			=> ( $mediaThumb != null ) ? $mediaThumb->getPermalink()->getUrl() : WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-' . $record->getPhraseaType() . '.png',
+					'download'      => getUrl($record),
 					'phraseaType'	=> $record->getPhraseaType(),
 					'preview'		=> wppsn_get_media_preview( $record )
 				);
@@ -135,8 +155,6 @@ function wppsn_ajax_get_media_list() {
 
 	}
 	
-	// Return JSON encoded array
-	$response = json_encode( $output );
   	header( "Content-Type: application/json" );
   	echo json_encode( $output );
 	exit();
@@ -144,6 +162,83 @@ function wppsn_ajax_get_media_list() {
 }
 
 add_action( 'wp_ajax_wppsn-get-media-list', 'wppsn_ajax_get_media_list' );
+
+
+function get_facets_list($query=''){
+
+
+
+if (empty($query)) {
+    $wppsn_options 	= get_option('wppsn_options');
+
+    $guzzleAdapter = PhraseanetSDK\Http\GuzzleAdapter::create($wppsn_options['client_base_url'], []);
+
+    $guzzleAdapter->setExtended(true);
+
+    $connectedGuzzleAdapter = new PhraseanetSDK\Http\ConnectedGuzzleAdapter($wppsn_options['client_token'], $guzzleAdapter);
+
+    $api_adapter = new PhraseanetSDK\Http\APIGuzzleAdapter($connectedGuzzleAdapter);
+
+    $em = new PhraseanetSDK\EntityManager($api_adapter);
+
+    
+    $recordRepository = $em->getRepository('Record');
+
+
+    $params = [
+    // We use base ids as collectioon ids due to phraseanet implementation
+    // Bases field actually points to collections
+    'bases' => array(),
+    'offset_start' => '0',
+    'per_page' => '50',
+    'query'=> ''
+  ];
+
+
+    $query = $recordRepository->search($params);
+}
+
+$build_query = [];
+
+    foreach ($query->getFacets() as $facets) {
+		
+		
+		$build_query[$facets->getName()] = [0];
+		 
+		foreach($facets->getValues() as $facet){
+
+			array_push($build_query[$facets->getName()],[$facet->getValue(),$facet->getQuery()]);
+
+		}
+        
+   }
+
+   $response = json_encode( $build_query );
+   header( "Content-Type: application/json" );
+   echo $response;
+ exit();
+}
+
+add_action( 'wp_ajax_get_facets_list', 'get_facets_list' );
+
+function getUrl($record){
+
+	$url = '';
+	
+	
+	foreach ($record->getSubdefs() as $i=>$subdef) {
+
+        if ($i==0) {
+                $url = $subdef->getPermalink()->getUrl();
+          break;  
+		}
+
+    }
+
+	return $url;
+
+}
+
 
 
 /**
@@ -168,12 +263,16 @@ function wppsn_get_media_preview( $record ) {
 
 			if ( $subDef != null ) {
 
-				$preview_infos = array(
-					'thumb_url'		=> $subDef->getPermalink()->getUrl(),
-					'width'			=> $subDef->getWidth(),
-					'height'		=> $subDef->getHeight()
-				);
-
+				
+				
+                foreach ($subDef as $i=> $sub) {
+					
+                    $preview_infos = array(
+                    'thumb_url'		=> $sub->getPermalink()->getUrl(),
+                    'width'			=> $sub->getWidth(),
+                    'height'		=> $sub->getHeight()
+                );
+                }
 			}
 			// No preview
 			else {
@@ -195,44 +294,36 @@ function wppsn_get_media_preview( $record ) {
 				$subDefThumb = null;
 			}
 
-			$preview_infos['thumb_url'] = ( $subDefThumb != null ) ? $subDefThumb->getPermalink()->getUrl() : '';
-
-			// Try the Videos SubDefs for 'screen' devices
-			try {
-				$subDefsMimeTypes = $record->getSubdefsByDevicesAndMimeTypes( array( 'screen' ), array( 'video/mp4', 'video/webm', 'video/ogg' ) );
-			} catch( NotFoundException $e ) {
-				$subDefsMimeTypes = null;
+            if ($subDefThumb) {
+                foreach ($subDefThumb as $i=> $sub) {
+                    $preview_infos['thumb_url'] = ($sub != null) ? $sub->getPermalink()->getUrl() : '';
+                }
 			}
-
-			if ( $subDefsMimeTypes != null ) {
-
-				foreach( $subDefsMimeTypes as $sdm ) {
-
-					$mimeTypeArray = explode( '/', $sdm->getMimeType() );
-
-					$preview_infos[$mimeTypeArray[1]] = $sdm->getPermalink()->getUrl();
-
-				}
-
-			}
-			// Else take the standard preview SubDef
-			else {
-
+			
+		
+			
 				if ( $subDef != null ) {
-					$preview_infos['mp4'] = $subDef->getPermalink()->getUrl();
+
+                    foreach ($subDef as $sub) {
+						
+						$mimeTypeArray = explode( '/', $sub->getMimeType() );
+
+						$preview_infos[$mimeTypeArray[1]] = $sub->getPermalink()->getUrl();
+
+                    }
 				}
 				// No preview
 				else {
 					$preview_infos['nopreview']	= WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-video-big.png';
 				}
 
-			}
-
+	
 			break;
 
 	}
 
-	return $preview_infos;
+
+return $preview_infos;
 
 }
 
@@ -412,3 +503,35 @@ function wppsn_add_phraseanet_image_in_media_library() {
 }
 
 add_action( 'wp_ajax_wppsn-add-phraseanet-image-in-media-library', 'wppsn_add_phraseanet_image_in_media_library' );
+
+
+//  function prepareFacets($collection) {
+//     $rawCollection = $collection->getRawData();
+//     if (isset($rawCollection->facets)) {
+//       $rawFacets = &$rawCollection->facets;
+//     } else {
+//       $rawFacets = [];
+//     }
+
+//     $facets = $this->configSettings->get('query_and_settings.facets');
+//     $facets = unserialize($facets);
+//     $facets = empty($facets) ? [] : $facets;
+//     $facetsToLeave = $this->getFacetsToLeave($facets);
+//     foreach ($rawFacets as $key => &$rawFacet) {
+//       if (!array_key_exists($rawFacet->name, $facetsToLeave)) {
+//         unset($rawFacets[$key]);
+//       }
+//     }
+//     $rawCollection->facets = array_values($rawFacets);
+//     return $rawCollection;
+//   }
+
+//   function getFacetsToLeave($facets) {
+//     $result = [];
+//     foreach ($facets as $facet) {
+//       if ($facet->checked) {
+//         $result[$facet->name] = true;
+//       }
+//     }
+//     return $result;
+//   }

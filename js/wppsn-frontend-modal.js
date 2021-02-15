@@ -38,3 +38,21 @@ function plusSlides(slide, slide_to) {
   slide = !document.getElementById(slide) ? 1 : slide; //loop if there is no next id
   openModel(slide);
 }
+
+setTimeout(function () {
+  var c = document.getElementsByClassName("middle");
+  if (window.innerWidth < 700) {
+    var els = [].slice.apply(document.getElementsByClassName("middle"));
+    for (var i = 0; i < els.length; i++) {
+      els[i].className = els[i].className.replace(/ *\bmiddle\b/g, "middle2");
+    }
+
+    var els = [].slice.apply(document.getElementsByClassName("gallery-item"));
+    for (var i = 0; i < els.length; i++) {
+      els[i].className = els[i].className.replace(
+        / *\gallery-item\b/g,
+        "gallery-item2"
+      );
+    }
+  }
+}, 200);
