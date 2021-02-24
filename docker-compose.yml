@@ -1,20 +1,6 @@
 version: '3.4'
 services:
-  mysql:
-    container_name: mysql
-    image: 'mysql:latest'
-    command: '--default-authentication-plugin=mysql_native_password'
-    restart: unless-stopped
-    volumes:
-      - 'DB:/var/lib/mysql'
-      - './mysql/my.cnf:/etc/mysql/my.cnf'
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-    healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-            timeout: 20s
-            retries: 10  
+
   gateway:
     container_name: gateway
     image: 'nginx:1.17.4-alpine'
@@ -26,13 +12,13 @@ services:
     volumes:
       - WPDATA:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
-    
+    networks:
+      - phraseanet 
+  
   wordpress:
     container_name: wordpress
     build:
       context: .
-    depends_on:
-      - mysql
     restart: unless-stopped
     dns:
       - 8.8.8.8
@@ -55,8 +41,12 @@ services:
       WP_UPDATE: ${WP_UPDATE}
     volumes:
       - WPDATA:/var/www/html
-
+    networks:
+      - phraseanet
    
 volumes:
-  DB: null
   WPDATA: null
+
+networks:
+  phraseanet:
+    driver: bridge    
