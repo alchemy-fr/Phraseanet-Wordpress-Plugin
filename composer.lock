@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f3de07068633886a4e53ebdabc8b3fa",
+    "content-hash": "d014bc2d6889657a897a49707cee92a5",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -493,16 +493,16 @@
         },
         {
             "name": "phraseanet/php-sdk",
-            "version": "dev-PHRAS-3225_bump-php-sdk-libs_MASTER",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/alchemy-fr/Phraseanet-PHP-SDK.git",
-                "reference": "5c638d6de0de870afc68815d251e11eba11b429c"
+                "reference": "46fc6f6efc540eea1d5f3803d0c8b03f8806fbb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/alchemy-fr/Phraseanet-PHP-SDK/zipball/5c638d6de0de870afc68815d251e11eba11b429c",
-                "reference": "5c638d6de0de870afc68815d251e11eba11b429c",
+                "url": "https://api.github.com/repos/alchemy-fr/Phraseanet-PHP-SDK/zipball/46fc6f6efc540eea1d5f3803d0c8b03f8806fbb9",
+                "reference": "46fc6f6efc540eea1d5f3803d0c8b03f8806fbb9",
                 "shasum": ""
             },
             "require": {
@@ -556,7 +556,7 @@
             "keywords": [
                 "Phraseanet"
             ],
-            "time": "2021-01-18T14:23:48+00:00"
+            "time": "2021-01-18T15:09:25+00:00"
         },
         {
             "name": "psr/http-client",
@@ -748,9 +748,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "phraseanet/php-sdk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
