@@ -6,9 +6,13 @@ This plugin creates the possibility to add media content from a Phraseanet Insta
 
 ## Table of content
 [Requirements](#Requirements)
+
 [Browser compatibility](#Browser-compatibility)
+
 [Plugin Installation](#Plugin-Installation) 
-[Manual installation (developer)](#Manual-installation-(developer))
+
+[Manual installation (developer)](#Manual-installation-developer)
+
 [Plugin Activation and Configuration](#Plugin-Activation-and-Configuration)
 
 [Run on Docker and Docker development](#Run-on-Docker-and-Docker-development)
@@ -66,7 +70,7 @@ This plugin creates the possibility to add media content from a Phraseanet Insta
 - Configure the plugin in the new WordPress Settings menu `WP Phraseanet`
 
   
-### Manual installation (developer)
+### Manual installation developer
 
 You need [Composer](http://getcomposer.org/) before continuing.
 
