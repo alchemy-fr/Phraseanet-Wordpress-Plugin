@@ -21,14 +21,12 @@ This plugin creates the possibility to add media content from a Phraseanet Insta
 
  - [Configuration](#Configuration)
     - [env](#env) 	
-    - [example configuration](#example-ENV-configuration)
+    - [example configuration](#ENV-configuration)
     - [Phraseanet Configuration](#phraseanet-settings)
  
 - [Installation](#Installation)
 
  - [Development mode](#Development-mode)
-
-- [Docker stack](#Docker)
 
 - [Compose files](#Compose-files)
 
