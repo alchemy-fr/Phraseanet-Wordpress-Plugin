@@ -12,6 +12,10 @@ services:
     volumes:
       - WPDATA:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
+    healthcheck:
+      test: wget --spider http://127.0.0.1:8080/wp-admin/ || nginx -s reload || exit 1
+      timeout: 30s
+      retries: 10
     networks:
       - phraseanet 
   
