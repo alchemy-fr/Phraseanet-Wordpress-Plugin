@@ -1,7 +1,5 @@
 <?php
 
-var_dump($_SESSION['facets']);
-exit(0);
 /**
  * Frontend Functions
  */
