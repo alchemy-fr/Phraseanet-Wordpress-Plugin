@@ -1,29 +1,16 @@
-/**
- * JS for videos Playlists
- */
+function play(id) {
+  let container = document.getElementById("playlist_container");
 
-jQuery(document).ready(function() {
-	
-	var playlistPlayerWrappers = jQuery( '.wppsn-video-playlist-player-wrapper' );
+  container.innerHTML =
+    '<iframe id="videos_playlist" class="responsive-iframe" src="https://alpha.preprod.alchemyasp.com/embed/?url=' +
+    id +
+    '" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>';
 
-	if ( playlistPlayerWrappers.length > 0 ) {
+  let plist = document.getElementsByClassName("plist");
 
-		playlistPlayerWrappers.each(function(){
-			var currentWrapper = jQuery( this );
-			var currentPlayer = currentWrapper.find( '.wppsn-video-playlist-player' );
-			var currentPlaylist = currentWrapper.find( '.fp-playlist' );
+  for (let i = 0; i < plist.length; i++) {
+    plist[i].style.backgroundColor = "white";
+  }
 
-			// Load Player
-			currentPlayer.flowplayer({
-				swf: wppsnFlowPlayerVars.flashUrl
-			});
-			
-			// Adjust Playlist CSS below the player
-			playlistPlayerWrappers.css( 'padding-bottom', currentPlaylist.height() + 5 );
-			currentPlaylist.css( 'bottom', - currentPlaylist.height() - 5 );
-
-		});
-
-	}
-
-});
+  document.getElementById(id).style.backgroundColor = "#f1f1f1";
+}
