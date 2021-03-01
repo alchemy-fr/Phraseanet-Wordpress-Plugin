@@ -1,0 +1,62 @@
+version: '3.4'
+services:
+  gateway:
+    container_name: gateway
+    image: 'nginx:1.17.4-alpine'
+    restart: unless-stopped
+    depends_on:
+      - wordpress
+    ports:
+      - 8080:80
+    volumes:
+      - WPDATA:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - type: bind
+        source: ./
+        target: /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/
+    healthcheck:
+        test: wget --spider http://127.0.0.1:8080/wp-admin/ || nginx -s reload || exit 1
+        timeout: 30s
+        retries: 10
+    networks:
+      - phraseanet
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: .
+      
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      PHRASEANET_BO_URL: ${PHRASEANET_BO_URL}
+      PHRASEANET_BO_TOKEN: ${PHRASEANET_BO_TOKEN}
+      PHRASEANET_BO_CLIENT_ID: ${PHRASEANET_BO_CLIENT_ID}
+      PHRASEANET_BO_SECRET: ${PHRASEANET_BO_SECRET}
+      SITE_TITLE: ${SITE_TITLE}
+      WP_ADMIN_USERNAME: ${WP_ADMIN_USERNAME}
+      WP_ADMIN_PASSWORD: ${WP_ADMIN_PASSWORD}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+      PHRASEANET_PLUGIN_INSTALL: ${PHRASEANET_PLUGIN_INSTALL}
+      MODE: 'dev' 
+      WP_UPDATE: ${WP_UPDATE}
+    volumes:
+      - WPDATA:/var/www/html
+      - type: bind
+        source: ./
+        target: /var/www/html/wp-content/plugins/Phraseanet-Wordpress-Plugin/
+    networks:
+      - phraseanet
+   
+volumes:
+  WPDATA: null
+
+networks:
+  phraseanet:
+    driver: bridge  

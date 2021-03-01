@@ -4,14 +4,11 @@
 
 async function addFacet(e) {
   let facets_list = await localStorage.getItem("facets");
-
   if (facets_list == undefined || facets_list.length < 3) {
     var obj = [{ id: this.id, name: this.name, parent: this.rel }];
-
     await localStorage.setItem("facets", JSON.stringify(obj));
   } else {
     let json_to_array = JSON.parse(facets_list);
-
     for (let i = 0; i < json_to_array.length; i++) {
       let id = json_to_array[i].id;
 
@@ -28,8 +25,6 @@ async function addFacet(e) {
           name: this.name,
           parent: this.rel,
         });
-        console.log(this.id);
-        console.log(id);
       }
     }
 
@@ -43,11 +38,7 @@ function toggle(e) {
 }
 
 function removeFacet(e) {
-  console.log("yo");
-  console.log(this.name);
-
   let facets_list = localStorage.getItem("facets");
-
   if (facets_list != undefined) {
     let json_to_array = JSON.parse(facets_list);
 
@@ -72,30 +63,24 @@ async function initFacets() {
         .then((json) => {
           var output = document.createElement("UL");
           output.className = "listBox";
-          //output.setAttribute(class,"list-group")
           for (var k in json) {
             var li = document.createElement("li");
-
             var a = document.createElement("p");
-            var linkText = document.createTextNode(k);
+            var linkText = document.createTextNode(k.replace("_", " "));
             a.appendChild(linkText);
             a.id = k;
             a.addEventListener("click", toggle);
             a.style =
               "background-color: #5ea0ba;color: white;font-size: 16px;padding-left: 7px;padding-top: 7px;padding-bottom: 7px;cursor: pointer;border-radius: 2%;";
-
             li.appendChild(a);
             li.className = "list-item";
-
             let subListWraper = document.createElement("div");
             subListWraper.id = k + "_view";
             subListWraper.style =
               "display:none;text-align: left;margin-left: -27%;";
-
             for (let i in json[k]) {
               if (json[k][i][0] != undefined) {
                 var ul = document.createElement("ul");
-
                 var li2 = document.createElement("li");
                 li2.style = "list-style-type: none;";
                 var a = document.createElement("a");
@@ -111,7 +96,6 @@ async function initFacets() {
                 li2.appendChild(a);
                 li2.setAttribute("id", json[k][i][1]);
                 li2.setAttribute("name", json[k][i][0]);
-
                 var icon = document.createElement("a");
                 icon.className = "btnClose";
                 icon.style = "display:none";
@@ -119,11 +103,9 @@ async function initFacets() {
                 icon.name = json[k][i][1];
                 icon.appendChild(document.createTextNode("X"));
                 icon.href = "";
-
                 icon.addEventListener("click", removeFacet);
                 li2.appendChild(icon);
                 ul.appendChild(li2);
-
                 subListWraper.appendChild(ul);
                 li.appendChild(subListWraper);
               }
@@ -481,6 +463,11 @@ var wppsnGlobals = {
           .find("#wppsn-single-media-preview-video-player-wrapper")
           .empty();
         e.preventDefault();
+
+        _this.domPanSingleMediaPreview
+          .find("#wppsn-single-media-preview-audio-player-wrapper")
+          .empty();
+        e.preventDefault();
       });
 
     // [click] Use image as Featured Image
@@ -744,13 +731,7 @@ var wppsnGlobals = {
         let c = 0;
         let l = facets.length;
 
-        console.log(typeof facets);
-        console.log(facets);
-        console.log(l);
-
         for (let i = 0; i < l; i++) {
-          console.log(facets[i].id);
-
           if (i == 0) {
             if (search == "") {
               search = facets[i].id;
@@ -762,8 +743,6 @@ var wppsnGlobals = {
           }
         }
       }
-
-      console.log(search);
 
       // Current Filters (search query, search type, record type and page of pagination)
       var mediaFilters = {
@@ -850,6 +829,9 @@ var wppsnGlobals = {
           // Click on "details" button open the sidebar insert Pan and the preview Pan
           var liElt = jQuery(this).parents("li");
           var mInfos = liElt.data("mediaInfos");
+
+          console.log(mInfos);
+
           _this.domSingleMediaListMedias
             .find("li")
             .removeClass("current-selected");
@@ -1258,7 +1240,9 @@ var wppsnGlobals = {
           var playerContainer = jQuery(
             '<div class="wppsn-video-player color-light"></div>'
           );
-          var playerVideo = jQuery("<video autoplay></video>");
+          var playerVideo = jQuery(
+            "<video style='width: 100%;' autoplay></video>"
+          );
 
           // console.log(mediaInfos);
 
@@ -1287,11 +1271,6 @@ var wppsnGlobals = {
             .find("#wppsn-single-media-preview-video-player-wrapper")
             .empty()
             .append(playerContainer);
-
-          // Load Player
-          previewPan.find(".wppsn-video-player").flowplayer({
-            swf: "../../libs/flowplayer/flowplayer.swf",
-          });
         }
         // No preview
         else {
@@ -1302,6 +1281,44 @@ var wppsnGlobals = {
             .append('<img src="' + mediaInfos.preview.nopreview + '">');
         }
 
+        break;
+
+      case "audio":
+        // Is there a preview ? then build the Audio player with all its sources
+        if (typeof mediaInfos.preview.nopreview == "undefined") {
+          // Build player HTML
+          var playerContainer = jQuery(
+            '<div class="wppsn-single-media-preview-audio-player-wrapper"></div>'
+          );
+          var playerAudio = jQuery("<audio controls></audio>");
+
+          if (typeof mediaInfos.preview.mpeg != "undefined") {
+            playerAudio.append(
+              '<source type="audio/mp3" src="' + mediaInfos.preview.mpeg + '">'
+            );
+          }
+
+          if (typeof mediaInfos.preview.ogg != "undefined") {
+            playerAudio.append(
+              '<source type="audio/ogg" src="' + mediaInfos.preview.ogg + '">'
+            );
+          }
+
+          playerContainer.append(playerAudio);
+
+          previewPan
+            .find("#wppsn-single-media-preview-audio-player-wrapper")
+            .empty()
+            .append(playerContainer);
+        }
+        // No preview
+        else {
+          // Show the no-preview image
+          previewPan
+            .find("#wppsn-single-media-preview-video-player-wrapper")
+            .empty()
+            .append('<img src="' + mediaInfos.preview.nopreview + '">');
+        }
         break;
     }
   };
@@ -1334,52 +1351,91 @@ var wppsnGlobals = {
       .find(".wppsn-media-preview-title")
       .text(mediaInfos.title);
 
-    // Is there a preview ? then build the video player with all its sources
-    if (typeof mediaInfos.preview.nopreview == "undefined") {
-      // Build player HTML
-      var playerContainer = jQuery(
-        '<div class="wppsn-video-player color-light"></div>'
-      );
-      var playerVideo = jQuery("<video autoplay></video>");
-
-      if (typeof mediaInfos.preview.mp4 != "undefined") {
-        playerVideo.append(
-          '<source type="video/mp4" src="' + mediaInfos.preview.mp4 + '">'
+    if (mediaInfos.preview.mpeg) {
+      console.log(mediaInfos.preview.mpeg);
+      // Is there a preview ? then build the video player with all its sources
+      if (typeof mediaInfos.preview.nopreview == "undefined") {
+        // Build player HTML
+        var playerContainer = jQuery(
+          '<div class="wppsn-audio-player color-light"></div>'
         );
+        var playerAudio = jQuery("<audio controls></audio>");
+
+        if (typeof mediaInfos.preview.mpeg != "undefined") {
+          playerAudio.append(
+            '<source type="audio/mpeg" src="' + mediaInfos.preview.mpeg + '">'
+          );
+        }
+
+        if (typeof mediaInfos.preview.ogg != "undefined") {
+          playerAudio.append(
+            '<source type="audio/ogg" src="' + mediaInfos.preview.ogg + '">'
+          );
+        }
+
+        playerContainer.append(playerAudio);
+
+        // Append Player in DOM
+        this.domPanVideoPlaylistPreview
+          .find(".wppsn-media-preview-video-player-wrapper")
+          .empty()
+          .append(playerContainer);
       }
 
-      if (typeof mediaInfos.preview.webm != "undefined") {
-        playerVideo.append(
-          '<source type="video/webm" src="' + mediaInfos.preview.webm + '">'
+      // No preview
+      else {
+        // Show the no-preview image
+        previewPan
+          .find(".wppsn-media-preview-video-player-wrapper")
+          .empty()
+          .append('<img src="' + mediaInfos.preview.nopreview + '">');
+      }
+    } else {
+      // Is there a preview ? then build the video player with all its sources
+      if (typeof mediaInfos.preview.nopreview == "undefined") {
+        // Build player HTML
+        var playerContainer = jQuery(
+          '<div class="wppsn-video-player color-light"></div>'
         );
+        var playerVideo = jQuery(
+          "<video style='width: 100%;' autoplay></video>"
+        );
+
+        if (typeof mediaInfos.preview.mp4 != "undefined") {
+          playerVideo.append(
+            '<source type="video/mp4" src="' + mediaInfos.preview.mp4 + '">'
+          );
+        }
+
+        if (typeof mediaInfos.preview.webm != "undefined") {
+          playerVideo.append(
+            '<source type="video/webm" src="' + mediaInfos.preview.webm + '">'
+          );
+        }
+
+        if (typeof mediaInfos.preview.ogg != "undefined") {
+          playerVideo.append(
+            '<source type="video/ogg" src="' + mediaInfos.preview.ogg + '">'
+          );
+        }
+
+        playerContainer.append(playerVideo);
+
+        // Append Player in DOM
+        this.domPanVideoPlaylistPreview
+          .find(".wppsn-media-preview-video-player-wrapper")
+          .empty()
+          .append(playerContainer);
       }
 
-      if (typeof mediaInfos.preview.ogg != "undefined") {
-        playerVideo.append(
-          '<source type="video/ogg" src="' + mediaInfos.preview.ogg + '">'
-        );
+      // No preview
+      else {
+        // Show the no-preview image
+        previewPan
+          .find(".wppsn-media-preview-video-player-wrapper")
+          .empty()
+          .append('<img src="' + mediaInfos.preview.nopreview + '">');
       }
-
-      playerContainer.append(playerVideo);
-
-      // Append Player in DOM
-      this.domPanVideoPlaylistPreview
-        .find(".wppsn-media-preview-video-player-wrapper")
-        .empty()
-        .append(playerContainer);
-
-      // Load Player
-      this.domPanVideoPlaylistPreview.find(".wppsn-video-player").flowplayer({
-        swf: "../../libs/flowplayer/flowplayer.swf",
-      });
-    }
-    // No preview
-    else {
-      // Show the no-preview image
-      previewPan
-        .find(".wppsn-media-preview-video-player-wrapper")
-        .empty()
-        .append('<img src="' + mediaInfos.preview.nopreview + '">');
     }
 
     // Show Pan
@@ -1760,6 +1816,7 @@ var wppsnGlobals = {
     var currentInsertPan = this.domPanSingleMediaInsert.find(
       ".wppsn-single-media-insert-pan:visible"
     );
+    console.log(currentInsertPan);
     var currentMedia = currentInsertPan.attr("id").split("-")[4];
 
     // Get The original media Infos
@@ -1859,8 +1916,37 @@ var wppsnGlobals = {
 
         break;
 
+      case "audio":
+        // Begin Shortcode Output
+        var output = "[wppsn-audio ";
+
+        // Title
+        output +=
+          'title="' +
+          currentInsertPan
+            .find("#wppsn-single-media-insert-video-title")
+            .val()
+            .replace(/\"/g, "&quot;")
+            .replace(/\[/g, "")
+            .replace(/\]/g, "") +
+          '" ';
+
+        output += 'mpeg="' + mediaInfos.download + '" ';
+
+        if (typeof mediaInfos.preview.ogg != "undefined") {
+          output += 'ogg="' + mediaInfos.preview.ogg + '" ';
+        }
+
+        // Poster
+        output += 'splash="' + mediaInfos.preview.thumb_url + '"';
+
+        // Close Shortcode
+        output += "]";
+
+        break;
+
       default:
-        output = "";
+        output = "DEMO Demo";
 
         break;
     }
@@ -1957,8 +2043,9 @@ var wppsnGlobals = {
    */
   WppsnModal.prototype.insertVideoPlaylist = function () {
     // Begin Shortcode Output
-    var output = "[wppsn-videoplaylist ";
 
+    var output = "";
+    var type = "video";
     var allTitles = new Array();
     var allUrls = new Array();
 
@@ -1966,6 +2053,16 @@ var wppsnGlobals = {
     this.domVideoPlaylistCreateStep1MediaList.find("li").each(function () {
       var currentMediaElt = jQuery(this);
       var currentMediaInfos = currentMediaElt.data("mediaInfos");
+
+      console.log(currentMediaInfos.phraseaType);
+
+      if (currentMediaInfos.phraseaType == "audio") {
+        output = "[wppsn-audioplaylist ";
+        type = "audio";
+      } else {
+        output = "[wppsn-videoplaylist ";
+        type = "video";
+      }
 
       allTitles.push(
         currentMediaElt
@@ -1981,8 +2078,11 @@ var wppsnGlobals = {
     // Titles
     output += 'titles="' + allTitles.join(" || ") + '" ';
 
-    // Urls
-    output += 'mp4s="' + allUrls.join(" || ") + '" ';
+    if (type == "audio") {
+      output += 'mpegs="' + allUrls.join(" || ") + '" ';
+    } else {
+      output += 'mp4s="' + allUrls.join(" || ") + '" ';
+    }
 
     // Splash
     var firstVideoMediaInfos = this.domVideoPlaylistCreateStep1MediaList

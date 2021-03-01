@@ -48,7 +48,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 245px; grid-row: 1 / span 2;display: inline-flex;">
 			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
 			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
-			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ) ?></a>
+			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Audio/Video Playlist', 'wp-phraseanet' ) ?></a>
 	
 		
 		</div>
@@ -217,6 +217,32 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 				</div>
 
+
+				<div id="wppsn-single-media-insert-audio" class="wppsn-single-media-insert-pan">
+					
+					<h2><?php _e( 'Insertion informations', 'wp-phraseanet' ); ?></h2>
+
+					<p id="wppsn-single-media-insert-audio-buttons">
+						<a href="" class="media-details-button button">&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a>
+					</p>
+
+					<div id="wppsn-single-media-insert-video-thumb"></div>
+
+					<div class="wppsn-set-featured-image-wrapper">
+						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
+						<span class="wppsn-loader visuallyhidden"></span>
+						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
+						<p class="wppsn-success-partial visuallyhidden"><?php _e( 'The image has been added to the Media Library with success.<br><br><strong>Note :</strong> since you are using a Wordpress version inferior than 3.5.0, we can\'t set the image as Featured automatically. You may do this by the traditionnal way, in the widget on the sidebar of the post form, choosing the added image in your Media Library.', 'wp-phraseanet' ); ?></p>
+						<p class="wppsn-success visuallyhidden"><?php _e( 'The image has been added to the Media Library and set as a Featured Image with success.', 'wp-phraseanet' ); ?></p>
+					</div>
+
+					<p>
+						<label for="wppsn-single-media-insert-video-title"><?php _e( 'Title', 'wp-phraseanet' ); ?></label>
+						<input type="text" name="wppsn-single-media-insert-video-title" id="wppsn-single-media-insert-video-title" class="input-text">
+					</p>
+
+				</div>
+
 				<p id="wppsn-single-media-insert-buttons">
 					<a href="" class="button-primary"><?php _e( 'Insert this media', 'wp-phraseanet' ); ?></a>
 				</p>
@@ -244,6 +270,14 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<h3 class="wppsn-media-preview-title"></h3>
 
 					<div id="wppsn-single-media-preview-video-player-wrapper"></div>
+
+				</div>
+
+				<div id="wppsn-single-media-preview-audio" class="wppsn-single-media-preview-pan">
+					
+					<h3 class="wppsn-media-preview-title"></h3>
+
+					<div id="wppsn-single-media-preview-audio-player-wrapper"></div>
 
 				</div>
 
