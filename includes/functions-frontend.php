@@ -13,13 +13,13 @@ function wppsn_wp_enqueue_scripts()
     /* CSS */
 
     // Custom CSS
-    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '2.0.1', 'all');
+    wp_enqueue_style('wppsn_frontend_css', WPPSN_PLUGIN_CSS_URL . 'wppsn-frontend.css', array() , '2.0.2', 'all');
 
     // FlexSlider CSS
-    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '2.0.0', 'all');
+    wp_enqueue_style('wppsn_flexslider_css', WPPSN_PLUGIN_FLEXSLIDER_URL . 'flexslider.css', array() , '2.0.1', 'all');
 
     // Swipebox CSS
-    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '2.0.0', 'all');
+    wp_enqueue_style('wppsn_swipebox_css', WPPSN_PLUGIN_SWIPEBOX_URL . 'swipebox.css', array() , '2.0.1', 'all');
 
     /* JS */
 
