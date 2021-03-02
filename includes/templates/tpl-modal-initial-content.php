@@ -46,9 +46,23 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 	
 	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 245px; grid-row: 1 / span 2;display: inline-flex;">
-			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
-			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
-			<a style=" grid-row: 1 / span 2;" href="" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Audio/Video Playlist', 'wp-phraseanet' ) ?></a>
+	
+	<div class="newButton3" id="button-4"><div id="underline"></div>
+	<a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
+</div>
+
+<div class="newButton3" id="button-4"><div id="underline"></div>
+<a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
+</div>
+
+<div class="newButton3" id="button-4"><div id="underline"></div>
+<a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Audio/Video Playlist', 'wp-phraseanet' ) ?></a>
+</div>
+	
+			
+			
+			
+			
 	
 		
 		</div>
@@ -70,11 +84,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	
 	</div>
 
-		<div id="wppsn-credits">
-			<span>Crédits</span>
-			<a href="https://www.phraseanet.com" target="_blank"><img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'credits-phraseanet.png'; ?>" alt=""></a>
-			<a href="http://labomedia.org" target="_blank"><img src="<?php echo WPPSN_PLUGIN_IMAGES_URL . 'credits-labomedia.png'; ?>" alt=""></a>
-		</div>
+	
 
 	
 	
@@ -91,12 +101,12 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		
 
-			<div class="wppsn-main-pan-header">
+			<div style="background-color:#464646;color:white" class="wppsn-main-pan-header">
 			
 			
 
 
-			<h1><?php _e( 'Insert a Media', 'wp-phraseanet' ); ?></h1>
+			<h1 style="color:white" ><?php _e( 'Insert a Media', 'wp-phraseanet' ); ?></h1>
 			
 				
 
@@ -150,7 +160,10 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<h2><?php _e( 'Insertion informations', 'wp-phraseanet' ); ?></h2>
 
 					<p id="wppsn-single-media-insert-image-buttons">
-						<a href="" class="media-details-button button">&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a>
+						<!-- <a href="" class="media-details-button button">&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a> -->
+
+						<div class="newButton" id="button-2"><div id="slide"></div><a class="media-details-button xbutton" href="" >&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a></div>
+					
 					</p>
 
 					<div id="wppsn-single-media-insert-image-thumb"></div>
@@ -197,7 +210,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<h2><?php _e( 'Insertion informations', 'wp-phraseanet' ); ?></h2>
 
 					<p id="wppsn-single-media-insert-video-buttons">
-						<a href="" class="media-details-button button">&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a>
+						<!-- <a href="" class="media-details-button button">&lt; <?php //_e( 'Details', 'wp-phraseanet' ); ?></a> -->
+						<div class="newButton" id="button-2"><div id="slide"></div><a class="media-details-button xbutton" href="" >&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a></div>
 					</p>
 
 					<div id="wppsn-single-media-insert-video-thumb"></div>
@@ -223,7 +237,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<h2><?php _e( 'Insertion informations', 'wp-phraseanet' ); ?></h2>
 
 					<p id="wppsn-single-media-insert-audio-buttons">
-						<a href="" class="media-details-button button">&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a>
+						<!-- <a href="" class="media-details-button button">&lt; <?php //_e( 'Details', 'wp-phraseanet' ); ?></a> -->
+						<div class="newButton" id="button-2"><div id="slide"></div><a class="media-details-button xbutton" href="" >&lt; <?php _e( 'Details', 'wp-phraseanet' ); ?></a></div>
 					</p>
 
 					<div id="wppsn-single-media-insert-video-thumb"></div>
@@ -287,9 +302,9 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		<div id="wppsn-pan-images" class="wppsn-main-pan">
 
-			<div class="wppsn-main-pan-header">
+			<div style="background-color:#464646;color:white"  class="wppsn-main-pan-header">
 
-				<h1><?php _e( 'Create an Images Gallery', 'wp-phraseanet' ); ?></h1>
+				<h1 style="color:white" ><?php _e( 'Create an Images Gallery', 'wp-phraseanet' ); ?></h1>
 
 				<h2 class="wppsn-main-pan-tabs">
 					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
@@ -430,9 +445,9 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 		<div id="wppsn-pan-videos" class="wppsn-main-pan">
 
-			<div class="wppsn-main-pan-header">
+			<div style="background-color:#464646;color:white"  class="wppsn-main-pan-header">
 
-				<h1><?php _e( 'Create a Video Playlist', 'wp-phraseanet' ); ?></h1>
+				<h1 style="color:white"  ><?php _e( 'Create a Audio/Video Playlist', 'wp-phraseanet' ); ?></h1>
 
 				<h2 class="wppsn-main-pan-tabs">
 					<a href="" class="wppsn-main-pan-tab-media"><?php _e( 'Medias', 'wp-phraseanet' ); ?></a>
@@ -471,7 +486,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 			<div class="wppsn-media-selected-list-wrapper">
 				
-				<h2><strong class="wppsn-media-selection-counter">0</strong> <?php _e( 'videos selected', 'wp-phraseanet' ); ?></h2>
+				<h2><strong class="wppsn-media-selection-counter">0</strong> <?php _e( 'Audio / Videos selected', 'wp-phraseanet' ); ?></h2>
 
 				<p class="wppsn-note"><?php _e( 'Minimum : 2', 'wp-phraseanet' ); ?></p>
 
@@ -480,7 +495,7 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				</p>
 
 				<div class="wppsn-selected-media-list">
-					<p class="wppsn-media-no-selection"><?php _e( 'No videos selected', 'wp-phraseanet' ); ?></p>
+					<p class="wppsn-media-no-selection"><?php _e( 'No Audio / Videos selected', 'wp-phraseanet' ); ?></p>
 					<ul></ul>
 				</div>
 

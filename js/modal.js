@@ -29,6 +29,7 @@ async function addFacet(e) {
     }
 
     localStorage.setItem("facets", JSON.stringify(json_to_array));
+    selectMenu();
   }
 }
 
@@ -51,6 +52,7 @@ function removeFacet(e) {
     }
     localStorage.setItem("facets", JSON.stringify(json_to_array));
   }
+  selectMenu();
 }
 async function initFacets() {
   let location = window.location.href;
@@ -144,6 +146,8 @@ async function initFacets() {
     .catch((err) => {
       console.log(err);
     });
+
+  selectMenu();
 }
 
 /**
