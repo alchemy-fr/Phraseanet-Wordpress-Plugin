@@ -2052,6 +2052,9 @@ var wppsnGlobals = {
     var type = "video";
     var allTitles = new Array();
     var allUrls = new Array();
+    var allDuration = new Array();
+    var allThumb = new Array();
+    var allGif = new Array();
 
     // Get All media Infos
     this.domVideoPlaylistCreateStep1MediaList.find("li").each(function () {
@@ -2077,6 +2080,10 @@ var wppsnGlobals = {
           .replace(/\]/g, "")
       );
       allUrls.push(currentMediaInfos.download);
+
+      allDuration.push(currentMediaInfos.duration);
+      allThumb.push(currentMediaInfos.thumb);
+      allGif.push(currentMediaInfos.preview.gif);
     });
 
     // Titles
@@ -2088,11 +2095,16 @@ var wppsnGlobals = {
       output += 'mp4s="' + allUrls.join(" || ") + '" ';
     }
 
+    output += 'durations="' + allDuration.join(" || ") + '" ';
+
+    output += 'thumbs="' + allThumb.join(" || ") + '" ';
+    output += 'gifs="' + allGif.join(" || ") + '" ';
     // Splash
     var firstVideoMediaInfos = this.domVideoPlaylistCreateStep1MediaList
       .find("li:first")
       .data("mediaInfos");
-    output += 'splash="' + firstVideoMediaInfos.preview.thumb_url + '"';
+
+    //output += 'splash="' + firstVideoMediaInfos.preview.thumb_url + '"';
 
     // Close shortcode
     output += "]";

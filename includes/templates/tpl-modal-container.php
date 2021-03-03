@@ -34,6 +34,8 @@
 		<script src="../../js/modal.js?ver=1.0.9"></script>
 		
 
+
+	
 	</head>
 	<body class="wp-core-ui media-modal media-frame">
 

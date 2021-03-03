@@ -1135,7 +1135,7 @@ html, body {
 	opacity: 0;
 	line-height: 40px;
 	border-radius: 50%;
-	background: #BFC0C0;
+	background: #b0cfdd;
 	position: absolute;
 	transition: all .5s ease-Out;
 	top: 20px;
@@ -1307,3 +1307,19 @@ html, body {
 	  width: 50%;
 	}
   }
+
+  .playlist_container {
+	border: 3px solid blue;
+	padding: 20px 40px 40px;
+	max-width: 640px;
+	display: flex;
+}
+.container__image {
+	margin: 20px 30px 0 0;
+	width: 200px;
+	object-fit: contain;
+	align-self: flex-start;
+}
+.container__text {
+	flex: 1 1 auto;
+}

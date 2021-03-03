@@ -136,7 +136,8 @@ $em = new PhraseanetSDK\EntityManager($api_adapter);
 					'thumb'			=> ( $mediaThumb != null ) ? $mediaThumb->getPermalink()->getUrl() : WPPSN_PLUGIN_IMAGES_URL . 'no-preview/no-preview-' . $record->getPhraseaType() . '.png',
 					'download'      => getUrl($record,$record->getPhraseaType()),
 					'phraseaType'	=> $record->getPhraseaType(),
-					'preview'		=> wppsn_get_media_preview( $record )
+					'preview'		=> wppsn_get_media_preview( $record ),
+					'duration'		=> getTechDetails($record,'Duration')
 				);
 			}
 
@@ -232,10 +233,28 @@ function get_facets_list($query=''){
 
 add_action( 'wp_ajax_get_facets_list', 'get_facets_list' );
 
+
+function getTechDetails($record,$type){
+
+	$details_array = [];
+    foreach ($record->getTechnicalInformation() as $technical_detail) {
+
+        if ($type==$technical_detail->getName()) {
+           
+			$details_array =  $technical_detail->getValue();
+		//	 array_push($details_array, [$technical_detail->getName()=>$technical_detail->getValue()]);
+        }
+    }
+
+
+return $details_array;
+}
+
+
 function getUrl($record,$type){
 
 	$url = '';
-	
+
 	foreach ($record->getSubdefs() as $i=>$subdef) {
 
 
@@ -243,9 +262,11 @@ function getUrl($record,$type){
 
 		
 
+		
+
 			if($subdef->getMimeType()=='video/mp4' OR $subdef->getMimeType()=='video/webm' OR $subdef->getMimeType()=='video/ogg'){
 
-				
+
 				$url = $subdef->getPermalink()->getUrl();
                 break;
 

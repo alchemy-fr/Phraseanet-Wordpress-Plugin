@@ -70,7 +70,7 @@ add_action('wp_enqueue_scripts', 'image_model');
 
 function image_model()
 {
-    wp_enqueue_script('image_model', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-modal.js');
+    wp_enqueue_script('image_model', WPPSN_PLUGIN_JS_URL . 'wppsn-frontend-modal.js',array() , '2.0.1', 'all');
 }
 
 add_action('wp_enqueue_scripts', 'image_model_css');
@@ -571,14 +571,19 @@ function wppsn_shortcode_video_playlist($atts)
     extract(shortcode_atts(array(
         'titles' => '',
         'mp4s' => '',
-        'splash' => ''
+        'thumbs' => '',
+        'gifs'=> '',
+        'splash' => '',
+        'durations'=>'',
     ) , $atts));
 
     // Explode Strings to Arrays
     $allTitles = explode('||', $titles);
     $allMp4s = explode('||', $mp4s);
     $splash = trim($splash);
-
+    $allThubms = explode("||",$thumbs);
+    $allGifs = explode('||',$gifs);    
+    $allDuration = explode('||',$durations);
     $url  = '';
 
     foreach($allTitles as $i=>$t){
@@ -591,7 +596,7 @@ function wppsn_shortcode_video_playlist($atts)
 
     
 
-    $styleSplash = ($splash != '') ? ' style="background-image:url(' . $splash . ')"' : '';
+    //$styleSplash = ($splash != '') ? ' style="background-image:url(' . $splash . ')"' : '';
 
     $output .= '<div class="content">';
   
@@ -601,7 +606,7 @@ function wppsn_shortcode_video_playlist($atts)
 
     $output .= '<div id="playlist_container"> <iframe id="videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
 
-    $output .= '<div style="margin-top:10px" ><ul style="text-align: center;">';
+    $output .= '<div style="margin-top:10px">';
 
     foreach ($allTitles as $i => $t)
     {
@@ -611,19 +616,60 @@ function wppsn_shortcode_video_playlist($atts)
        
         
         if($i==0){
-            $color .= 'background-color:#f1f1f1';
+            $color .= 'background-color:rgb(22 22 23 / 7%)';
         }else{
-            $color .= 'background-color:white';
+            $color .= 'background-color: white';
         }
 
-       $output .= '<li onclick="play(this.id)" class="plist" style="list-style:none;border-bottom: 1px solid #d8d8d8;'.$color.'" id="'.trim($allMp4s[$i]).'" >'.trim($t) .'</li>';
+
+        //Duration
+        $secs = floor($allDuration[$i]);
+        $milli = (int) (($allDuration[$i] - $secs) * 1000);
+  
+        $hours = ($secs / 3600);
+        
+        $hours = (int) $hours <=0 ? 0: $hours;
+        $minutes = (($secs / 60) % 60);
+        $minutes = (int) $minutes <=0 ? 0: $minutes;
+        $seconds = $secs % 60;
+        $seconds = (int) $seconds <=0 ? 0: $seconds;
+
+
+       $output .= '
+       
+<div class="plist" onmouseout="gif(this.id,0)" onmouseover="gif(this.id,1)" id="'.$i.'" style="margin-bottom: 18px;border-radius: 5px; box-shadow: 5px 5px 5px grey;'.$color.' ">
+
+
+<div onclick="play(this.id,'.$i.')" id="'.trim($allMp4s[$i]).'" >
+
+
+<input type="hidden" id="gif_'.$i.'" value="'.$allGifs[$i].'">
+<input type="hidden" id="web_img_'.$i.'" value="'.$allThubms[$i].'">
+
+<div style="float:left;"><img id="img_'.$i.'" style="border-radius:5px;border-right: 20px solid #00000000;" src="'.$allThubms[$i].'" /></div>
+
+
+
+<div style="">
+
+<div style="font-size: 22px; font-weight:400 ;line-height: 33px;">'.trim($t).'</div>
+
+<div  style="" ><small>'.$hours.':'.$minutes.':'.$seconds.'</small></div>
+
+<div style="clear: left;"/></div>
+</div> </div>
+
+</div>
+
+';
+       
+        //$output .= '<li onclick="play(this.id)" class="plist" style="list-style:none;border-bottom: 1px solid #d8d8d8;'.$color.'" id="'.trim($allMp4s[$i]).'" >'.trim($t) .'</li>';
       
     
     }
 
-    $output .= '		</ul></div>
-					</div>
-				</div>';
+    $output .= '</div>
+					';
 
     return $output;
 
