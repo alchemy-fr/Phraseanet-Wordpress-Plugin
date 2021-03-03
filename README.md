@@ -130,7 +130,13 @@ Once the plugin is installed, activate it. You must then configure it in the Set
 #### env
 Rename env.example to .env file and edit the configuration or ``cp env.example .env``
 
-  
+
+#### network
+
+PHRASEANET_SUBNET_IPS=172.32.0.0/16
+PHRASEANET_APP_PORT=8080
+
+
  
 
 #### nginx-conf

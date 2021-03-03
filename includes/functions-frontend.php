@@ -622,17 +622,18 @@ function wppsn_shortcode_video_playlist($atts)
         }
 
 
-        //Duration
+        //Duration and fortmat 
         $secs = floor($allDuration[$i]);
         $milli = (int) (($allDuration[$i] - $secs) * 1000);
-  
         $hours = ($secs / 3600);
-        
-        $hours = (int) $hours <=0 ? 0: $hours;
+        $hours = (int) $hours <=0 ? 00: $hours;
+        $hours = $hours < 10 ? '0'.$hours : $hours;
         $minutes = (($secs / 60) % 60);
-        $minutes = (int) $minutes <=0 ? 0: $minutes;
+        $minutes = (int) $minutes <=0 ? 00: $minutes;
+        $minutes = $minutes < 10 ? '0'.$minutes : $minutes;
         $seconds = $secs % 60;
-        $seconds = (int) $seconds <=0 ? 0: $seconds;
+        $seconds = (int) $seconds <=0 ? 00: $seconds;
+        $seconds = $seconds < 10 ? '0'.$seconds : $seconds;
 
 
        $output .= '
