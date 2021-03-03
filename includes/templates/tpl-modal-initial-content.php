@@ -47,15 +47,15 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	
 	<div id="" style="width: 100%;position: fixed;z-index: 100;left: 245px; grid-row: 1 / span 2;display: inline-flex;">
 	
-	<div class="newButton3" id="button-4"><div id="underline"></div>
+	<div class="newButton3" id="button-3"><div id="circle"></div>
 	<a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-medias" class="page-title-action wppsn-menu-item current-menu"><?php _e( 'Insert a Media', 'wp-phraseanet' ) ?></a>
 </div>
 
-<div class="newButton3" id="button-4"><div id="underline"></div>
+<div class="newButton3" id="button-3"><div id="circle"></div>
 <a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-images" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Image Gallery', 'wp-phraseanet' ) ?></a>
 </div>
 
-<div class="newButton3" id="button-4"><div id="underline"></div>
+<div class="newButton3" id="button-3"><div id="circle"></div>
 <a style=" grid-row: 1 / span 2;" href="" onclick="selectedOption(this.id)" id="wppsn-menu-videos" class="page-title-action wppsn-menu-item"><?php _e( 'Create an Audio/Video Playlist', 'wp-phraseanet' ) ?></a>
 </div>
 	
