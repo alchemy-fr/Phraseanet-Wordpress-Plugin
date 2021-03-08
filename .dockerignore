@@ -1,0 +1,10 @@
+.flymake*
+.idea
+.gopath/
+.dotcloud
+*.test
+.hg/
+.git/*
+.vscode
+.env
+env.local

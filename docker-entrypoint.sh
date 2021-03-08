@@ -277,7 +277,7 @@ EOPHP
 
 if ! test -f "/var/www/html/installed"; then
 
-	(cd /var/www/html/; wp core install --url='http://127.0.0.1:'"${PHRASEANET_APP_PORT}"'' --title="${SITE_TITLE}" --admin_user="${WP_ADMIN_USERNAME}" --admin_password="${WP_ADMIN_PASSWORD}" --admin_email="${WP_ADMIN_EMAIL}" --allow-root)
+	(cd /var/www/html/; wp core install --url='http://127.0.0.1:'"${WP_APP_PORT}"'' --title="${SITE_TITLE}" --admin_user="${WP_ADMIN_USERNAME}" --admin_password="${WP_ADMIN_PASSWORD}" --admin_email="${WP_ADMIN_EMAIL}" --allow-root)
 
 
 	(cd /var/www/html/; touch installed)
@@ -340,8 +340,8 @@ fi
 
 (cd /var/www/html/; wp option update wppsn_options --format=json  '{"client_base_url": "'"${PHRASEANET_BO_URL}"'","client_id": "'"${PHRASEANET_BO_CLIENT_ID}"'", "client_secret": "'"${PHRASEANET_BO_SECRET}"'", "client_token": "'"${PHRASEANET_BO_TOKEN}"'"}'   --allow-root)
 
-(cd /var/www/html/; wp option update home  'http://127.0.0.1:'"${PHRASEANET_APP_PORT}"'' --allow-root)
-(cd /var/www/html/; wp option update siteurl 'http://127.0.0.1:'"${PHRASEANET_APP_PORT}"''  --allow-root)
+(cd /var/www/html/; wp option update home  'http://127.0.0.1:'"${WP_APP_PORT}"'' --allow-root)
+(cd /var/www/html/; wp option update siteurl 'http://127.0.0.1:'"${WP_APP_PORT}"''  --allow-root)
 
 
 if [ "$WP_UPDATE" == 'auto'  ]
