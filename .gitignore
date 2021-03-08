@@ -22,8 +22,8 @@ pyenv
 Vagrantfile
 .vscode
 ssh/id_rsa
-.env
 dist/
 node_modules
 vendor/*
 composer.lock
+env.local

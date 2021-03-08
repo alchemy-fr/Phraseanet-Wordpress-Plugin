@@ -127,8 +127,25 @@ Once the plugin is installed, activate it. You must then configure it in the Set
   
 
 
-#### env
-Rename env.example to .env file and edit the configuration or ``cp env.example .env``
+### env
+
+#### Using a env.local method for custom .env values
+
+It may be easier to deal with a local file to manage our env variables.
+
+You can add your `env.local` at the root of this project and define a command function in your `~/.bashrc`:
+
+```bash
+# ~/.bashrc or ~/.zshrc
+function dc() {
+    if [ -f env.local ]; then
+        env $(cat env.local | grep -v '#' | tr '\n' ' ') docker-compose $@
+    else
+        docker-compose $@
+    fi
+}
+```
+
 
 
 #### network

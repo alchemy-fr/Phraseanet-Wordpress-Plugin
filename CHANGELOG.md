@@ -1,7 +1,17 @@
 CHANGELOG
 ---------
 
-* 0.1.3 (06-21-20313)
+* 0.1.4 (03-05-2121)
+
+  * Compatibility for Wordpress 5 Gutenberg. 
+  * Added Docker support
+  * Added embed video player for Videos and audios 
+  * Removed Flowplayer 5.4.3
+  * User interface enhancements
+  
+
+
+* 0.1.3 (06-21-2013)
 
   * Update to SwipeBox 1.1.2
   * Update to Flowplayer 5.4.3
