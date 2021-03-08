@@ -692,14 +692,18 @@ function wppsn_shortcode_audio_playlist($atts)
     extract(shortcode_atts(array(
         'titles' => '',
         'mpegs' => '',
-        'splash' => ''
+        'splash' => '',
+        'durations'=>'',
+        'thumbs'=>''
+        
     ) , $atts));
 
     // Explode Strings to Arrays
     $allTitles = explode('||', $titles);
     $allmpegs = explode('||', $mpegs);
     $splash = trim($splash);
-
+    $allDuration = explode('||',$durations);
+    $allThubms = explode('||',$thumbs);
     $url  = '';
 
     foreach($allTitles as $i=>$t){
@@ -720,7 +724,7 @@ function wppsn_shortcode_audio_playlist($atts)
 
     $output .= '<div id="playlist_container"> <iframe id="videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
 
-    $output .= '<div style="margin-top:10px" ><ul style="text-align: center;">';
+    $output .= '<div style="margin-top:10px" >';
 
     foreach ($allTitles as $i => $t)
     {
@@ -730,17 +734,54 @@ function wppsn_shortcode_audio_playlist($atts)
        
         
         if($i==0){
-            $color .= 'background-color:#f1f1f1';
+            $color .= 'background-color:rgb(22 22 23 / 7%)';
         }else{
-            $color .= 'background-color:white';
+            $color .= 'background-color: white';
         }
 
-       $output .= '<li onclick="play(this.id)" class="plist" style="list-style:none;border-bottom: 1px solid #d8d8d8;'.$color.'" id="'.trim($allmpegs[$i]).'" >'.trim($t) .'</li>';
+
+        //Duration and fortmat 
+        $secs = floor($allDuration[$i]);
+        $milli = (int) (($allDuration[$i] - $secs) * 1000);
+        $hours = ($secs / 3600);
+        $hours = (int) $hours <=0 ? 00: $hours;
+        $hours = $hours < 10 ? '0'.$hours : $hours;
+        $minutes = (($secs / 60) % 60);
+        $minutes = (int) $minutes <=0 ? 00: $minutes;
+        $minutes = $minutes < 10 ? '0'.$minutes : $minutes;
+        $seconds = $secs % 60;
+        $seconds = (int) $seconds <=0 ? 00: $seconds;
+        $seconds = $seconds < 10 ? '0'.$seconds : $seconds;
+
       
+       $output .= '
+       
+       <div class="plist"  id="'.$i.'" style="margin-bottom: 18px;border-radius: 12px; box-shadow: 5px 5px 5px grey;'.$color.' ">
+       
+       
+       <div onclick="play(this.id,'.$i.')" id="'.trim($allmpegs[$i]).'" >
+       
+        
+       <div style="float:left;"><img id="img_'.$i.'" style="border-radius:5px;border-right: 20px solid #00000000;" src="'.$allThubms[$i].'" /></div>
+       
+       
+       
+       <div style="">
+       
+       <div style="font-size: 22px; font-weight:400 ;line-height: 33px;">'.trim($t).'</div>
+       
+       <div  style="" ><small>'.$hours.':'.$minutes.':'.$seconds.'</small></div>
+       
+       <div style="clear: left;"/></div>
+       </div> </div>
+       
+       </div>
+       
+       ';
     
     }
 
-    $output .= '		</ul></div>
+    $output .= '</div>
 					</div>
 				</div>';
 
