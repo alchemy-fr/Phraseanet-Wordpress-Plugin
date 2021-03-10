@@ -66,6 +66,8 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	
 		
 		</div>
+
+		
 	
 	
 		<div id="select_facets">

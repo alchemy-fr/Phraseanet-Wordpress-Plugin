@@ -348,6 +348,8 @@ var wppsnGlobals = {
       ".wppsn-baskets-wrapper"
     );
 
+    this.facetsSelector = this.domMenu.find("#listener");
+
     this.domClonableElements = jQuery("#wppsn-clonable-elements");
 
     // Hide what should be hidden at first load
@@ -669,6 +671,7 @@ var wppsnGlobals = {
     // Get current workflow pan
     var currentMainPan = jQuery(".wppsn-main-pan:visible");
     var currentWorkflow = currentMainPan.attr("id").split("-")[2];
+
     var currentMediaList = currentMainPan.find(".wppsn-media-list");
     var currentRecordType = "all";
 
@@ -677,6 +680,7 @@ var wppsnGlobals = {
       // Loading animation
       currentMediaList.empty().addClass("list-loading");
 
+      let extraQuery = "";
       // Switch between workflows
       switch (currentWorkflow) {
         // Single Media
@@ -713,6 +717,8 @@ var wppsnGlobals = {
 
         // Videos Playlist
         case "videos":
+          extraQuery = "type:audio OR type:video";
+
           // Hide Pans : preview and create playlist step 1
           this.domPanVideoPlaylistPreview.hide();
           this.domPanVideoPlaylistCreateStep1.hide();
@@ -750,7 +756,7 @@ var wppsnGlobals = {
 
       // Current Filters (search query, search type, record type and page of pagination)
       var mediaFilters = {
-        searchQuery: search,
+        searchQuery: search + " " + extraQuery,
 
         searchType:
           currentMainPan.find(".wppsn-search-type:checked").val() || 0,
@@ -758,6 +764,8 @@ var wppsnGlobals = {
         pageNb: typeof pageNb == "undefined" ? 1 : pageNb,
       };
 
+      console.log(mediaFilters);
+      console.log("here");
       // Request Media List Infos
       jQuery.ajax({
         url: wppsnGlobals.ajaxUrl,
@@ -2192,4 +2200,8 @@ function updateCheckboxVal(cb) {
   } else {
     cb.value = "off";
   }
+}
+
+function hello() {
+  console.log($.fn); // Todd
 }
