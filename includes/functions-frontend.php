@@ -586,12 +586,16 @@ function wppsn_shortcode_video_playlist($atts)
     $allDuration = explode('||',$durations);
     $url  = '';
 
+    $random  = random_int(1000,9999999);
     foreach($allTitles as $i=>$t){
+
         
         if(!empty(trim($allMp4s[$i]))){
             $url = trim($allMp4s[$i]);
             break;
         }
+
+        $random = $random * $i;
     }
 
     
@@ -602,15 +606,15 @@ function wppsn_shortcode_video_playlist($atts)
   
     $output .= '<div class="rwd-media">';
 
-   // $output .= '<iframe id="videos_playlist" class="responsive-iframe" src="https://alpha.preprod.alchemyasp.com/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>';
 
-    $output .= '<div id="playlist_container"> <iframe id="videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
+    $output .= '<div id="'.$random.'_playlist_container"> <iframe id="'.$random.'_videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
 
     $output .= '<div style="margin-top:10px">';
 
     foreach ($allTitles as $i => $t)
     {
 
+        $j = $i * $random;
         $color = trim($allMp4s[$i])!='' ? 'color: black;
         cursor: pointer;' : 'color: red';
        
@@ -638,16 +642,16 @@ function wppsn_shortcode_video_playlist($atts)
 
        $output .= '
        
-<div class="plist" onmouseout="gif(this.id,0)" onmouseover="gif(this.id,1)" id="'.$i.'" style="margin-bottom: 18px;border-radius: 5px; box-shadow: 5px 5px 5px grey;'.$color.' ">
+<div class="'.$random.'_plist" onmouseout="gif(this.id,0)" name="'.$random.'" onmouseover="gif(this.id,1)" id="'.$j.'" style="margin-bottom: 18px;border-radius: 5px; box-shadow: 5px 5px 5px grey;'.$color.' ">
 
 
-<div onclick="play(this.id,'.$i.')" id="'.trim($allMp4s[$i]).'" >
+<div onclick="play(this.id,'.$j.','.$random.')" id="'.trim($allMp4s[$i]).'"  >
 
 
-<input type="hidden" id="gif_'.$i.'" value="'.$allGifs[$i].'">
-<input type="hidden" id="web_img_'.$i.'" value="'.$allThubms[$i].'">
+<input type="hidden" id="gif_'.$j.'" value="'.$allGifs[$i].'">
+<input type="hidden" id="web_img_'.$j.'" value="'.$allThubms[$i].'">
 
-<div style="float:left;"><img id="img_'.$i.'" style="border-radius:5px;border-right: 20px solid #00000000;" src="'.$allThubms[$i].'" /></div>
+<div style="float:left;"><img id="img_'.$j.'" style="border-radius:5px;border-right: 20px solid #00000000;" src="'.$allThubms[$i].'" /></div>
 
 
 
@@ -663,9 +667,7 @@ function wppsn_shortcode_video_playlist($atts)
 </div>
 
 ';
-       
-        //$output .= '<li onclick="play(this.id)" class="plist" style="list-style:none;border-bottom: 1px solid #d8d8d8;'.$color.'" id="'.trim($allMp4s[$i]).'" >'.trim($t) .'</li>';
-      
+          
     
     }
 
@@ -706,12 +708,17 @@ function wppsn_shortcode_audio_playlist($atts)
     $allThubms = explode('||',$thumbs);
     $url  = '';
 
+    $random  = random_int(1000,9999999);
+
     foreach($allTitles as $i=>$t){
         
         if(!empty(trim($allmpegs[$i]))){
             $url = trim($allmpegs[$i]);
             break;
         }
+
+        $random = $random * $i;
+
     }
 
     
@@ -722,7 +729,7 @@ function wppsn_shortcode_audio_playlist($atts)
     $output .= '<div class="rwd-media">';
 
 
-    $output .= '<div id="playlist_container"> <iframe id="videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
+    $output .= '<div id="'.$random.'_playlist_container"> <iframe id="'.$random.'_videos_playlist" class="responsive-iframe" src="'.$phraseanet_url.'/embed/?url='.$url.'" frameborder="0" allowfullscreen="" webkitallowfullscreen="" mozallowfullscree=""></iframe></div></div>  </div>';
 
     $output .= '<div style="margin-top:10px" >';
 
@@ -756,10 +763,10 @@ function wppsn_shortcode_audio_playlist($atts)
       
        $output .= '
        
-       <div class="plist"  id="'.$i.'" style="margin-bottom: 18px;border-radius: 12px; box-shadow: 5px 5px 5px grey;'.$color.' ">
+       <div class="'.$random.'_plist"  id="'.$i.'" style="margin-bottom: 18px;border-radius: 12px; box-shadow: 5px 5px 5px grey;'.$color.' ">
        
        
-       <div onclick="play(this.id,'.$i.')" id="'.trim($allmpegs[$i]).'" >
+       <div onclick="play(this.id,'.$i.','.$random.')" id="'.trim($allmpegs[$i]).'" >
        
         
        <div style="float:left;"><img id="img_'.$i.'" style="border-radius:5px;border-right: 20px solid #00000000;" src="'.$allThubms[$i].'" /></div>
