@@ -37,6 +37,7 @@ function wppsn_ajax_get_media_list() {
 
 	$search_query 	= stripslashes($_GET['params']['searchQuery']);
 	
+
 	$search_type  	= $_GET['params']['searchType'];
 	$record_type	= $_GET['params']['recordType'];
 	$current_page 	= ( $_GET['params']['pageNb'] < 1 ) ? 1 : $_GET['params']['pageNb'];
@@ -67,17 +68,29 @@ $em = new PhraseanetSDK\EntityManager($api_adapter);
  $recordRepository = $em->getRepository( 'Record' );
 
  
- $params = [
-	// We use base ids as collectioon ids due to phraseanet implementation
-	// Bases field actually points to collections
-	'bases' => array(),
-	'offset_start' => '0',
-	'per_page' => '50',
+//  $params = [
+// 	// We use base ids as collectioon ids due to phraseanet implementation
+// 	// Bases field actually points to collections
+// 	'bases' => array(),
+// 	'offset_start' => '0',
+// 	'per_page' => '50',
+//   ];
+
+
+$record_type = $record_type == 'video' ? '' : $record_type;
+
+  $params = [
+
+	'query' 		=> "$search_query",
+	'bases' 		=> array(),
+	'offset_start' 	=> $current_page * WPPSN_MODAL_LIST_MEDIA_PER_PAGE - WPPSN_MODAL_LIST_MEDIA_PER_PAGE,
+	'per_page' 		=> WPPSN_MODAL_LIST_MEDIA_PER_PAGE,
+	'record_type' 	=> $record_type,
+	'search_type'	=> $search_type
   ];
 
 
-  $params['query'] = "$search_query";
- 
+   //$params['query'] = "$search_query";
 
 	try {
 		$query = $recordRepository->search($params);

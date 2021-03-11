@@ -1,5 +1,4 @@
 function play(id, div_id) {
-  console.log(div_id);
   let container = document.getElementById("playlist_container");
 
   container.innerHTML =
