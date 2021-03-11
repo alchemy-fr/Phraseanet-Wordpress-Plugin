@@ -142,13 +142,13 @@ function wppsn_shortcode_single_image($atts)
 
     $output .= '<div class="wppsn-image wp-caption">
 
-		<img class="single_image wp-image-" src="' . $full_url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;" >
+		<img class="single_image wp-image-" src="' . $full_url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;width: 100%;" >
 	'
 ;
 
     if ($legend != '' || $downloadLink != '')
     {
-        $output .= '	<p class="wp-caption-text">' . $legend . (($legend != '') ? ' - ' : '') . $downloadLink . '</p>';
+        $output .= '	<p style="margin-right:0%" class="wp-caption-text">' . $legend . (($legend != '') ? ' - ' : '') . $downloadLink . '</p>';
     }
 
     $output .= "<div id='myModal_$id' class='modal'><span class='close'>&times;</span><img class='modal-content' id='img_$id'><div id='caption_$id' class='caption' ></div></div></div>";

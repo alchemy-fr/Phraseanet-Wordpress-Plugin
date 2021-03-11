@@ -2,152 +2,9 @@
  * All the modal behavior
  */
 
-async function addFacet(e) {
-  let facets_list = await localStorage.getItem("facets");
-  if (facets_list == undefined || facets_list.length < 3) {
-    var obj = [{ id: this.id, name: this.name, parent: this.rel }];
-    await localStorage.setItem("facets", JSON.stringify(obj));
-  } else {
-    let json_to_array = JSON.parse(facets_list);
-    for (let i = 0; i < json_to_array.length; i++) {
-      let id = json_to_array[i].id;
-
-      if (id == this.id) {
-        json_to_array.splice(i, 1);
-        await json_to_array.push({
-          id: this.id,
-          name: this.name,
-          parent: this.rel,
-        });
-      } else {
-        await json_to_array.push({
-          id: this.id,
-          name: this.name,
-          parent: this.rel,
-        });
-      }
-    }
-
-    localStorage.setItem("facets", JSON.stringify(json_to_array));
-    selectMenu();
-  }
-}
-
 function toggle(e) {
   let st = document.getElementById(this.id + "_view").style;
   st.display = st.display == "none" ? "block" : "none";
-}
-
-function removeFacet(e) {
-  let facets_list = localStorage.getItem("facets");
-  if (facets_list != undefined) {
-    let json_to_array = JSON.parse(facets_list);
-
-    for (let i = 0; i < json_to_array.length; i++) {
-      let id = json_to_array[i].id;
-
-      if (id == this.name) {
-        json_to_array.splice(i, 1);
-      }
-    }
-    localStorage.setItem("facets", JSON.stringify(json_to_array));
-  }
-  selectMenu();
-}
-async function initFacets() {
-  let location = window.location.href;
-  let location_index = location.indexOf("/wp-admin");
-  let loc = location.substring(0, location_index);
-  await fetch(loc + "/wp-admin/admin-ajax.php?action=get_facets_list")
-    .then((data) => {
-      data
-        .json()
-        .then((json) => {
-          var output = document.createElement("UL");
-          output.className = "listBox";
-          for (var k in json) {
-            var li = document.createElement("li");
-            var a = document.createElement("p");
-            var linkText = document.createTextNode(k.replace("_", " "));
-            a.appendChild(linkText);
-            a.id = k;
-            a.addEventListener("click", toggle);
-            a.style =
-              "background-color: #5ea0ba;color: white;font-size: 16px;padding-left: 7px;padding-top: 7px;padding-bottom: 7px;cursor: pointer;border-radius: 2%;";
-            li.appendChild(a);
-            li.className = "list-item";
-            let subListWraper = document.createElement("div");
-            subListWraper.id = k + "_view";
-            subListWraper.style =
-              "display:none;text-align: left;margin-left: -27%;";
-            for (let i in json[k]) {
-              if (json[k][i][0] != undefined) {
-                var ul = document.createElement("ul");
-                var li2 = document.createElement("li");
-                li2.style = "list-style-type: none;";
-                var a = document.createElement("a");
-                var linkText = document.createTextNode(json[k][i][0]);
-                a.appendChild(linkText);
-                a.title = json[k][i][0];
-                a.name = json[k][i][0];
-                a.id = json[k][i][1];
-                a.href = "";
-                a.rel = k;
-                a.style = "font-size:11px;";
-                a.addEventListener("click", addFacet);
-                li2.appendChild(a);
-                li2.setAttribute("id", json[k][i][1]);
-                li2.setAttribute("name", json[k][i][0]);
-                var icon = document.createElement("a");
-                icon.className = "btnClose";
-                icon.style = "display:none";
-                icon.id = "btn_" + json[k][i][1];
-                icon.name = json[k][i][1];
-                icon.appendChild(document.createTextNode("X"));
-                icon.href = "";
-                icon.addEventListener("click", removeFacet);
-                li2.appendChild(icon);
-                ul.appendChild(li2);
-                subListWraper.appendChild(ul);
-                li.appendChild(subListWraper);
-              }
-            }
-
-            output.appendChild(li);
-          }
-
-          document.getElementById("loading").style.display = "none";
-          document.getElementById("load_facets").appendChild(output);
-
-          let facets_list = localStorage.getItem("facets");
-
-          if (facets_list != undefined) {
-            let json_to_array = JSON.parse(facets_list);
-
-            for (let i = 0; i < json_to_array.length; i++) {
-              let id = json_to_array[i].id;
-
-              let btn_id = document.getElementById("btn_" + id);
-
-              if (btn_id != null) {
-                btn_id.style = "display:block";
-
-                document.getElementById(
-                  json_to_array[i].parent + "_view"
-                ).style.display = "block";
-              }
-            }
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  selectMenu();
 }
 
 /**
@@ -189,7 +46,8 @@ var wppsnGlobals = {
         // If plugin is completely configured (the interface is shown, else an error paragraph is shown)
         if (this.bodyElt.find("#wppsn-sidebar").length > 0) {
           this.prepareInitialContent();
-          initFacets();
+          this.initFacets();
+          //initFacets();
         }
       },
       dataType: "html",
@@ -385,6 +243,173 @@ var wppsnGlobals = {
     this.getMediaList();
   };
 
+  WppsnModal.prototype.facets = function () {
+    var _this = this;
+  };
+
+  WppsnModal.prototype.removeFacet = async function (e) {
+    let facets_list = await localStorage.getItem("facets");
+    if (facets_list != undefined) {
+      let json_to_array = JSON.parse(facets_list);
+
+      for (let i = 0; i < json_to_array.length; i++) {
+        let id = json_to_array[i].id;
+
+        if (id == this.name) {
+          json_to_array.splice(i, 1);
+          document.getElementById("btn_" + id).style.display = "none";
+        }
+      }
+      await localStorage.setItem("facets", JSON.stringify(json_to_array));
+    }
+
+    WppsnModal.prototype.prepareInitialContent();
+  };
+
+  WppsnModal.prototype.addFacet = async function (e) {
+    var _this = this;
+    let facets_list = await localStorage.getItem("facets");
+
+    if (facets_list == undefined || facets_list.length < 4) {
+      var obj = [{ id: this.id, name: this.name, parent: this.rel }];
+      document.getElementById("btn_" + this.id).style.display = "block";
+      await localStorage.setItem("facets", JSON.stringify(obj));
+    } else {
+      let json_to_array = JSON.parse(facets_list);
+      for (let i = 0; i < json_to_array.length; i++) {
+        let id = json_to_array[i].id;
+
+        if (id == this.id) {
+          let l = json_to_array.splice(i, 1);
+
+          json_to_array.push({
+            id: this.id,
+            name: this.name,
+            parent: this.rel,
+          });
+          break;
+        } else {
+          json_to_array.push({
+            id: this.id,
+            name: this.name,
+            parent: this.rel,
+          });
+
+          break;
+        }
+      }
+
+      await localStorage.setItem("facets", JSON.stringify(json_to_array));
+    }
+
+    document.getElementById("btn_" + this.id).style.display = "block";
+    //this.getMediaList();
+
+    WppsnModal.prototype.prepareInitialContent();
+  };
+
+  WppsnModal.prototype.initFacets = function () {
+    var _this = this;
+    let location = window.location.href;
+    let location_index = location.indexOf("/wp-admin");
+    let loc = location.substring(0, location_index);
+    fetch(loc + "/wp-admin/admin-ajax.php?action=get_facets_list")
+      .then((data) => {
+        data
+          .json()
+          .then((json) => {
+            var output = document.createElement("UL");
+            output.className = "listBox";
+
+            for (var k in json) {
+              var li = document.createElement("li");
+              var a = document.createElement("p");
+              var linkText = document.createTextNode(k.replace("_", " "));
+              a.appendChild(linkText);
+              a.id = k;
+              a.addEventListener("click", toggle);
+              a.style =
+                "background-color: #5ea0ba;color: white;font-size: 16px;padding-left: 7px;padding-top: 7px;padding-bottom: 7px;cursor: pointer;border-radius: 2%;";
+              li.appendChild(a);
+              li.className = "list-item";
+              let subListWraper = document.createElement("div");
+              subListWraper.id = k + "_view";
+              subListWraper.style =
+                "display:none;text-align: left;margin-left: -27%;";
+              for (let i in json[k]) {
+                if (json[k][i][0] != undefined) {
+                  var ul = document.createElement("ul");
+                  ul.style = "overflow: hidden;";
+                  var li2 = document.createElement("li");
+                  li2.style = "list-style-type: none;";
+                  var tagForFacet = document.createElement("p");
+
+                  var linkText = document.createTextNode(json[k][i][0]);
+                  tagForFacet.appendChild(linkText);
+                  tagForFacet.title = json[k][i][0];
+                  tagForFacet.name = json[k][i][0];
+                  tagForFacet.id = json[k][i][1];
+                  tagForFacet.href = "javascript:void(0)";
+                  tagForFacet.rel = k;
+                  tagForFacet.className = "listSingleItem";
+
+                  tagForFacet.style = "font-size:11px;float:left";
+                  tagForFacet.addEventListener("click", _this.addFacet);
+                  li2.appendChild(tagForFacet);
+                  li2.setAttribute("id", json[k][i][1]);
+                  li2.setAttribute("name", json[k][i][0]);
+                  var deleteButton = document.createElement("p");
+                  deleteButton.className = "btnClose";
+                  deleteButton.style = "display:none;float:right";
+                  deleteButton.id = "btn_" + json[k][i][1];
+                  deleteButton.name = json[k][i][1];
+                  deleteButton.appendChild(document.createTextNode("X"));
+                  deleteButton.href = "javascript:void(0)";
+                  deleteButton.addEventListener("click", _this.removeFacet);
+                  li2.appendChild(deleteButton);
+                  ul.appendChild(li2);
+                  subListWraper.appendChild(ul);
+                  li.appendChild(subListWraper);
+                }
+              }
+
+              output.appendChild(li);
+            }
+
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("load_facets").appendChild(output);
+
+            let facets_list = localStorage.getItem("facets");
+
+            if (facets_list != undefined) {
+              let json_to_array = JSON.parse(facets_list);
+
+              for (let i = 0; i < json_to_array.length; i++) {
+                let id = json_to_array[i].id;
+
+                let btn_id = document.getElementById("btn_" + id);
+
+                if (btn_id != null) {
+                  btn_id.style = "display:block;float:right";
+
+                  document.getElementById(
+                    json_to_array[i].parent + "_view"
+                  ).style.display = "block";
+                }
+              }
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    //selectMenu();
+  };
+
   /**
    * Init the Main menu links
    */
@@ -399,15 +424,15 @@ var wppsnGlobals = {
       );
 
       // Display Pan if not visible
-      if (!curLink.hasClass("current-menu")) {
-        _this.domMainPans.hide();
-        _this.domMenu.find("a").removeClass("current-menu");
-        requestedPan.show();
-        curLink.addClass("current-menu");
+      //if (!curLink.hasClass("current-menu")) {
+      _this.domMainPans.hide();
+      _this.domMenu.find("a").removeClass("current-menu");
+      requestedPan.show();
+      curLink.addClass("current-menu");
 
-        // Get Media List
-        _this.getMediaList();
-      }
+      // Get Media List
+      _this.getMediaList();
+      //}
       e.preventDefault();
     });
   };
@@ -670,128 +695,132 @@ var wppsnGlobals = {
   WppsnModal.prototype.getMediaList = function (pageNb) {
     // Get current workflow pan
     var currentMainPan = jQuery(".wppsn-main-pan:visible");
-    var currentWorkflow = currentMainPan.attr("id").split("-")[2];
 
-    var currentMediaList = currentMainPan.find(".wppsn-media-list");
-    var currentRecordType = "all";
+    let selected_option = localStorage.getItem("selected_option");
+    if (currentMainPan.length < 1) {
+      document.getElementById(selected_option).click();
+    } else {
+      var currentWorkflow = currentMainPan.attr("id").split("-")[2];
 
-    // If not already loading
-    if (!currentMediaList.hasClass("list-loading")) {
-      // Loading animation
-      currentMediaList.empty().addClass("list-loading");
+      var currentMediaList = currentMainPan.find(".wppsn-media-list");
+      var currentRecordType = "all";
 
-      let extraQuery = "";
-      // Switch between workflows
-      switch (currentWorkflow) {
-        // Single Media
-        case "medias":
-          // Hide Insert and Preview Pans if opened
-          this.domSingleMediaInsertPans.hide();
-          this.domSingleMediaInsertButtons.hide();
-          this.domPanSingleMediaPreview.hide();
-          this.domSingleMediaPreviewPans.hide();
+      // If not already loading
+      if (!currentMediaList.hasClass("list-loading")) {
+        // Loading animation
+        currentMediaList.empty().addClass("list-loading");
 
-          // Record Type
-          currentRecordType = this.domSingleMediaRecordType.val() || "all";
+        let extraQuery = "";
+        // Switch between workflows
+        switch (currentWorkflow) {
+          // Single Media
+          case "medias":
+            // Hide Insert and Preview Pans if opened
+            this.domSingleMediaInsertPans.hide();
+            this.domSingleMediaInsertButtons.hide();
+            this.domPanSingleMediaPreview.hide();
+            this.domSingleMediaPreviewPans.hide();
 
-          // Disable search types radio buttons and record types dropdown list
-          this.domSingleMediaSearchType.attr("disabled", "disabled");
-          this.domSingleMediaRecordType.attr("disabled", "disabled");
+            // Record Type
+            currentRecordType = this.domSingleMediaRecordType.val() || "all";
 
-          break;
+            // Disable search types radio buttons and record types dropdown list
+            this.domSingleMediaSearchType.attr("disabled", "disabled");
+            this.domSingleMediaRecordType.attr("disabled", "disabled");
 
-        // Images Gallery
-        case "images":
-          // Hide Pans : preview, create gallery step 1 and 2
-          this.domPanImgGalleryPreview.hide();
-          this.domPanImgGalleryCreateStep1.hide();
-          this.domPanImgGalleryCreateStep2.hide();
+            break;
 
-          // Record Type
-          currentRecordType = "image";
+          // Images Gallery
+          case "images":
+            // Hide Pans : preview, create gallery step 1 and 2
+            this.domPanImgGalleryPreview.hide();
+            this.domPanImgGalleryCreateStep1.hide();
+            this.domPanImgGalleryCreateStep2.hide();
 
-          // Disable search types radio buttons
-          this.domImgGallerySearchType.attr("disabled", "disabled");
+            // Record Type
+            currentRecordType = "image";
 
-          break;
+            // Disable search types radio buttons
+            this.domImgGallerySearchType.attr("disabled", "disabled");
 
-        // Videos Playlist
-        case "videos":
-          extraQuery = "type:audio OR type:video";
+            break;
 
-          // Hide Pans : preview and create playlist step 1
-          this.domPanVideoPlaylistPreview.hide();
-          this.domPanVideoPlaylistCreateStep1.hide();
+          // Videos Playlist
+          case "videos":
+            extraQuery = "type:video OR type:audio";
 
-          // Record Type
-          currentRecordType = "video";
+            // Hide Pans : preview and create playlist step 1
+            this.domPanVideoPlaylistPreview.hide();
+            this.domPanVideoPlaylistCreateStep1.hide();
 
-          // Disable search types radio buttons
-          this.domVideoPlaylistSearchType.attr("disabled", "disabled");
+            // Record Type
+            currentRecordType = "video";
 
-          break;
-      }
+            // Disable search types radio buttons
+            this.domVideoPlaylistSearchType.attr("disabled", "disabled");
 
-      facets = localStorage.getItem("facets");
-      facets = JSON.parse(facets);
+            break;
+        }
 
-      let search = currentMainPan.find(".wppsn-search-field").val() || "";
+        facets = localStorage.getItem("facets");
+        facets = JSON.parse(facets);
 
-      if (facets != undefined || facets != null) {
-        let c = 0;
-        let l = facets.length;
+        let search = currentMainPan.find(".wppsn-search-field").val() || "";
 
-        for (let i = 0; i < l; i++) {
-          if (i == 0) {
-            if (search == "") {
-              search = facets[i].id;
+        if (facets != undefined || facets != null) {
+          let c = 0;
+          let l = facets.length;
+
+          for (let i = 0; i < l; i++) {
+            if (i == 0) {
+              if (search == "") {
+                search = facets[i].id;
+              } else {
+                search += " AND " + facets[i].id;
+              }
             } else {
               search += " AND " + facets[i].id;
             }
-          } else {
-            search += " AND " + facets[i].id;
           }
         }
+
+        // Current Filters (search query, search type, record type and page of pagination)
+        var mediaFilters = {
+          searchQuery: search + " " + extraQuery,
+
+          searchType:
+            currentMainPan.find(".wppsn-search-type:checked").val() || 0,
+          recordType: currentRecordType,
+          pageNb: typeof pageNb == "undefined" ? 1 : pageNb,
+        };
+
+        // Request Media List Infos
+        jQuery.ajax({
+          url: wppsnGlobals.ajaxUrl,
+          data: { action: "wppsn-get-media-list", params: mediaFilters },
+          context: this,
+          success: function (resp) {
+            // Save response
+            currentMediaList.data("mediaListInfos", resp);
+
+            // Prepare the list
+            switch (currentWorkflow) {
+              case "medias":
+                this.prepareSingleMediaList();
+                break;
+
+              case "images":
+                this.prepareImgGalleryMediaList();
+                break;
+
+              case "videos":
+                this.prepareVideoPlaylistMediaList();
+                break;
+            }
+          },
+          dataType: "json",
+        });
       }
-
-      // Current Filters (search query, search type, record type and page of pagination)
-      var mediaFilters = {
-        searchQuery: search + " " + extraQuery,
-
-        searchType:
-          currentMainPan.find(".wppsn-search-type:checked").val() || 0,
-        recordType: currentRecordType,
-        pageNb: typeof pageNb == "undefined" ? 1 : pageNb,
-      };
-
-      console.log(mediaFilters);
-      console.log("here");
-      // Request Media List Infos
-      jQuery.ajax({
-        url: wppsnGlobals.ajaxUrl,
-        data: { action: "wppsn-get-media-list", params: mediaFilters },
-        context: this,
-        success: function (resp) {
-          // Save response
-          currentMediaList.data("mediaListInfos", resp);
-
-          // Prepare the list
-          switch (currentWorkflow) {
-            case "medias":
-              this.prepareSingleMediaList();
-              break;
-
-            case "images":
-              this.prepareImgGalleryMediaList();
-              break;
-
-            case "videos":
-              this.prepareVideoPlaylistMediaList();
-              break;
-          }
-        },
-        dataType: "json",
-      });
     }
   };
 
@@ -841,8 +870,6 @@ var wppsnGlobals = {
           // Click on "details" button open the sidebar insert Pan and the preview Pan
           var liElt = jQuery(this).parents("li");
           var mInfos = liElt.data("mediaInfos");
-
-          console.log(mInfos);
 
           _this.domSingleMediaListMedias
             .find("li")
@@ -1256,8 +1283,6 @@ var wppsnGlobals = {
             "<video style='width: 100%;' autoplay></video>"
           );
 
-          // console.log(mediaInfos);
-
           if (typeof mediaInfos.preview.mp4 != "undefined") {
             playerVideo.append(
               '<source type="video/mp4" src="' + mediaInfos.preview.mp4 + '">'
@@ -1364,7 +1389,6 @@ var wppsnGlobals = {
       .text(mediaInfos.title);
 
     if (mediaInfos.preview.mpeg) {
-      console.log(mediaInfos.preview.mpeg);
       // Is there a preview ? then build the video player with all its sources
       if (typeof mediaInfos.preview.nopreview == "undefined") {
         // Build player HTML
@@ -1828,7 +1852,7 @@ var wppsnGlobals = {
     var currentInsertPan = this.domPanSingleMediaInsert.find(
       ".wppsn-single-media-insert-pan:visible"
     );
-    console.log(currentInsertPan);
+
     var currentMedia = currentInsertPan.attr("id").split("-")[4];
 
     // Get The original media Infos
@@ -2069,8 +2093,6 @@ var wppsnGlobals = {
       var currentMediaElt = jQuery(this);
       var currentMediaInfos = currentMediaElt.data("mediaInfos");
 
-      console.log(currentMediaInfos.phraseaType);
-
       if (currentMediaInfos.phraseaType == "audio") {
         output = "[wppsn-audioplaylist ";
         type = "audio";
@@ -2131,8 +2153,6 @@ var wppsnGlobals = {
     var msgError = container.find(".wppsn-error");
     var msgSuccessPartial = container.find(".wppsn-success-partial");
     var msgSuccess = container.find(".wppsn-success");
-
-    console.log(mediaInfos);
 
     // Hide messages
     msgError.addClass("visuallyhidden");
@@ -2200,8 +2220,4 @@ function updateCheckboxVal(cb) {
   } else {
     cb.value = "off";
   }
-}
-
-function hello() {
-  console.log($.fn); // Todd
 }

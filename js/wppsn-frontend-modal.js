@@ -1,5 +1,4 @@
 function openModel(img) {
-  console.log(img);
   img = document.getElementById(img);
 
   let modal = document.getElementById("myModal_" + img.id);

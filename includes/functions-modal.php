@@ -88,12 +88,9 @@ $record_type = $record_type == 'video' ? '' : $record_type;
 	'record_type' 	=> $record_type,
 	'search_type'	=> $search_type
   ];
-  
+
 
    //$params['query'] = "$search_query";
-//   $params['record_type'] =  "audio', 'video'";
-//    var_dump($search_query);
-//    exit(0);
 
 	try {
 		$query = $recordRepository->search($params);

@@ -56,10 +56,10 @@ function selectedOption(id){
 }
 
 function selectMenu() {
-  setTimeout(function () {
-	  let selected_option = localStorage.getItem('selected_option');
-    document.getElementById(selected_option).click();
-  }, 2000);
+//   setTimeout(function () {
+// 	  let selected_option = localStorage.getItem('selected_option');
+//     document.getElementById(selected_option).click();
+//   }, 2000);
 }
 
 
