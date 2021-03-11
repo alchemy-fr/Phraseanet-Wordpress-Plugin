@@ -18,7 +18,9 @@ function gif(id, visible) {
   if (visible == 1) {
     let gif_img = document.getElementById("gif_" + id).value;
 
-    document.getElementById("img_" + id).src = gif_img;
+    if (gif_img !== " ") {
+      document.getElementById("img_" + id).src = gif_img;
+    }
   } else {
     let web_img = document.getElementById("web_img_" + id).value;
 
