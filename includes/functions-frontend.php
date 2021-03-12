@@ -380,7 +380,8 @@ function wppsn_shortcode_image_gallery($atts)
 
             $output .= '<div  id="' . $galleryID . '" class="wppsn-gallery gallery">';
 
-            $slideIndex = 1;
+            $random  = random_int(1000,9999999);
+            $slideIndex = $random;
 
             foreach ($allTitles as $i => $t)
             {
