@@ -18,7 +18,7 @@
 	
 
 		<?php /* WP Phraseanet Plugin CSS */ ?>
-		<link rel="stylesheet" href="../../css/wysiwyg-modal.css?ver=1.0.9">
+		<link rel="stylesheet" href="../../css/wysiwyg-modal.css?ver=2.0.0">
 
 
 		<?php /* WP jQuery */ ?>
@@ -26,12 +26,12 @@
 
 		<?php /* TinyMCE Popup Lib and Register */ ?>
 		<script src="../../../../../wp-includes/js/tinymce/tiny_mce_popup.js?ver=1.0.9"></script>
-		<script src="../../js/modal-tinymce-popup.js?ver=1.0.9"></script>
+		<script src="../../js/modal-tinymce-popup.js?ver=2.0.0"></script>
 
 		
 
 		<?php /* Phraseanet Modal JS */ ?>
-		<script src="../../js/modal.js?ver=1.0.9"></script>
+		<script src="../../js/modal.js?ver=2.0.0"></script>
 		
 
 
@@ -56,10 +56,7 @@ function selectedOption(id){
 }
 
 function selectMenu() {
-//   setTimeout(function () {
-// 	  let selected_option = localStorage.getItem('selected_option');
-//     document.getElementById(selected_option).click();
-//   }, 2000);
+//
 }
 
 
