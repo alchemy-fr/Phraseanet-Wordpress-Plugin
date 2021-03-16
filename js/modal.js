@@ -2188,14 +2188,14 @@ var wppsnGlobals = {
             var tinywin = tinyMCEPopup.getWin();
             tinywin.wp.media.featuredImage.set(resp.imgID);
 
-            //insert the id into input field
-            jQuery('input[name="thumbnail-id"]').val(resp.imgID);
             msgSuccess.removeClass("visuallyhidden");
           }
           // Wordpress version < 3.5
           else {
             msgSuccessPartial.removeClass("visuallyhidden");
           }
+
+          window.parent.wp.media.featuredImage.set(resp.imgID);
         }
         // Error
         else {

@@ -558,7 +558,7 @@ function wppsn_get_media_list_pagination_html( $total_pages, $current_page ) {
  * @return json  Response
  */
 function wppsn_add_phraseanet_image_in_media_library() {
-	$output = array( 'imgID' => 0 );
+	$output = array( 'imgID' => 0,'link'=>0);
 
 
 	if ( !empty( $_GET['url'] ) ) {
@@ -611,7 +611,10 @@ function wppsn_add_phraseanet_image_in_media_library() {
 		// And finally assign featured image to post
 		set_post_thumbnail( $post_id, $attach_id );
 
+		$image_link = get_the_post_thumbnail_url($post_id);
+
 		$output['imgID'] = $attach_id;
+		$output['link'] = $image_link;
 
 	}
 
