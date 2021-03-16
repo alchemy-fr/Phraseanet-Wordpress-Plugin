@@ -2162,6 +2162,13 @@ var wppsnGlobals = {
     // Show loader
     loaderGif.removeClass("visuallyhidden");
 
+    //Get parent location
+    let parentWindow = window.parent.location.href;
+    //Extract post id
+    let post = parentWindow.substring(parentWindow.indexOf("?") + 1);
+    post = post.split("&");
+    post = post[0].split("=");
+    let post_id = post[1];
     // Request server for adding the image in Media Library
     jQuery.ajax({
       url: wppsnGlobals.ajaxUrl,
@@ -2169,6 +2176,7 @@ var wppsnGlobals = {
         action: "wppsn-add-phraseanet-image-in-media-library",
         url: mediaInfos.preview.thumb_url,
         title: mediaInfos.title,
+        post_id: post_id,
       },
       success: function (resp) {
         loaderGif.addClass("visuallyhidden");
@@ -2180,6 +2188,8 @@ var wppsnGlobals = {
             var tinywin = tinyMCEPopup.getWin();
             tinywin.wp.media.featuredImage.set(resp.imgID);
 
+            //insert the id into input field
+            jQuery('input[name="thumbnail-id"]').val(resp.imgID);
             msgSuccess.removeClass("visuallyhidden");
           }
           // Wordpress version < 3.5
