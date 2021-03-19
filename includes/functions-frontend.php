@@ -279,7 +279,7 @@ function wppsn_shortcode_image_gallery($atts)
         'titles' => '',
         'alts' => '',
         'legends' => '',
-        'thumbs' => '',
+        'previews' => '',
         'urls' => '',
         'download' => '',
         'full_url'=> ''
@@ -289,7 +289,7 @@ function wppsn_shortcode_image_gallery($atts)
     $allTitles = explode('||', $titles);
     $allAlts = explode('||', $alts);
     $allLegends = explode('||', $legends);
-    $allThumbs = explode('||', $thumbs);
+    $allThumbs = explode('||', $previews);
     $allUrls = explode('||', $urls);
     $allDownlods = explode('||', $download);
        
@@ -389,7 +389,7 @@ function wppsn_shortcode_image_gallery($atts)
                 $title = trim($t);
                 $alt = trim($allAlts[$i]);
                 $legend = trim($allLegends[$i]);
-                $thumb = trim($allThumbs[$i]);
+                $preview = trim($allThumbs[$i]);
                 $url = trim($allUrls[$i]);
                 $download = trim($allDownlods[$i]);
    
@@ -404,13 +404,13 @@ function wppsn_shortcode_image_gallery($atts)
                 $nav = "<a class='prev' onclick='plusSlides($slideIndex,0)'>&#10094;</a><a class='next' onclick='plusSlides($slideIndex,1)'>&#10095;</a>";
 
                 $output .= "<div class='gallery-item'>
-  <img src='$url' alt='Avatar' class='image' >
+  <img src='$preview' alt='Avatar' class='image' >
   <div id='middle_text' class='middle'>
   
   <div class='text'>
   
   
-  <a href='javascript:void(0)'  id='$slideIndex'  rel='$url' name='$title' onclick='openModel($slideIndex)' >View</a> 
+  <a href='javascript:void(0)'  id='$slideIndex'  rel='$preview' name='$title' onclick='openModel($slideIndex)' >View</a> 
   <br>
 
   $download_url
@@ -468,17 +468,31 @@ function wppsn_shortcode_image_gallery($atts)
                 $title = trim($t);
                 $alt = trim($allAlts[$i]);
                 $legend = trim($allLegends[$i]);
-                $thumb = trim($allThumbs[$i]);
+                $preview = trim($allThumbs[$i]);
                 $url = trim($allUrls[$i]);
+                $download = trim($allDownlods[$i]);
+                
 
-                $output .= '<li>
-								<img src="' . $url . '" title="' . $title . '" alt="' . $alt . '">';
+               
+
+
+                $output .= '<li style="    background-color: #rgb(10 10 10 / 12%);" >
+								<img src="' . $preview . '" title="' . $title . '" alt="' . $alt . '">';
+
+                                if ($download == 'on')
+                                {
+                
+                                    $output .= "<p style='text-align: center;' class='flex-caption'> <a href='$url&download=1'>Download</a> </p>";
+                                }
+
 
                 // Legend ?
                 if ($title != '')
                 {
-                    $output .= '<p style="padding-left:40%" class="flex-caption">' . $title . '</p>';
+                    $output .= '<p style="text-align: center;" class="flex-caption">' . $title . '</p>';
                 }
+
+               
 
                 $output .= '</li>';
 
@@ -497,11 +511,11 @@ function wppsn_shortcode_image_gallery($atts)
                 $title = trim($t);
                 $alt = trim($allAlts[$i]);
                 $legend = trim($allLegends[$i]);
-                $thumb = trim($allThumbs[$i]);
+                $preview = trim($allThumbs[$i]);
                 $url = trim($allUrls[$i]);
 
                 $output .= '<li>
-								<img src="' . $url . '" title="' . $title . '" alt="' . $alt . '">
+								<img src="' . $preview . '" title="' . $title . '" alt="' . $alt . '">
 							</li>';
 
             }
