@@ -688,7 +688,7 @@ function wppsn_add_phraseanet_image_in_media_library() {
 
 
 
-		//Extension
+		//get the Extension
 
 		$ext = pathinfo($image_url, PATHINFO_EXTENSION);
 		$ext = explode('?',$ext);

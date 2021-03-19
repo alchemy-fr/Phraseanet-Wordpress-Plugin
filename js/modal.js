@@ -1301,7 +1301,7 @@ var wppsnGlobals = {
         previewPan
           .find(".wppsn-media-preview-thumb")
           .empty()
-          .append('<img src="' + mediaInfos.preview.thumb_url + '">');
+          .append('<img src="ssss' + mediaInfos.preview.thumb_url + '">');
 
         break;
 
@@ -1764,11 +1764,26 @@ var wppsnGlobals = {
       // Get Media Infos
       var mediaInfos = jQuery(this).data("mediaInfos");
 
+      let subdef_options = "";
+
+      mediaInfos.subdef.sort().reverse();
+
+      mediaInfos.subdef.forEach((def) => {
+        subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+      });
+
       // Build the li element
       var featuredImgElt = _this.domClonableElements
         .find(".wppsn-set-featured-image-wrapper")
         .clone();
 
+      featuredImgElt.append(
+        "<select style='width: 78%;' id='gallery_media_subdef_" +
+          mediaInfos.id +
+          "'>" +
+          subdef_options +
+          "</select>"
+      );
       featuredImgElt.on("click", ".wppsn-set-featured-image", function (e) {
         _this.setFeaturedImage(featuredImgElt, mediaInfos);
         e.preventDefault();
@@ -1776,6 +1791,7 @@ var wppsnGlobals = {
 
       var mediaElt = jQuery('<li class="clearfix"></li>')
         .data("mediaInfos", mediaInfos)
+
         .append(
           jQuery(
             '<div class="media-thumb"><img src="' +
@@ -2205,6 +2221,7 @@ var wppsnGlobals = {
     let post_id = post[1];
 
     console.log(mediaInfos);
+    console.log(container);
 
     let thumb_url = "";
 
@@ -2214,6 +2231,15 @@ var wppsnGlobals = {
     } else if (container.find("#single_media_subdef_video").length > 0) {
       thumb_url = document.getElementById("single_media_subdef_video_list")
         .value;
+    } else if (
+      container.find("#gallery_media_subdef_" + mediaInfos.id).length > 0
+    ) {
+      //container.find("gallery_media_subdef_"+mediaInfos.id
+
+      console.log("sss");
+      thumb_url = document.getElementById(
+        "gallery_media_subdef_" + mediaInfos.id
+      ).value;
     }
 
     // Request server for adding the image in Media Library
