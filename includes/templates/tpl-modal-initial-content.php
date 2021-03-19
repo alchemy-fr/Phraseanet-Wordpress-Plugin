@@ -169,6 +169,17 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<div id="wppsn-single-media-insert-image-thumb"></div>
 
 					<div class="wppsn-set-featured-image-wrapper">
+
+
+						<div id="single_media_subdef">
+						
+					
+						
+						</div>	
+
+						<br>
+
+
 						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 						<span class="wppsn-loader visuallyhidden"></span>
 						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
@@ -194,13 +205,21 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<p>
 						<label><?php _e( 'Download setting', 'wp-phraseanet' ); ?></label>
 						<label class="input-radio">
-							<input type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="0" checked="checked">
+							<input onclick="toggle_download_options(0)" type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="0" checked="checked">
 							<span><?php _e( 'Without download link', 'wp-phraseanet' ); ?></span>
 						</label>
 						<label class="input-radio">
-							<input type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="1">
+							<input onclick="toggle_download_options(1)" type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="1">
 							<span><?php _e( 'With download link', 'wp-phraseanet' ); ?></span>
 						</label>
+
+						<label id="download_asset_selection"  class="input-radio">
+							
+							<div style="display:none" id="download_assets"></div>
+
+						</label>
+
+
 					</p>
 
 				</div>
@@ -216,7 +235,21 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 					<div id="wppsn-single-media-insert-video-thumb"></div>
 
+
+
+
 					<div class="wppsn-set-featured-image-wrapper">
+
+
+					<div id="single_media_subdef_video">
+						
+						<select></select>
+						
+						</div>	
+
+						<br>
+
+
 						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 						<span class="wppsn-loader visuallyhidden"></span>
 						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
@@ -383,6 +416,10 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				</p>
 				<p>With download link <input type="checkbox" name="select-all" id="select-all"  /> </p>
 				
+				
+
+
+
 				<h2><?php _e( 'Images informations', 'wp-phraseanet' ); ?></h2>
 
 				<p class="wppsn-note">
@@ -548,6 +585,10 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	<div id="wppsn-clonable-elements">
 		
 		<div class="wppsn-set-featured-image-wrapper">
+
+
+			<div class="single_media_subdef"></div>	
+	
 			<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 			<span class="wppsn-loader visuallyhidden"></span>
 			<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
@@ -573,11 +614,34 @@ jQuery("#select-all").click(function (event) {
       jQuery(":checkbox").each(function () {
 		this.checked = true;
 		this.value = 'on'
+
+		let options = document.getElementsByClassName('download_assets_gallery');
+
+		for(let i=0; i < options.length;i++) {  
+			
+			options[i].style.display = 'block';  
+		
+	
+		}
+
+
+
       });
     } else {
       jQuery(":checkbox").each(function () {
 		this.checked = false;
 		this.value = 'off'
+
+		let options = document.getElementsByClassName('download_assets_gallery');
+
+		for(let i=0; i < options.length;i++) {  
+	
+				options[i].style.display = 'none';  
+
+
+		}
+
+
       });
     }
   });

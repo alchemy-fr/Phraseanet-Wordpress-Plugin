@@ -140,6 +140,9 @@ $record_type = $record_type == 'video' ? '' : $record_type;
 
 			// Loop through records
 			foreach( $results as $record ) {
+
+				
+
 				$mediaThumb = $record->getThumbnail();
 
 
@@ -150,7 +153,8 @@ $record_type = $record_type == 'video' ? '' : $record_type;
 					'download'      => getUrl($record,$record->getPhraseaType()),
 					'phraseaType'	=> $record->getPhraseaType(),
 					'preview'		=> wppsn_get_media_preview( $record ),
-					'duration'		=> getTechDetails($record,'Duration')
+					'duration'		=> getTechDetails($record,'Duration'),
+					'subdef'		=> get_subdef_list($record)
 				);
 			}
 
@@ -181,6 +185,114 @@ function register_session() {
 
 add_action('init', 'register_session',1);
 
+
+function get_subdef_list($record){
+
+
+	$preview_infos = array();
+
+	// Subdef exists ?
+	try {
+		$subDef = $record->getSubDefs( 'preview' );
+	} catch( NotFoundException $e ) {
+		$subDef = null;
+	}
+
+	switch ( $record->getPhraseaType() ) {
+
+		case 'image':
+
+			if ( $subDef != null ) {
+
+				
+				
+                foreach ($subDef as $i=> $sub) {
+					
+                
+					array_push($preview_infos,array(
+						'name'			=> $sub->getName(),
+						'thumb_url'		=> $sub->getPermalink()->getUrl(),
+						'width'			=> $sub->getWidth(),
+						'height'		=> $sub->getHeight()
+					));
+
+
+                }
+			}
+			// No preview
+			else {
+
+				array_push($preview_infos,array(
+					'name'			=> '',
+					'thumb_url'		=> '',
+					'width'			=> '',
+					'height'		=> ''
+				));
+			}
+
+			break;
+
+		case 'video':
+
+			// Try the Thumbnail subdef for the video poster
+			try {
+				$subDefThumb = $record->getSubDefs( 'thumbnail' );
+			} catch( NotFoundException $e ) {
+				$subDefThumb = null;
+			}
+
+            if ($subDefThumb) {
+                foreach ($subDefThumb as $i=> $sub) {
+                  
+					array_push($preview_infos,array(
+						'name'			=> $sub->getName(),
+						'thumb_url'		=> $sub->getPermalink()->getUrl(),
+						'width'			=> $sub->getWidth(),
+						'height'		=> $sub->getHeight()
+					));
+
+                }
+			}
+			
+			break;
+
+			case 'audio':
+
+				// Try the Thumbnail subdef for the video poster
+				try {
+					$subDefThumb = $record->getSubDefs( 'thumbnail' );
+				} catch( NotFoundException $e ) {
+					$subDefThumb = null;
+				}
+	
+				if ($subDefThumb) {
+					foreach ($subDefThumb as $i=> $sub) {
+
+						array_push($preview_infos,array(
+							'name'			=> $sub->getName(),
+							'thumb_url'		=> $sub->getPermalink()->getUrl(),
+							'width'			=> $sub->getWidth(),
+							'height'		=> $sub->getHeight()
+						));
+
+					}
+				}
+				
+	
+				break;
+
+	}
+
+
+
+
+
+	return $preview_infos;
+	
+
+}
+
+add_action( 'wp_ajax_get_subdef_list', 'get_subdef_list' );
 
 
 function get_facets_list($query=''){
@@ -558,7 +670,8 @@ function wppsn_get_media_list_pagination_html( $total_pages, $current_page ) {
  * @return json  Response
  */
 function wppsn_add_phraseanet_image_in_media_library() {
-	$output = array( 'imgID' => 0,'link'=>0);
+	$nonce  = wp_create_nonce( 'wp_rest');
+	$output = array( 'imgID' => 0,'link'=>0,'nonce'=>$nonce);
 
 
 	if ( !empty( $_GET['url'] ) ) {
@@ -572,7 +685,15 @@ function wppsn_add_phraseanet_image_in_media_library() {
 		$image_name       = str_ireplace(" ","_",trim($_GET['title']));
 		$upload_dir       = wp_upload_dir(); // Set upload folder
 		$image_data       = file_get_contents($image_url); // Get image data
-		$unique_file_name = wp_unique_filename( $upload_dir['path'], $image_name.'.jpg' ); // Generate unique name
+
+
+
+		//get the Extension
+
+		$ext = pathinfo($image_url, PATHINFO_EXTENSION);
+		$ext = explode('?',$ext);
+
+		$unique_file_name = wp_unique_filename( $upload_dir['path'], $image_name.'.'.$ext[0] ); // Generate unique name
 		$filename         = basename( $unique_file_name ); // Create image file name
 	
 		// Check folder permission and define file location

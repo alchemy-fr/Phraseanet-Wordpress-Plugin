@@ -890,6 +890,7 @@ var wppsnGlobals = {
                   mediaEltInfos.thumb +
                   '"></div>'
               )
+
               .append('<p class="media-title">' + mediaEltInfos.title + "</p>")
               .append(
                 jQuery('<p class="media-buttons"></p>').append(
@@ -1206,6 +1207,13 @@ var wppsnGlobals = {
     // Store media Infos in the current pan
     insertPan.data("mediaInfos", mediaInfos);
 
+    //Save subdef options list
+    let subdef_options = "";
+    let download_options = "";
+
+    //Reverse the order of the subdef
+    mediaInfos.subdef.sort().reverse();
+
     // Fullfill the pan's fields
     switch (mediaInfos.phraseaType) {
       case "image":
@@ -1214,6 +1222,34 @@ var wppsnGlobals = {
           .find("#wppsn-single-media-insert-image-thumb")
           .empty()
           .append('<img src="' + mediaInfos.thumb + '">');
+
+        mediaInfos.subdef.forEach((def) => {
+          subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
+        mediaInfos.subdef.reverse();
+
+        mediaInfos.subdef.forEach((def) => {
+          download_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
+        insertPan
+          .find("#single_media_subdef")
+          .empty()
+          .append(
+            "<select id='single_media_subdef_list'>" +
+              subdef_options +
+              "</select>"
+          );
+
+        insertPan
+          .find("#download_assets")
+          .empty()
+          .append(
+            "<select id='download_assets_list'>" +
+              download_options +
+              "</select>"
+          );
 
         // Title
         insertPan
@@ -1228,6 +1264,19 @@ var wppsnGlobals = {
           .find("#wppsn-single-media-insert-video-thumb")
           .empty()
           .append('<img src="' + mediaInfos.thumb + '">');
+
+        mediaInfos.subdef.forEach((def) => {
+          subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
+        insertPan
+          .find("#single_media_subdef_video")
+          .empty()
+          .append(
+            "<select id='single_media_subdef_video_list'>" +
+              subdef_options +
+              "</select>"
+          );
 
         // Title
         insertPan
@@ -1268,7 +1317,7 @@ var wppsnGlobals = {
         previewPan
           .find(".wppsn-media-preview-thumb")
           .empty()
-          .append('<img src="' + mediaInfos.preview.thumb_url + '">');
+          .append('<img src="ssss' + mediaInfos.preview.thumb_url + '">');
 
         break;
 
@@ -1731,18 +1780,42 @@ var wppsnGlobals = {
       // Get Media Infos
       var mediaInfos = jQuery(this).data("mediaInfos");
 
+      let subdef_options = "";
+
+      mediaInfos.subdef.sort().reverse();
+
+      mediaInfos.subdef.forEach((def) => {
+        subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+      });
+
       // Build the li element
       var featuredImgElt = _this.domClonableElements
         .find(".wppsn-set-featured-image-wrapper")
         .clone();
 
+      featuredImgElt.append(
+        "<select style='width: 78%;' id='gallery_media_subdef_" +
+          mediaInfos.id +
+          "'>" +
+          subdef_options +
+          "</select>"
+      );
       featuredImgElt.on("click", ".wppsn-set-featured-image", function (e) {
         _this.setFeaturedImage(featuredImgElt, mediaInfos);
         e.preventDefault();
       });
 
+      let download_options = "";
+
+      mediaInfos.subdef.reverse();
+
+      mediaInfos.subdef.forEach((def) => {
+        download_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+      });
+
       var mediaElt = jQuery('<li class="clearfix"></li>')
         .data("mediaInfos", mediaInfos)
+
         .append(
           jQuery(
             '<div class="media-thumb"><img src="' +
@@ -1750,6 +1823,7 @@ var wppsnGlobals = {
               '"></div>'
           ).append(featuredImgElt)
         )
+
         .append(
           jQuery('<div class="media-fields"></div>')
             .append(
@@ -1765,7 +1839,16 @@ var wppsnGlobals = {
               jQuery("<p></p>")
                 .append("<label>Downloadable</label>")
                 .append(
-                  '<input type="checkbox" name="wppsn-create-media-download" onclick="updateCheckboxVal(this);" value="off" class="wppsn-create-media-download">'
+                  '<input type="checkbox" name="wppsn-create-media-download" onchange="updateCheckboxVal(this,' +
+                    mediaInfos.id +
+                    ');" value="off" class="wppsn-create-media-download">'
+                )
+                .append(
+                  '<label id="download_asset_selection_gallery"  class="input-radio"><select class="download_assets_gallery" style="display:none" id="download_assets_gallery_' +
+                    mediaInfos.id +
+                    '">' +
+                    download_options +
+                    "</select></label>"
                 )
             )
             .append(
@@ -1905,10 +1988,16 @@ var wppsnGlobals = {
             .val() +
           '" ';
 
+        let download_url = currentInsertPan.find("#download_assets_list").val();
+
+        if (!download_url) {
+          download_url = mediaInfos.download;
+        }
+
         // Url
         output += 'url="' + mediaInfos.thumb + '"';
 
-        output += ' full_url="' + mediaInfos.download + '"';
+        output += ' full_url="' + download_url + '"';
 
         // Close Shortcode
         output += "]";
@@ -2044,7 +2133,18 @@ var wppsnGlobals = {
           .replace(/\]/g, "")
       );
       allThumbs.push(currentMediaInfos.thumb);
-      allUrls.push(currentMediaInfos.download);
+
+      //Get the selected media asset to download
+
+      let download_url = currentMediaElt
+        .find("#download_assets_gallery_" + currentMediaInfos.id)
+        .val();
+
+      if (!download_url) {
+        download_url = currentMediaInfos.download;
+      }
+
+      allUrls.push(download_url);
     });
 
     // Build the shortcode
@@ -2169,12 +2269,35 @@ var wppsnGlobals = {
     post = post.split("&");
     post = post[0].split("=");
     let post_id = post[1];
+
+    console.log(mediaInfos);
+    console.log(container);
+
+    let thumb_url = "";
+
+    //Start with media image
+    if (container.find("#single_media_subdef").length > 0) {
+      thumb_url = document.getElementById("single_media_subdef_list").value;
+    } else if (container.find("#single_media_subdef_video").length > 0) {
+      thumb_url = document.getElementById("single_media_subdef_video_list")
+        .value;
+    } else if (
+      container.find("#gallery_media_subdef_" + mediaInfos.id).length > 0
+    ) {
+      //container.find("gallery_media_subdef_"+mediaInfos.id
+
+      console.log("sss");
+      thumb_url = document.getElementById(
+        "gallery_media_subdef_" + mediaInfos.id
+      ).value;
+    }
+
     // Request server for adding the image in Media Library
     jQuery.ajax({
       url: wppsnGlobals.ajaxUrl,
       data: {
         action: "wppsn-add-phraseanet-image-in-media-library",
-        url: mediaInfos.preview.thumb_url,
+        url: thumb_url,
         title: mediaInfos.title,
         post_id: post_id,
       },
@@ -2224,10 +2347,20 @@ jQuery(document).ready(function ($) {
   jQuery("body").wppsnInterface();
 });
 
-function updateCheckboxVal(cb) {
+function updateCheckboxVal(cb, id) {
   if (cb.checked) {
     cb.value = "on";
+    document.getElementById("download_assets_gallery_" + id).style.display =
+      "block";
   } else {
     cb.value = "off";
+    document.getElementById("download_assets_gallery_" + id).style.display =
+      "none";
   }
+}
+
+function toggle_download_options(val) {
+  let display = val == 1 ? "block" : "none";
+
+  document.getElementById("download_assets").style.display = display;
 }
