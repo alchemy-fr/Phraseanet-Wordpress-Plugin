@@ -205,13 +205,21 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<p>
 						<label><?php _e( 'Download setting', 'wp-phraseanet' ); ?></label>
 						<label class="input-radio">
-							<input type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="0" checked="checked">
+							<input onclick="toggle_download_options(0)" type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="0" checked="checked">
 							<span><?php _e( 'Without download link', 'wp-phraseanet' ); ?></span>
 						</label>
 						<label class="input-radio">
-							<input type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="1">
+							<input onclick="toggle_download_options(1)" type="radio" name="wppsn-single-media-insert-image-download-link" class="wppsn-single-media-insert-image-download-link" value="1">
 							<span><?php _e( 'With download link', 'wp-phraseanet' ); ?></span>
 						</label>
+
+						<label id="download_asset_selection"  class="input-radio">
+							
+							<div style="display:none" id="download_assets"></div>
+
+						</label>
+
+
 					</p>
 
 				</div>

@@ -1208,7 +1208,8 @@ var wppsnGlobals = {
     insertPan.data("mediaInfos", mediaInfos);
 
     //Save subdef options list
-    let subdef_options;
+    let subdef_options = "";
+    let download_options = "";
 
     //Reverse the order of the subdef
     mediaInfos.subdef.sort().reverse();
@@ -1226,12 +1227,27 @@ var wppsnGlobals = {
           subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
         });
 
+        mediaInfos.subdef.reverse();
+
+        mediaInfos.subdef.forEach((def) => {
+          download_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
         insertPan
           .find("#single_media_subdef")
           .empty()
           .append(
             "<select id='single_media_subdef_list'>" +
               subdef_options +
+              "</select>"
+          );
+
+        insertPan
+          .find("#download_assets")
+          .empty()
+          .append(
+            "<select id='download_assets_list'>" +
+              download_options +
               "</select>"
           );
 
@@ -1955,10 +1971,13 @@ var wppsnGlobals = {
             .val() +
           '" ';
 
+         let download_url = currentInsertPan.find('#download_assets_list').val();
+
+
         // Url
         output += 'url="' + mediaInfos.thumb + '"';
 
-        output += ' full_url="' + mediaInfos.download + '"';
+        output += ' full_url="' + download_url+ '"';
 
         // Close Shortcode
         output += "]";
@@ -2303,4 +2322,10 @@ function updateCheckboxVal(cb) {
   } else {
     cb.value = "off";
   }
+}
+
+function toggle_download_options(val) {
+  let display = val == 1 ? "block" : "none";
+
+  document.getElementById("download_assets").style.display = display;
 }
