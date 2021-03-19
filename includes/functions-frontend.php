@@ -122,7 +122,7 @@ function wppsn_shortcode_single_image($atts)
         'legend' => '',
         'download' => 0,
         'url' => '',
-        'full_url'=>'',
+        'download_link'=>'',
     ) , $atts));
 
     $title = trim($title);
@@ -131,18 +131,18 @@ function wppsn_shortcode_single_image($atts)
     $url = trim($url);
 	$downloadLink = '';
     $id = md5($url);
-    $full_url = trim($full_url);
+    $download_url = trim($download_link);
 
     //var_dump($url);
     // Download link ?
     if ($download == 1)
     {
-        $downloadLink = '<a href="' . $full_url . ((false === strpos('?', $full_url)) ? '&download=1' : '&download') . '">' . __('Download', 'wp-phraseanet') . '</a>';
+        $downloadLink = '<a href="' . $download_url . ((false === strpos('?', $download_url)) ? '&download=1' : '&download') . '">' . __('Download', 'wp-phraseanet') . '</a>';
     }
 
     $output .= '<div class="wppsn-image wp-caption">
 
-		<img class="single_image wp-image-" src="' . $full_url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;width: 100%;" >
+		<img class="single_image wp-image-" src="' . $url . '" alt="' . $alt . '" name="' . $title . '" id="'.$id.'"  onclick="openModel(this.id)"  style="cursor: pointer;width: 100%;" >
 	'
 ;
 

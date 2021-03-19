@@ -1224,7 +1224,9 @@ var wppsnGlobals = {
           .append('<img src="' + mediaInfos.thumb + '">');
 
         mediaInfos.subdef.forEach((def) => {
-          subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+          let selected = def.name == "preview" ? "selected" : "";
+
+          subdef_options += `<option ${selected} name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
         });
 
         mediaInfos.subdef.reverse();
@@ -1994,10 +1996,18 @@ var wppsnGlobals = {
           download_url = mediaInfos.download;
         }
 
-        // Url
-        output += 'url="' + mediaInfos.thumb + '"';
+        //single_media_subdef_list
 
-        output += ' full_url="' + download_url + '"';
+        let preview = currentInsertPan.find("#single_media_subdef_list").val();
+
+        if (!preview) {
+          preview = mediaInfos.download_url;
+        }
+
+        // Url
+        output += 'url="' + preview + '"';
+
+        output += ' download_link="' + download_url + '"';
 
         // Close Shortcode
         output += "]";
@@ -2071,7 +2081,7 @@ var wppsnGlobals = {
         break;
 
       default:
-        output = "DEMO Demo";
+        output = "---";
 
         break;
     }
