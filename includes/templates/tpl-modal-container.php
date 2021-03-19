@@ -31,7 +31,7 @@
 		
 
 		<?php /* Phraseanet Modal JS */ ?>
-		<script src="../../js/modal.js?ver=2.0.0"></script>
+		<script src="../../js/modal.js?ver=<?php rand(1,9).'.'.rand(1,9).'.'.rand(1,9); ?>"></script>
 		
 
 

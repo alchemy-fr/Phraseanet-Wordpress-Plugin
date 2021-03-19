@@ -169,6 +169,17 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 					<div id="wppsn-single-media-insert-image-thumb"></div>
 
 					<div class="wppsn-set-featured-image-wrapper">
+
+
+						<div id="single_media_subdef">
+						
+					
+						
+						</div>	
+
+						<br>
+
+
 						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 						<span class="wppsn-loader visuallyhidden"></span>
 						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
@@ -216,7 +227,21 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 
 					<div id="wppsn-single-media-insert-video-thumb"></div>
 
+
+
+
 					<div class="wppsn-set-featured-image-wrapper">
+
+
+					<div id="single_media_subdef_video">
+						
+						<select></select>
+						
+						</div>	
+
+						<br>
+
+
 						<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 						<span class="wppsn-loader visuallyhidden"></span>
 						<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>
@@ -548,6 +573,10 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 	<div id="wppsn-clonable-elements">
 		
 		<div class="wppsn-set-featured-image-wrapper">
+
+
+			<div class="single_media_subdef"></div>	
+	
 			<a href="" class="wppsn-set-featured-image button"><?php _e( 'Set as Featured image', 'wp-phraseanet' ); ?></a>
 			<span class="wppsn-loader visuallyhidden"></span>
 			<p class="wppsn-error visuallyhidden"><?php _e( 'There was a problem when adding the image in Media Library.', 'wp-phraseanet' ); ?></p>

@@ -890,6 +890,7 @@ var wppsnGlobals = {
                   mediaEltInfos.thumb +
                   '"></div>'
               )
+
               .append('<p class="media-title">' + mediaEltInfos.title + "</p>")
               .append(
                 jQuery('<p class="media-buttons"></p>').append(
@@ -1206,6 +1207,12 @@ var wppsnGlobals = {
     // Store media Infos in the current pan
     insertPan.data("mediaInfos", mediaInfos);
 
+    //Save subdef options list
+    let subdef_options;
+
+    //Reverse the order of the subdef
+    mediaInfos.subdef.sort().reverse();
+
     // Fullfill the pan's fields
     switch (mediaInfos.phraseaType) {
       case "image":
@@ -1214,6 +1221,19 @@ var wppsnGlobals = {
           .find("#wppsn-single-media-insert-image-thumb")
           .empty()
           .append('<img src="' + mediaInfos.thumb + '">');
+
+        mediaInfos.subdef.forEach((def) => {
+          subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
+        insertPan
+          .find("#single_media_subdef")
+          .empty()
+          .append(
+            "<select id='single_media_subdef_list'>" +
+              subdef_options +
+              "</select>"
+          );
 
         // Title
         insertPan
@@ -1228,6 +1248,19 @@ var wppsnGlobals = {
           .find("#wppsn-single-media-insert-video-thumb")
           .empty()
           .append('<img src="' + mediaInfos.thumb + '">');
+
+        mediaInfos.subdef.forEach((def) => {
+          subdef_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+        });
+
+        insertPan
+          .find("#single_media_subdef_video")
+          .empty()
+          .append(
+            "<select id='single_media_subdef_video_list'>" +
+              subdef_options +
+              "</select>"
+          );
 
         // Title
         insertPan
@@ -1750,6 +1783,7 @@ var wppsnGlobals = {
               '"></div>'
           ).append(featuredImgElt)
         )
+
         .append(
           jQuery('<div class="media-fields"></div>')
             .append(
@@ -2169,12 +2203,25 @@ var wppsnGlobals = {
     post = post.split("&");
     post = post[0].split("=");
     let post_id = post[1];
+
+    console.log(mediaInfos);
+
+    let thumb_url = "";
+
+    //Start with media image
+    if (container.find("#single_media_subdef").length > 0) {
+      thumb_url = document.getElementById("single_media_subdef_list").value;
+    } else if (container.find("#single_media_subdef_video").length > 0) {
+      thumb_url = document.getElementById("single_media_subdef_video_list")
+        .value;
+    }
+
     // Request server for adding the image in Media Library
     jQuery.ajax({
       url: wppsnGlobals.ajaxUrl,
       data: {
         action: "wppsn-add-phraseanet-image-in-media-library",
-        url: mediaInfos.preview.thumb_url,
+        url: thumb_url,
         title: mediaInfos.title,
         post_id: post_id,
       },
