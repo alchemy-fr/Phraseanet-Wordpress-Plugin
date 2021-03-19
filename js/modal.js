@@ -1805,6 +1805,14 @@ var wppsnGlobals = {
         e.preventDefault();
       });
 
+      let download_options = "";
+
+      mediaInfos.subdef.reverse();
+
+      mediaInfos.subdef.forEach((def) => {
+        download_options += `<option name="${def.name}" data="${def.height},${def.width}" value="${def.thumb_url}" >${def.name}  [ W: ${def.height}, H: ${def.width} ] </option>`;
+      });
+
       var mediaElt = jQuery('<li class="clearfix"></li>')
         .data("mediaInfos", mediaInfos)
 
@@ -1831,7 +1839,16 @@ var wppsnGlobals = {
               jQuery("<p></p>")
                 .append("<label>Downloadable</label>")
                 .append(
-                  '<input type="checkbox" name="wppsn-create-media-download" onclick="updateCheckboxVal(this);" value="off" class="wppsn-create-media-download">'
+                  '<input type="checkbox" name="wppsn-create-media-download" onchange="updateCheckboxVal(this,' +
+                    mediaInfos.id +
+                    ');" value="off" class="wppsn-create-media-download">'
+                )
+                .append(
+                  '<label id="download_asset_selection_gallery"  class="input-radio"><select class="download_assets_gallery" style="display:none" id="download_assets_gallery_' +
+                    mediaInfos.id +
+                    '">' +
+                    download_options +
+                    "</select></label>"
                 )
             )
             .append(
@@ -1971,13 +1988,16 @@ var wppsnGlobals = {
             .val() +
           '" ';
 
-         let download_url = currentInsertPan.find('#download_assets_list').val();
+        let download_url = currentInsertPan.find("#download_assets_list").val();
 
+        if (!download_url) {
+          download_url = mediaInfos.download;
+        }
 
         // Url
         output += 'url="' + mediaInfos.thumb + '"';
 
-        output += ' full_url="' + download_url+ '"';
+        output += ' full_url="' + download_url + '"';
 
         // Close Shortcode
         output += "]";
@@ -2113,7 +2133,18 @@ var wppsnGlobals = {
           .replace(/\]/g, "")
       );
       allThumbs.push(currentMediaInfos.thumb);
-      allUrls.push(currentMediaInfos.download);
+
+      //Get the selected media asset to download
+
+      let download_url = currentMediaElt
+        .find("#download_assets_gallery_" + currentMediaInfos.id)
+        .val();
+
+      if (!download_url) {
+        download_url = currentMediaInfos.download;
+      }
+
+      allUrls.push(download_url);
     });
 
     // Build the shortcode
@@ -2316,11 +2347,15 @@ jQuery(document).ready(function ($) {
   jQuery("body").wppsnInterface();
 });
 
-function updateCheckboxVal(cb) {
+function updateCheckboxVal(cb, id) {
   if (cb.checked) {
     cb.value = "on";
+    document.getElementById("download_assets_gallery_" + id).style.display =
+      "block";
   } else {
     cb.value = "off";
+    document.getElementById("download_assets_gallery_" + id).style.display =
+      "none";
   }
 }
 

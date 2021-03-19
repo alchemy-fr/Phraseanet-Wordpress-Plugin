@@ -416,6 +416,10 @@ if ( isset( $wppsn_options['client_base_url'] ) && $wppsn_options['client_base_u
 				</p>
 				<p>With download link <input type="checkbox" name="select-all" id="select-all"  /> </p>
 				
+				
+
+
+
 				<h2><?php _e( 'Images informations', 'wp-phraseanet' ); ?></h2>
 
 				<p class="wppsn-note">
@@ -610,11 +614,34 @@ jQuery("#select-all").click(function (event) {
       jQuery(":checkbox").each(function () {
 		this.checked = true;
 		this.value = 'on'
+
+		let options = document.getElementsByClassName('download_assets_gallery');
+
+		for(let i=0; i < options.length;i++) {  
+			
+			options[i].style.display = 'block';  
+		
+	
+		}
+
+
+
       });
     } else {
       jQuery(":checkbox").each(function () {
 		this.checked = false;
 		this.value = 'off'
+
+		let options = document.getElementsByClassName('download_assets_gallery');
+
+		for(let i=0; i < options.length;i++) {  
+	
+				options[i].style.display = 'none';  
+
+
+		}
+
+
       });
     }
   });
