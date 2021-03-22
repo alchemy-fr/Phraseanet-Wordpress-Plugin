@@ -1,8 +1,8 @@
 <?php
 	/*
-	Plugin Name: WP Phraseanet 2
+	Plugin Name: WP Phraseanet
 	Description: Add possibility to insert content from a phraseanet database into the editor - compatible with gutenberg and classic editor
-	Version: 2.0.0
+	Version: 0.1.5
 	Author: Nicolas Derambure (Labomedia) and the Alchemy team
 	Author URI: https://github.com/alchemy-fr/Phraseanet-Wordpress-Plugin
 	Licence: GNU General Public License v3 or later
